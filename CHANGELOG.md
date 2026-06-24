@@ -3,6 +3,13 @@
 Version history of the standalone web app. Archived snapshots live in
 `versions/`; `index.html` is the current release (= v6).
 
+## v7 — tube pool preview
+- Added a **Plate / Tube** toggle to the pool preview card.
+- New dynamic **single-tube graphic**: an Eppendorf that fills with one
+  translucent, labeled colour band per sample (bottom = first sample), with a
+  matching colour legend — a visual of what goes into a manually- or
+  robot-pooled tube. Updates live as samples are added.
+
 ## v6 — section + whole-page clearing
 - Bottom **New / clear** button now clears the *entire* page, including the
   standalone dilution section.
