@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>epMotion Equimolar Pooling Helper</title>
+<style>
+:root{
+  --fg:#18212f;
+  --muted:#65758b;
+  --line:#d8e0ea;
+  --line-strong:#b8c4d4;
+  --bg:#f3f7fb;
+  --card:#ffffff;
+  --card-soft:#f8fbff;
+  --accent:#2457c5;
+  --accent-2:#17a2a4;
+  --accent-soft:#eaf1ff;
+  --good:#087443;
+  --good-soft:#eaf8f0;
+  --warn:#966600;
+  --warn-soft:#fff6dd;
+  --bad:#b42318;
+  --bad-soft:#fff0ee;
+  --shadow:0 14px 34px rgba(24,33,47,.08);
+  --shadow-soft:0 6px 18px rgba(24,33,47,.06);
+}
+*{box-sizing:border-box}
+html{background:linear-gradient(180deg,#eaf2ff 0,#f7fafc 260px,#ffffff 680px)}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--fg);margin:0;background:transparent;line-height:1.45}
+header{position:relative;overflow:hidden;background:linear-gradient(135deg,#102a5f 0%,#2457c5 55%,#18a0a6 100%);color:#fff;padding:26px 24px 28px;border-bottom:none;box-shadow:var(--shadow)}
+header:before{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.12)}
+header:after{content:"";position:absolute;left:36%;bottom:-70px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08)}
+header h1{position:relative;font-size:24px;line-height:1.15;margin:0;font-weight:750;letter-spacing:-.02em}
+header p{position:relative;margin:8px 0 0;color:rgba(255,255,255,.86);font-size:13px;max-width:900px}
+header code{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:1px 5px;color:#fff}
+main{max-width:1220px;margin:0 auto;padding:22px 20px 70px}
+fieldset{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:16px;margin:0 0 18px;padding:18px 18px 16px;box-shadow:var(--shadow-soft);backdrop-filter:saturate(130%) blur(8px)}
+legend{font-weight:750;font-size:13px;letter-spacing:.02em;text-transform:uppercase;padding:0 8px;color:#334155}
+label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px;font-weight:650}
+input,select,textarea{font:inherit;color:var(--fg);padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;outline:none;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(36,87,197,.13)}
+input::placeholder,textarea::placeholder{color:#98a6b8}
+textarea{width:100%;min-height:64px;resize:vertical}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end}
+.row>div{flex:1 1 145px}
+.note,.hint{font-size:12px;color:var(--muted);margin-top:9px}
+code{background:#eef4fb;border:1px solid #dbe5f0;border-radius:6px;padding:1px 5px;color:#23324a}
+table{border-collapse:separate;border-spacing:0;width:100%;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#fff}
+th,td{border:0;border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:8px 9px;text-align:left;font-size:13px;vertical-align:middle}
+th:last-child,td:last-child{border-right:0}tbody tr:last-child td{border-bottom:0}
+th{background:linear-gradient(180deg,#f8fbff,#edf4fc);color:#334155;font-weight:750;font-size:12px;white-space:nowrap}
+tbody tr:nth-child(even){background:#fbfdff}
+tbody tr:hover{background:#f4f8ff}
+td input,td select{width:100%;border:1px solid transparent;padding:6px 7px;background:transparent;border-radius:8px}
+td input:focus,td select:focus{background:#fff;border-color:var(--accent);box-shadow:0 0 0 2px rgba(36,87,197,.10)}
+td.num input{text-align:right}
+.btn{font:inherit;font-weight:650;padding:9px 13px;border:1px solid var(--line);background:#fff;border-radius:10px;cursor:pointer;box-shadow:0 2px 6px rgba(24,33,47,.04);transition:transform .12s ease,box-shadow .12s ease,background .12s ease,border-color .12s ease}
+.btn:hover{background:#f6f9fd;border-color:var(--line-strong);box-shadow:0 5px 14px rgba(24,33,47,.08);transform:translateY(-1px)}
+.btn:active{transform:translateY(0);box-shadow:0 2px 6px rgba(24,33,47,.05)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),#1f6fd1);color:#fff;border-color:transparent;box-shadow:0 8px 18px rgba(36,87,197,.24)}
+.btn.primary:hover{filter:none;background:linear-gradient(135deg,#1f4fb7,#1f78dc)}
+.btn.sm{padding:5px 8px;font-size:12px;border-radius:8px}
+.bar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:14px 0 18px;padding:12px;background:rgba(255,255,255,.78);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-soft);position:sticky;bottom:10px;z-index:5;backdrop-filter:blur(10px)}
+.spacer{flex:1}
+#status{font-size:13px;font-weight:750;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+.ok{color:var(--good)}.pending{color:var(--warn)}.err{color:var(--bad)}
+pre{background:#0f172a;color:#e2e8f0;border:1px solid #1e293b;border-radius:14px;padding:14px;overflow-x:auto;font-size:12.5px;white-space:pre;box-shadow:var(--shadow-soft)}
+.msg{padding:11px 13px;border-radius:12px;margin:10px 0;font-size:13px;font-weight:600;box-shadow:0 2px 8px rgba(24,33,47,.04)}
+.msg.bad{background:var(--bad-soft);color:var(--bad);border:1px solid #ffd3cd}
+.msg.warn{background:var(--warn-soft);color:var(--warn);border:1px solid #f2dc9f}
+.msg.good{background:var(--good-soft);color:var(--good);border:1px solid #bde8cf}
+.downloads{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.downloads a{display:inline-block;margin:0;text-decoration:none;color:var(--accent);background:var(--accent-soft);border:1px solid #d5e3ff;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:700}
+.downloads a:hover{background:#dfeaff}
+.danger{color:var(--bad)}
+.small{font-size:12px}
+details{border:1px solid #e1e8f2;border-radius:12px;background:var(--card-soft);padding:10px 12px}
+details[open]{background:#fff;box-shadow:inset 0 0 0 1px #eef3f8}
+summary{list-style:none;display:flex;align-items:center;gap:8px;color:#334155}
+summary::-webkit-details-marker{display:none}
+summary:before{content:"+";display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:800}
+details[open] summary:before{content:"–"}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(48px,1fr));gap:6px;margin-top:10px;overflow:auto;padding:8px;border-radius:14px;background:linear-gradient(180deg,#f7fbff,#ffffff);border:1px solid var(--line)}
+.well{position:relative;border:1px solid #dbe4ef;border-radius:10px;min-height:42px;padding:5px 6px;font-size:11px;background:#fff;box-shadow:inset 0 -2px 0 rgba(24,33,47,.03);transition:background .15s ease,border-color .15s ease,transform .15s ease}
+.well.used{background:linear-gradient(180deg,#eaf7ff,#eef3ff);border-color:#7fb5ff;box-shadow:0 5px 12px rgba(36,87,197,.12),inset 0 0 0 1px rgba(255,255,255,.8)}
+.well.used:after{content:"";position:absolute;right:5px;top:5px;width:7px;height:7px;border-radius:50%;background:var(--accent-2)}
+.well .w{font-weight:800;color:#24364f}
+.well .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#475569;margin-top:2px}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:3px 9px;font-size:12px;margin:0 4px 4px 0;background:#fff;color:#334155;font-weight:650}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.tab{padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:700;color:#475569}
+.tab.active{background:linear-gradient(135deg,var(--accent),#1f6fd1);color:#fff;border-color:transparent;box-shadow:0 5px 14px rgba(36,87,197,.22)}
+#results{margin-top:16px}
+#results h3{font-size:17px;margin:16px 0 10px;letter-spacing:-.01em}
+.card-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}
+.card-title .sub{font-size:12px;color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0}
+.req{color:var(--bad);font-weight:900;margin-left:2px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.workflow-card{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,#ffffff,#f9fbff);padding:14px;box-shadow:0 5px 16px rgba(24,33,47,.05)}
+.workflow-card h3{margin:0 0 6px;font-size:15px;color:#1e293b}
+.workflow-card p{margin:0 0 10px}
+.action-strip{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.btn.secondary{background:linear-gradient(135deg,#f0fdfa,#ecfeff);border-color:#b9e8e4;color:#116b6e}
+.btn.secondary:hover{background:linear-gradient(135deg,#ddfbf4,#dff8ff);border-color:#81d8d4}
+.input-group{display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:14px;align-items:end}
+.section-help{background:#f8fbff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--muted);font-size:12px;margin-top:10px}
+.table-wrap{width:100%;overflow:auto;border-radius:12px}
+.table-wrap table{min-width:980px}
+@media (max-width:900px){.two-col{grid-template-columns:1fr}.input-group{grid-template-columns:1fr}}
+
+#printHeader{display:none}
+#printHeader h2{margin:0 0 4px;font-size:18px}
+#printHeader .meta{font-size:12.5px;color:var(--muted)}
+#printHeader .meta b{color:var(--fg);font-weight:700}
+@media (max-width:760px){
+  header{padding:22px 18px}header h1{font-size:21px}main{padding:16px 12px 80px}fieldset{padding:15px 13px;border-radius:14px}.bar{position:static}.grid{grid-template-columns:repeat(6,minmax(48px,1fr))}th,td{font-size:12px;padding:7px 6px}
+}
+@media print{
+  html,body{background:#fff!important}
+  header,main>fieldset,.bar,#messages,.no-print{display:none!important}
+  main{max-width:none;margin:0;padding:0}
+  #printHeader{display:block;margin-bottom:10px}
+  #results h3{margin-top:10px}
+  table{border-collapse:collapse;border-radius:0;box-shadow:none}
+  th,td{border:1px solid #ccc!important;padding:4px 6px}
+  th{background:#eee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  tr{page-break-inside:avoid}
+  .downloads{display:none!important}
+}
+
+
+/* --- Modern dashboard layout override --- */
+:root{
+  --navy:#081d3c; --navy-2:#102a5f; --blue:#0f68d8; --purple:#7b22ce; --green:#129447;
+  --surface:#ffffff; --canvas:#f5f8fc; --text:#14213d; --muted2:#64748b; --radius:16px;
+}
+html{background:var(--canvas)}
+body{background:radial-gradient(circle at 20% -10%,#eaf3ff 0,#f6f8fc 34%,#ffffff 100%);color:var(--text)}
+.app-header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 28px;background:linear-gradient(135deg,var(--navy),#0d2b5c 60%,#13213b);box-shadow:0 16px 34px rgba(8,29,60,.22)}
+.app-header:before,.app-header:after{display:none}.brand{position:relative;display:flex;align-items:center;gap:14px}.brand-icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(122,242,226,.45);background:rgba(122,242,226,.12);font-size:27px;color:#7af2e2}.app-header h1{font-size:22px;letter-spacing:-.03em}.app-header p{font-size:14px;margin-top:3px}.header-actions{display:flex;gap:12px;align-items:center}.header-btn{border:1px solid rgba(190,210,255,.45);background:rgba(255,255,255,.06);color:#fff;border-radius:10px;padding:11px 18px;font-weight:750;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);cursor:pointer}.header-btn:hover{background:rgba(255,255,255,.12)}
+main{max-width:1480px;display:grid;grid-template-columns:minmax(0,1.55fr) minmax(360px,.85fr);gap:16px;padding:18px 22px 80px}.workflow-strip,.run-meta,.pool-card,.quick-card,#messages,#printHeader,#results,main>.bar,main>fieldset:last-of-type{grid-column:1/-1}.samples-card{grid-column:1}.plate-card{grid-column:2;align-self:start}fieldset{border-radius:var(--radius);border:1px solid #d9e3ef;background:rgba(255,255,255,.96);box-shadow:0 10px 28px rgba(15,23,42,.08);margin:0;padding:18px}legend{font-size:18px;color:#203047;letter-spacing:.015em;background:transparent;padding:0 10px;text-transform:uppercase}.pool-card legend:before{content:'⚗ ';color:var(--blue)}.samples-card legend:before{content:'▥ ';color:var(--blue)}.plate-card legend:before{content:'▦ ';color:var(--blue)}.quick-card legend:before{content:'ϟ ';color:var(--blue)}.run-meta legend:before{content:'ⓘ ';color:var(--blue)}
+.workflow-strip{display:grid;grid-template-columns:220px repeat(3,1fr);gap:14px;align-items:stretch;margin:0 0 2px}.workflow-intro{padding:18px 18px 10px 18px;color:#1e2b44}.workflow-intro b{display:block;font-size:16px}.workflow-intro span{display:block;color:var(--muted2);font-size:14px;margin-top:4px}.flow-card{display:flex;align-items:center;gap:16px;text-align:left;border:1px solid #d9e3ef;border-radius:12px;background:#fff;padding:16px 18px;box-shadow:0 8px 22px rgba(15,23,42,.05);cursor:pointer;transition:.15s ease}.flow-card:hover{transform:translateY(-1px);box-shadow:0 14px 30px rgba(15,23,42,.1)}.flow-card b{display:block;font-size:16px}.flow-card small{display:block;color:#334155;font-size:13px;line-height:1.35;margin-top:5px}.flow-icon{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;font-size:28px;font-weight:900}.flow-card.green{border-color:#bde8c9}.flow-card.green b{color:var(--green)}.flow-card.green .flow-icon{background:#ddf7e6;color:var(--green)}.flow-card.blue{border-color:#c5d9ff}.flow-card.blue b{color:var(--blue)}.flow-card.blue .flow-icon{background:#e5efff;color:var(--blue)}.flow-card.purple{border-color:#dec8ff}.flow-card.purple b{color:var(--purple)}.flow-card.purple .flow-icon{background:#f0e3ff;color:var(--purple)}
+.pool-card>.row:first-of-type{display:grid;grid-template-columns:1fr 1.1fr 1.35fr 1fr 1fr 1.55fr;gap:18px;align-items:start}.pool-card>.row:first-of-type>div{min-width:0}.pool-card label,.samples-card label,.quick-card label{font-size:13px;color:#26384f;font-weight:800;margin-bottom:8px}.pool-card input,.pool-card select,.samples-card input,.samples-card select,.quick-card input,.quick-card select{height:38px;border-radius:8px;border-color:#d3deeb;background:#fff}.inline-help{display:block;min-height:34px;margin-top:8px;color:#53657d;font-size:13px;line-height:1.25}.mode-note{background:#eff6ff;border:1px solid #b8d6ff;border-left:4px solid var(--blue);border-radius:9px;padding:12px 14px;color:#17407d;font-size:13px;margin-top:16px}.note{font-size:13px}.quick-card .two-col{grid-template-columns:1fr 1.25fr}.workflow-card{border:1px solid #e0e8f2;border-radius:12px;box-shadow:none;background:linear-gradient(180deg,#fff,#fbfdff)}
+.samples-card,.plate-card{min-height:330px}.samples-card>.row:first-of-type{display:flex;align-items:end;justify-content:space-between}.table-wrap table{min-width:930px;border-radius:0;border-left:0;border-right:0}.table-wrap{border-radius:12px;box-shadow:none}th{background:#f8fafc;color:#23334a;padding:11px 10px}td{padding:9px 10px}.grid{grid-template-columns:repeat(12,32px);gap:7px;justify-content:start;border:0;background:#fff;padding:10px 4px 4px;overflow:auto}.well{min-height:30px;border-radius:50%;padding:0;width:20px;height:20px;margin:auto;font-size:0;box-shadow:none}.well .w,.well .n{display:none}.well.used{background:#e7f8ec;border-color:#50c878;box-shadow:0 0 0 3px rgba(80,200,120,.13)}.well.used:after{display:none}.plate-card #livePlate:before{content:'Rows A-H, columns 1-12. Highlighted circles are selected source wells.';display:block;color:#64748b;font-size:13px;margin-bottom:8px}.plate-card .grid{position:relative}.bar{grid-column:1/-1;margin:0;bottom:12px;border-radius:14px;background:rgba(255,255,255,.92)}.bar .btn.primary{background:linear-gradient(135deg,#7b22ce,#9a29e8)}.bar .btn.secondary{background:linear-gradient(135deg,#0f68d8,#0b73e5);color:#fff;border-color:transparent}.bar #calcMolarities{background:linear-gradient(135deg,#129447,#17a34a);color:#fff;border-color:transparent}.btn{border-radius:8px}.btn.primary,.btn.secondary{box-shadow:0 8px 18px rgba(15,104,216,.18)}
+@media(max-width:1100px){main{grid-template-columns:1fr}.samples-card,.plate-card{grid-column:1/-1}.workflow-strip{grid-template-columns:1fr}.pool-card>.row:first-of-type{grid-template-columns:repeat(2,minmax(0,1fr))}.header-actions{display:none}}@media(max-width:720px){.pool-card>.row:first-of-type{grid-template-columns:1fr}.app-header{padding:16px}.workflow-strip{gap:10px}.flow-card{padding:14px}.grid{grid-template-columns:repeat(12,28px)}}
+
+
+
+/* --- Map, guide, and interaction fixes --- */
+.plate-card{overflow:hidden;min-width:0}
+.plate-card #livePlate{overflow:hidden}
+.plate-map-wrap{width:100%;overflow-x:auto;overflow-y:hidden;padding:4px 2px 10px}
+.plate-map{display:grid;grid-template-columns:26px repeat(12,minmax(46px,1fr));gap:6px;min-width:620px;align-items:center}
+.plate-label{font-size:11px;font-weight:800;color:#475569;text-align:center;line-height:1}
+.plate-row-label{font-size:11px;font-weight:800;color:#475569;text-align:right;padding-right:4px}
+.plate-well{height:42px;min-width:46px;border:1px solid #cbd5e1;border-radius:12px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3px 4px;line-height:1.05;overflow:hidden;box-shadow:inset 0 -1px 0 rgba(15,23,42,.04)}
+.plate-well .well-code{font-size:9px;font-weight:800;color:#64748b}
+.plate-well .well-name{font-size:10px;font-weight:800;color:#14213d;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.plate-well.used{background:#e9f9ef;border-color:#44ba6f;box-shadow:0 0 0 2px rgba(68,186,111,.14),inset 0 -1px 0 rgba(15,23,42,.04)}
+.plate-well.empty .well-name{display:none}
+.plate-key{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;color:#64748b;font-size:12px}
+.plate-key span{display:inline-flex;gap:6px;align-items:center}.key-dot{width:12px;height:12px;border:1px solid #cbd5e1;border-radius:4px;background:#fff}.key-dot.used{background:#e9f9ef;border-color:#44ba6f}
+.guide-panel{grid-column:1/-1;background:#fff;border:1px solid #d9e3ef;border-radius:16px;box-shadow:0 10px 28px rgba(15,23,42,.08);padding:20px;margin:0}
+.guide-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-bottom:1px solid #e5edf7;padding-bottom:14px;margin-bottom:16px}
+.guide-head h2{margin:0;font-size:22px;color:#14213d}.guide-head p{margin:5px 0 0;color:#64748b}.guide-actions{display:flex;gap:8px;flex-wrap:wrap}
+.guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.guide-grid article{border:1px solid #e1e8f2;border-radius:12px;background:#fbfdff;padding:14px}.guide-grid h3{margin:0 0 8px;font-size:15px;color:#0f3b7a}.guide-grid p{margin:0 0 8px;color:#334155;font-size:13px}.guide-grid p:last-child{margin-bottom:0}
+.flow-card:focus,.header-btn:focus,.btn:focus{outline:3px solid rgba(15,104,216,.25);outline-offset:2px}
+@media(max-width:1300px){.plate-map{grid-template-columns:24px repeat(12,44px);min-width:590px}.plate-well{min-width:44px}}
+@media(max-width:720px){.guide-head{display:block}.guide-actions{margin-top:12px}.guide-grid{grid-template-columns:1fr}.plate-map{grid-template-columns:24px repeat(12,42px);min-width:560px}.plate-well{height:40px;min-width:42px}}
+@media print{body.print-guide header,body.print-guide main>*:not(#guidePanel){display:none!important}body.print-guide #guidePanel{display:block!important;box-shadow:none;border:0;padding:0}body.print-guide .guide-actions{display:none!important}body.print-guide .guide-grid{grid-template-columns:repeat(2,1fr)}}
+
+
+/* --- Final non-overlap layout fix: keep Samples and Plate Map in separate bounded grid cells --- */
+main{
+  width:100%;
+  max-width:1920px;
+  margin:0 auto;
+  grid-template-columns:minmax(0,1fr) minmax(460px,0.52fr) !important;
+}
+.samples-card,.plate-card{
+  min-width:0 !important;
+  max-width:100% !important;
+}
+.samples-card{
+  overflow:hidden !important;
+  position:relative;
+  z-index:1;
+}
+.plate-card{
+  overflow:hidden !important;
+  position:relative;
+  z-index:1;
+}
+.samples-card .table-wrap{
+  width:100% !important;
+  max-width:100% !important;
+  overflow-x:auto !important;
+  overflow-y:hidden;
+  display:block;
+}
+.samples-card table{
+  width:max-content;
+  min-width:1040px !important;
+  max-width:none;
+}
+.plate-card #livePlate{
+  max-width:100% !important;
+  overflow:hidden !important;
+}
+.plate-map-wrap{
+  max-width:100% !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  -webkit-overflow-scrolling:touch;
+}
+.plate-map{
+  width:max-content !important;
+  min-width:0 !important;
+  grid-template-columns:24px repeat(12,48px) !important;
+}
+.plate-well{
+  width:48px !important;
+  min-width:48px !important;
+}
+@media(max-width:1280px){
+  main{grid-template-columns:1fr !important;}
+  .samples-card,.plate-card{grid-column:1/-1 !important;}
+  .plate-map{grid-template-columns:24px repeat(12,48px) !important;}
+}
+
+
+
+/* --- Sample table column sizing: compact by default, expands only for long names --- */
+.samples-card .table-wrap{
+  overflow-x:auto !important;
+}
+.samples-card table#sampleTable{
+  width:100% !important;
+  min-width:1120px !important;
+  table-layout:fixed !important;
+}
+#sampleTable th,#sampleTable td{
+  vertical-align:middle;
+}
+#sampleTable th:nth-child(1),#sampleTable td:nth-child(1){width:44px !important;text-align:center}
+#sampleTable th:nth-child(2),#sampleTable td:nth-child(2){width:118px !important}
+#sampleTable th:nth-child(3),#sampleTable td:nth-child(3){width:220px !important}
+#sampleTable th:nth-child(4),#sampleTable td:nth-child(4){width:125px !important}
+#sampleTable th:nth-child(5),#sampleTable td:nth-child(5){width:210px !important}
+#sampleTable th:nth-child(6),#sampleTable td:nth-child(6){width:105px !important}
+#sampleTable th:nth-child(7),#sampleTable td:nth-child(7){width:110px !important}
+#sampleTable th:nth-child(8),#sampleTable td:nth-child(8){width:118px !important}
+#sampleTable th:nth-child(9),#sampleTable td:nth-child(9){width:46px !important;text-align:center}
+#sampleTable input,#sampleTable select{
+  max-width:100%;
+}
+#sampleTable .c-name{
+  width:160px;
+  min-width:160px;
+  max-width:360px;
+  overflow-x:auto;
+  white-space:nowrap;
+  transition:width .12s ease;
+}
+#sampleTable td:nth-child(3):has(.c-name){
+  overflow:visible;
+}
+@media(max-width:1300px){
+  .samples-card table#sampleTable{min-width:1080px !important}
+  #sampleTable th:nth-child(3),#sampleTable td:nth-child(3){width:190px !important}
+  #sampleTable .c-name{width:150px;min-width:150px}
+}
+
+/* Sample concentration summary and guide download refinements */
+.sample-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 8px}
+.sample-summary>div{border:1px solid #dbe7f4;background:#f8fbff;border-radius:10px;padding:10px 12px;min-height:58px}
+.sample-summary b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.035em;color:#64748b;margin-bottom:4px}
+.sample-summary span{font-size:16px;font-weight:900;color:#0f2342}
+.samples-card table#sampleTable{min-width:1010px !important}
+#sampleTable th:nth-child(3),#sampleTable td:nth-child(3){width:190px !important;max-width:280px !important}
+#sampleTable th:nth-child(5),#sampleTable td:nth-child(5){width:210px !important}
+#sampleTable th:nth-child(6),#sampleTable td:nth-child(6){width:110px !important}
+#sampleTable th:nth-child(7),#sampleTable td:nth-child(7){width:118px !important}
+#sampleTable th:nth-child(8),#sampleTable td:nth-child(8){width:46px !important;text-align:center}
+#sampleTable .c-name{width:150px;min-width:150px;max-width:320px;overflow-x:auto;white-space:nowrap;transition:width .12s ease}
+@media(max-width:900px){.sample-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.sample-summary{grid-template-columns:1fr}}
+#recoveryBanner{grid-column:1/-1;background:#fff6dd;border:1px solid #f2dc9f;color:#7a5b00;border-radius:12px;padding:11px 14px;font-weight:700;gap:10px;align-items:center;flex-wrap:wrap;margin:0 0 4px}
+#recoveryBanner:not([hidden]){display:flex}
+#recoveryBanner .btn{font-weight:700}
+
+</style>
+</head>
+<body>
+<header class="app-header">
+  <div class="brand">
+    <div class="brand-icon" aria-hidden="true">⚗</div>
+    <div>
+      <h1>epMotion Equimolar Pooling Helper</h1>
+      <p>Plan pools, calculate volumes, and generate epMotion worklists. Runs locally in your browser.</p>
+    </div>
+  </div>
+  <div class="header-actions no-print">
+    <button class="header-btn" id="openGuide" type="button">Download User Guide PDF</button>
+    <button class="header-btn" type="button" onclick="document.getElementById('saveRun').click()">Save Run</button>
+  </div>
+</header>
+<main>
+<div id="recoveryBanner" class="no-print" hidden></div>
+<section class="workflow-strip no-print" aria-label="Workflow choices">
+  <div class="workflow-intro">
+    <b>Choose your workflow</b>
+    <span>Select the workflow that fits the bench task.</span>
+  </div>
+  <button class="flow-card green" id="flowCalc" type="button">
+    <span class="flow-icon">▦</span>
+    <span><b>1. Calculate Molarities</b><small>Use sample data only to calculate molarity (nM).</small></span>
+  </button>
+  <button class="flow-card blue" id="flowQuick" type="button">
+    <span class="flow-icon">ϟ</span>
+    <span><b>2. Quick Pool</b><small>Simple manual pooling using total fmol or fmol per sample.</small></span>
+  </button>
+  <button class="flow-card purple" id="flowGenerate" type="button">
+    <span class="flow-icon">▤</span>
+    <span><b>3. Generate Worklists</b><small>Full epMotion setup with deck, buffer, tips, and exports.</small></span>
+  </button>
+</section>
+<fieldset class="run-meta">
+<legend>Run metadata</legend>
+<div style="display:flex;justify-content:flex-end;margin:-2px 0 8px"><button class="btn sm" id="clrMeta" type="button">Clear section</button></div>
+<div class="row">
+<div><label>Run name</label><input id="runName" placeholder="e.g. CRM_ONT_pool_001"></div>
+<div><label>Operator</label><input id="operator" placeholder="name / initials"></div>
+<div><label>Kit lot</label><input id="kitLot" placeholder="optional"></div>
+<div><label>Instrument / method</label><input id="method" placeholder="Qubit / TapeStation / Bioanalyzer"></div>
+</div>
+<div class="row" style="margin-top:8px">
+<div style="flex:1 1 100%"><label>Notes</label><textarea id="notes" placeholder="Optional run notes for the printout"></textarea></div>
+</div>
+</fieldset>
+
+<fieldset class="pool-card">
+<legend>Create pool parameters</legend>
+<div style="display:flex;justify-content:flex-end;margin:-2px 0 8px"><button class="btn sm" id="clrPool" type="button">Clear section</button></div>
+<div class="row">
+<div><label>Platform</label><select id="platform"><option value="">(not set)</option></select></div>
+<div><label>Loading preset</label><select id="preset"></select></div>
+<div><label>Pool calculation mode<span class="req">*</span></label><select id="poolGoal"><option value="nm">Target final concentration (nM)</option><option value="fmol">Total molecules/load (fmol)</option></select></div>
+<div id="targetNmBox"><label>Target pool nM<span class="req">*</span></label><input id="target" type="number" step="any" min="0" placeholder="e.g. 4"><span class="inline-help">Use when your SOP defines a final pool concentration.</span></div>
+<div id="totalFmolBox" style="display:none"><label>Total pool fmol<span class="req">*</span></label><input id="totalFmol" type="number" step="any" min="0" placeholder="e.g. 50"><span class="inline-help">Use for ONT-style loading targets such as 20 or 50 fmol.</span></div>
+<div><label>Total final volume µL<span class="req">*</span></label><input id="volume" type="number" step="any" min="0" placeholder="e.g. 50"></div>
+<div><label>Layout<span class="req">*</span></label><select id="layout"><option value="">(not set)</option><option value="one-tube">one-tube: all DNA into pool well</option><option value="normalize">normalize: each sample to own well</option></select></div>
+</div>
+<details id="advancedParams" style="margin-top:8px">
+<summary class="hint" style="cursor:pointer;font-weight:600">Optional extra pooling parameters</summary>
+<div class="row" style="margin-top:8px">
+<div><label>Minimum transfer µL</label><input id="minTransfer" type="number" step="any" min="0" value="1.0"></div>
+<div><label>Round transfer to µL</label><input id="roundStep" type="number" step="any" min="0" value="0.1"></div>
+<div><label>Dead volume / excess %</label><input id="excessPct" type="number" step="any" min="0" value="0"></div>
+<div><label>Source rack number</label><input id="sourceRack" type="number" step="1" min="1" value="1"></div>
+<div><label>Destination rack number</label><input id="destRack" type="number" step="1" min="1" value="1"></div>
+<div><label>Buffer source position</label><input id="bufferPos" value="1"></div>
+<div><label>Pool well</label><input id="poolWell" value="A1"></div>
+</div>
+<div class="row" style="margin-top:8px">
+<div><label>Low-volume handling</label><select id="lowVolMode"><option value="warn">warn only</option><option value="bump">auto-bump final volume</option><option value="predilute">pre-dilute hot samples</option></select></div>
+<div><label>Pre-dilution final volume µL</label><input id="predilutionVol" type="number" step="any" min="0" value="10"></div>
+<div><label>Pre-dilution safety margin %</label><input id="predilutionMargin" type="number" step="any" min="0" value="10"></div>
+<div><label>Tip policy</label><select id="tipMode"><option value="auto">auto TS_50/300 only</option><option value="TS_50">force TS_50</option><option value="TS_300">force TS_300</option></select></div>
+<div><label>Max well capacity µL</label><input id="maxWellCap" type="number" step="any" min="0" value="200"></div>
+<div><label>Dilution rack number</label><input id="dilRack" type="number" step="1" min="1" value="1"></div>
+<div><label>Dilution starting well</label><input id="dilStartWell" value="A2"></div>
+</div>
+<div class="hint" style="margin-top:6px">These fields have safe defaults. Leaving this section closed does not block worklist generation.</div>
+</details>
+<div id="presetNote" class="note"></div>
+<div class="mode-note"><b>Minimum for Generate Worklists:</b> sample molarities plus pool mode, total final volume, and layout. Use nM mode for Illumina-style final concentration. Use fmol mode for ONT-style total load.</div>
+</fieldset>
+
+<fieldset class="quick-card">
+<legend>Quick pool method</legend>
+<div style="display:flex;justify-content:flex-end;margin:-2px 0 8px"><button class="btn sm" id="clrQuick" type="button">Clear section</button></div>
+<div class="two-col">
+  <div class="workflow-card">
+    <h3>What this does</h3>
+    <p class="hint">Creates a simple manual pooling table from the Sample section without requiring platform presets, deck settings, destination racks, buffer positions, or epMotion worklist exports.</p>
+    <div class="section-help"><b>Minimum required:</b> sample molarity inputs plus either fmol per sample or total fmol pool. This is for quick bench calculations, not full robot execution.</div>
+  </div>
+  <div class="workflow-card">
+    <h3>Quick pool target</h3>
+    <div class="input-group">
+      <div><label>Quick pool mode<span class="req">*</span></label><select id="quickPoolMode"><option value="per_sample">Equal fmol per sample</option><option value="total">Total fmol split equally</option></select></div>
+      <div id="quickPerSampleBox"><label>fmol per sample<span class="req">*</span></label><input id="quickFmolPerSample" type="number" step="any" min="0" placeholder="e.g. 5"></div>
+      <div id="quickTotalBox" style="display:none"><label>Total pool fmol<span class="req">*</span></label><input id="quickTotalFmol" type="number" step="any" min="0" placeholder="e.g. 50"></div>
+      <div><label>Round transfer to µL</label><input id="quickRoundStep" type="number" step="any" min="0" value="0.1"></div>
+    </div>
+    <div class="action-strip">
+      <button class="btn secondary" id="quickPoolBtn">Quick pool table</button>
+      <span class="hint">Outputs transfer volumes only. Use Generate Worklists when you need epMotion files.</span>
+    </div>
+  </div>
+</div>
+</fieldset>
+
+<fieldset class="samples-card">
+<legend>Samples</legend>
+<div style="display:flex;justify-content:flex-end;margin:-2px 0 8px"><button class="btn sm" id="clrSamples" type="button">Clear section</button></div>
+<div class="row" style="margin-bottom:10px">
+<div style="flex:0 0 auto"><label>Shared fragment size (bp), optional</label><input id="sharedSize" type="number" step="any" min="0" style="width:160px" placeholder="applies to new rows"></div>
+<div style="flex:0 0 auto"><label>Default input mode</label><select id="defaultMode"><option value="mass">ng/µL + bp</option><option value="molar">direct nM</option></select></div>
+<div style="flex:0 0 auto;align-self:flex-end"><button class="btn" id="addRow">+ Add sample</button></div>
+<div style="flex:0 0 auto;align-self:flex-end"><button class="btn secondary" id="saveRunSamples" title="Save this run to a .json file you can reopen later">💾 Save run</button></div>
+<div style="flex:1 1 100%"><span class="hint">This form starts blank each time the file is opened. Click <b>Save run</b> to keep your work as a file you can reopen — unsaved entries are cleared on the next open.</span></div>
+</div>
+<div class="table-wrap"><table id="sampleTable">
+<thead><tr><th style="width:34px">#</th><th style="width:120px">Source well</th><th>Name / number</th><th style="width:105px">Input mode<span class="req">*</span></th><th style="width:175px">Conc reads ng/µL<span class="req">*</span></th><th style="width:105px">Size bp<span class="req">*</span></th><th style="width:105px">Direct nM<span class="req">*</span></th><th style="width:55px"></th></tr></thead>
+<tbody id="sampleBody"></tbody>
+</table></div>
+<div id="sampleSummary" class="sample-summary" aria-live="polite">
+  <div><b>Samples entered</b><span id="summaryCount">0</span></div>
+  <div><b>Mass-mode samples</b><span id="summaryMassCount">0</span></div>
+  <div><b>Overall avg concentration</b><span id="summaryAvgConc">-</span></div>
+  <div><b>Concentration range</b><span id="summaryConcRange">-</span></div>
+</div>
+<div class="hint"><span class="req">*</span> Minimum for Calculate Molarities: either concentration reads + size bp, or direct nM. Sample names and source wells help with tracking but are auto-filled if left blank. For replicate Qubit reads, enter values separated by commas, semicolons, or spaces. The overall average concentration below is calculated across mass-mode samples only.</div>
+</fieldset>
+<fieldset class="plate-card">
+<legend>Live source rack plate map</legend>
+<div id="livePlate" class="hint">Add samples or source wells to preview the rack layout.</div>
+</fieldset>
+
+<fieldset class="dilution-card" style="grid-column:1/-1">
+<legend>Standalone dilution calculator</legend>
+<div style="display:flex;justify-content:flex-end;margin:-2px 0 8px"><button class="btn sm" id="clrDil" type="button">Clear section</button></div>
+<p class="hint">Dilute one sample or a whole list to a target concentration — completely independent of pooling. Enter each sample's stock concentration; target and final volume default to the shared values below but can be overridden per row. Serial steps appear automatically when one dilution can't reach the target within the well limit. <b>C1V1 = C2V2</b>; bench reference only, no robot file.</p>
+<div class="row" style="margin:10px 0">
+  <div><label>Unit</label><select id="dilUnit"><option value="nM">nM</option><option value="ng/µL">ng/µL</option></select></div>
+  <div><label>Default target conc<span class="req">*</span></label><input id="dilTarget" type="number" step="any" min="0" placeholder="e.g. 10"></div>
+  <div><label>Default final volume µL<span class="req">*</span></label><input id="dilFinalVol" type="number" step="any" min="0" placeholder="e.g. 50"></div>
+  <div><label>Min transfer µL</label><input id="dilMinT" type="number" step="any" min="0" value="1"></div>
+  <div><label>Max well/tube capacity µL</label><input id="dilMaxCap" type="number" step="any" min="0" value="200"></div>
+  <div><label>Round to µL</label><input id="dilRoundStep" type="number" step="any" min="0" value="0.1"></div>
+  <div style="flex:0 0 auto;align-self:flex-end"><button class="btn" id="dilAddRow">+ Add sample</button></div>
+</div>
+<div class="table-wrap"><table id="dilTable">
+<thead><tr><th style="width:34px">#</th><th>Name</th><th style="width:150px">Stock conc<span class="req">*</span></th><th style="width:150px">Target (optional)</th><th style="width:130px">Final µL (optional)</th><th style="width:50px"></th></tr></thead>
+<tbody id="dilBody"></tbody>
+</table></div>
+<div class="action-strip">
+  <button class="btn secondary" id="dilCalcBtn">Calculate dilution list</button>
+  <span class="hint">Independent of the pool above. Blank Target / Final µL fall back to the shared defaults.</span>
+</div>
+<div id="dilResults"></div>
+</fieldset>
+
+<div class="bar">
+<button class="btn" id="importCsv">Import instrument CSV/TXT…</button><input type="file" id="importCsvFile" accept=".csv,.txt,text/csv,text/plain" hidden>
+<button class="btn" id="exportCsv">Export contents (CSV)</button>
+<button class="btn" id="exportTxt">Export contents (TXT)</button>
+<button class="btn" id="saveRun">Save run (JSON)</button>
+<button class="btn" id="openRun">Open run…</button><input type="file" id="openRunFile" accept=".json,application/json" hidden>
+<button class="btn" id="templateBtn">Blank CSV template</button>
+<button class="btn" id="newRun">New / clear</button>
+<span class="spacer"></span><span id="status"></span>
+<button class="btn" id="calcMolarities">Calculate molarities</button>
+<button class="btn secondary" id="quickPoolBtnBar">Quick pool table</button>
+<button class="btn primary" id="generate">Generate worklists</button>
+</div>
+
+<div id="messages"></div>
+<div id="printHeader"></div>
+<div id="results"></div>
+
+<fieldset style="margin-top:20px">
+<legend>About the numbers</legend>
+<p class="hint">Molarity for dsDNA: <code>nM = conc(ng/µL) × 10⁶ / (660 × size_bp)</code>. Direct nM can be entered when molarity has already been measured. Transfers are calculated as equal fmol per sample, then rounded to the selected increment and audited for post-rounding deviation. Low transfer volumes can be handled by warning only, increasing final pool volume, or producing a pre-dilution plan. In fmol mode, the tool derives target nM as total fmol divided by final volume.</p>
+</fieldset>
+
+<section id="guidePanel" class="guide-panel no-print" hidden>
+  <div class="guide-head">
+    <div>
+      <h2>epMotion Equimolar Pooling Helper - User Guide</h2>
+      <p>Quick bench reference for choosing the correct workflow and understanding required fields.</p>
+    </div>
+    <div class="guide-actions">
+      <button class="btn" id="closeGuide" type="button">Close</button>
+      <button class="btn primary" id="printGuide" type="button">Download detailed PDF guide</button>
+    </div>
+  </div>
+  <div class="guide-grid">
+    <article>
+      <h3>1. Calculate Molarities</h3>
+      <p>Use only the Sample section to convert concentration plus fragment size into nM. This does not calculate pooling volumes.</p>
+      <p><b>Minimum:</b> sample concentration + size, or direct nM.</p>
+    </article>
+    <article>
+      <h3>2. Quick Pool</h3>
+      <p>Creates a simple manual pooling table using total fmol or fmol per sample. It does not require platform presets, racks, buffer positions, or epMotion worklists.</p>
+      <p><b>Use for:</b> fast bench calculations and manual pooling.</p>
+    </article>
+    <article>
+      <h3>3. Generate Worklists</h3>
+      <p>Full epMotion workflow. Uses sample molarities, final pool target, layout, deck settings, buffer, tips, and exports DNA.csv and Buffer.csv.</p>
+      <p><b>Use for:</b> robot execution.</p>
+    </article>
+    <article>
+      <h3>Pooling vs Sample Sections</h3>
+      <p><b>Sample section:</b> what you currently have, namely sample names, wells, concentrations, sizes, and direct nM values.</p>
+      <p><b>Create pool parameters:</b> what final pool you want, namely target nM or fmol, final volume, and layout.</p>
+    </article>
+    <article>
+      <h3>Plate Map</h3>
+      <p>The live plate map mirrors the source wells entered in the sample table. Sample names are shown inside the selected wells. Use it to confirm rack loading before running the epMotion.</p>
+    </article>
+    <article>
+      <h3>Output Files</h3>
+      <p><b>DNA.csv:</b> DNA transfer worklist. <b>Buffer.csv:</b> buffer transfer worklist. <b>Worksheet:</b> calculation record. <b>Inputs:</b> saved run settings.</p>
+    </article>
+  </div>
+</section>
+
+</main>
+
+<script>
+const PoolCore=(function(){
+const ROWS="ABCDEFGH",WELLS=[];for(let c=1;c<=12;c++)for(const r of ROWS)WELLS.push(r+c);
+const MW_PER_BP=660.0;
+const PRESETS={illumina:{label:"Illumina",default:"pool_4nM",options:{pool_4nM:{target_nm:4,volume_ul:50,loading:"4 nM pooling stock",note:"Illumina standard: pool/normalize libraries to a 4 nM stock for denature and dilute. Confirm final loading concentration against the current kit and instrument SOP."},pool_2nM:{target_nm:2,volume_ul:50,loading:"2 nM pooling stock",note:"2 nM stock, useful when yield is limited."},iseq_1nM:{target_nm:1,volume_ul:50,loading:"1 nM iSeq stock",note:"iSeq 100 denatures onboard. Confirm against your SOP."}}},ont:{label:"Oxford Nanopore",default:"simplex_50fmol",options:{simplex_50fmol:{target_nm:Math.round(50/12*1000)/1000,volume_ul:12,loading:"50 fmol in 12 µL",note:"ONT fmol-style loading preset. Confirm against current kit and flow cell SOP."},duplex_20fmol:{target_nm:Math.round(20/12*1000)/1000,volume_ul:12,loading:"20 fmol in 12 µL",note:"Lower fmol preset for duplex-style loading. Confirm against current SOP."}}}};
+const isBlank=v=>v===null||v===undefined||v==="";
+function roundTo(v,step){step=Number(step)||0.1;return Math.round(v/step)*step}
+function fmt(v,d=2){if(isBlank(v)||Number.isNaN(Number(v)))return"";let s=Number(v).toFixed(d);return s.indexOf(".")>=0?s.replace(/\.?0+$/,""):s}
+function ngToNm(conc,size){return conc*1e6/(MW_PER_BP*size)}
+function pad(n){return String(n).padStart(2,"0")}
+function autoName(st,prefix="pool"){let tag=isBlank(st.target_nm)?"draft":fmt(st.target_nm)+"nM";let name=(st.run_name||"").trim().replace(/[^\w.-]+/g,"_");let d=new Date();let ts=`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;return `${prefix}_${name?name+"_":""}${tag}_${ts}`}
+function presetLoadingLabel(st){const p=PRESETS[st.platform];if(!p)return null;const o=p.options[st.preset];return o?`${p.label} / ${o.loading}`:p.label}
+function mean(vals){return vals.reduce((a,b)=>a+b,0)/vals.length}
+function stdev(vals){if(vals.length<2)return 0;let m=mean(vals);return Math.sqrt(vals.reduce((a,b)=>a+(b-m)**2,0)/(vals.length-1))}
+function parseReads(s){if(isBlank(s))return[];return String(s).split(/[,\s;]+/).map(x=>Number(x)).filter(x=>Number.isFinite(x))}
+function missingForQuick(st){const m=[];if(!(st.samples||[]).length)m.push("at least one sample");(st.samples||[]).forEach((s,i)=>{let tag=s.name||`sample ${i+1}`;if(s.mode==="molar"){if(!(Number(s.direct_nm)>0))m.push(`direct nM for ${tag}`)}else{if(!parseReads(s.conc_reads).length)m.push(`concentration for ${tag}`);if(!(Number(s.size)>0))m.push(`fragment size for ${tag}`)}});return m}
+function missingForQuickPool(st){const m=missingForQuick(st);if(st.quick_pool_mode==="total"){if(!(Number(st.quick_total_fmol)>0))m.push("quick total pool fmol")}else{if(!(Number(st.quick_fmol_per_sample)>0))m.push("quick fmol per sample")}return m}
+function computeQuickPool(samplesIn,st){const samples=prepareSamples(samplesIn);const dups=validateNames(samples);if(dups.length)throw new Error("Duplicate sample name(s): "+dups.join(", "));let roundStep=Number(st.quick_round_step_ul)||0.1;let n=samples.length;let fmolPerSample=st.quick_pool_mode==="total"?Number(st.quick_total_fmol)/n:Number(st.quick_fmol_per_sample);if(!(fmolPerSample>0))throw new Error("Quick pool target must be > 0.");samples.forEach(s=>{s.quick_fmol=fmolPerSample;s.quick_raw_ul=fmolPerSample/s.molarity_nm;s.quick_rounded_ul=roundTo(s.quick_raw_ul,roundStep);s.quick_actual_fmol=s.quick_rounded_ul*s.molarity_nm;s.quick_tip=tipFor(s.quick_rounded_ul,st.tip_mode||"auto")});let actuals=samples.map(s=>s.quick_actual_fmol),avg=mean(actuals),sd=stdev(actuals),cv=avg?sd/avg*100:0;return{samples,summary:{n,mode:st.quick_pool_mode||"per_sample",fmol_per_sample:fmolPerSample,total_fmol:fmolPerSample*n,round_step_ul:roundStep,mean_fmol:avg,cv_pct:cv,min_fmol:Math.min(...actuals),max_fmol:Math.max(...actuals)}}}
+function buildQuickPoolCsv(samples,summary){let L=[csvRow(["source_well","name","molarity_nM","target_fmol","raw_transfer_uL","rounded_transfer_uL","actual_fmol","tip"])];samples.forEach(s=>L.push(csvRow([s.source_well,s.name,fmt(s.molarity_nm,3),fmt(summary.fmol_per_sample,3),fmt(s.quick_raw_ul,3),fmt(s.quick_rounded_ul,1),fmt(s.quick_actual_fmol,3),s.quick_tip])));L.push("");L.push(csvRow(["# summary"]));L.push(csvRow(["mode",summary.mode]));L.push(csvRow(["total_fmol",fmt(summary.total_fmol,3)]));L.push(csvRow(["post_rounding_cv_pct",fmt(summary.cv_pct,3)]));return L.join(CRLF)+CRLF}
+function tipFor(vol,mode){if(mode&&mode!=="auto")return mode;if(vol<=50)return"TS_50";if(vol<=300)return"TS_300";return"OVER_CAPACITY"}
+function missingForCompute(st){const m=missingForQuick(st);if(st.pool_goal==="fmol"){if(!(Number(st.total_fmol)>0))m.push("total pool fmol")}else{if(!(Number(st.target_nm)>0))m.push("target pool concentration (nM)")}if(!(Number(st.total_volume_ul)>0))m.push("total pool volume (µL)");if(st.layout!=="one-tube"&&st.layout!=="normalize")m.push("layout");return m}
+function validateNames(samples){const seen=new Set(),dups=[];samples.forEach(s=>{let n=(s.name||"").trim().toLowerCase();if(n){if(seen.has(n))dups.push(s.name);seen.add(n)}});return dups}
+function prepareSamples(samplesIn){return samplesIn.map((s,i)=>{let out=Object.assign({},s);out.name=(out.name||`sample_${i+1}`).trim();out.source_well=(out.source_well||WELLS[i]||"").trim();out.mode=out.mode||"mass";if(out.mode==="molar"){out.molarity_nm=Number(out.direct_nm);out.conc_avg=null;out.conc_sd=null;out.conc_reads_list=[]}else{let reads=parseReads(out.conc_reads);out.conc_reads_list=reads;out.conc_avg=mean(reads);out.conc_sd=stdev(reads);out.size=Number(out.size);out.molarity_nm=ngToNm(out.conc_avg,out.size)}return out})}
+function computePool(samplesIn,st){
+let total=Number(st.total_volume_ul),layout=st.layout,minTransfer=Number(st.min_transfer_ul)||1,roundStep=Number(st.round_step_ul)||0.1,excess=1+(Number(st.excess_pct)||0)/100,tipMode=st.tip_mode||"auto";
+let target_nm=st.pool_goal==="fmol" ? Number(st.total_fmol)/total : Number(st.target_nm);
+if(st.pool_goal==="fmol" && !(Number(st.total_fmol)>0))throw new Error("Total pool fmol must be > 0.");
+if(!(target_nm>0)||!(total>0))throw new Error("Target nM/total fmol and total volume must be > 0.");
+if(layout!=="one-tube"&&layout!=="normalize")throw new Error("Layout must be one-tube or normalize.");
+let samples=prepareSamples(samplesIn);
+let dups=validateNames(samples);if(dups.length)throw new Error("Duplicate sample name(s): "+dups.join(", "));
+samples.forEach(s=>{if(!(s.molarity_nm>0))throw new Error(`Sample '${s.name}' has invalid molarity.`);if(s.mode!=="molar"&&(s.size<50||s.size>100000))s.implausible_size=true});
+let n=samples.length;let molarities=samples.map(s=>s.molarity_nm),mMin=Math.min(...molarities),harm=n/molarities.reduce((a,m)=>a+1/m,0);
+let maxTarget=layout==="normalize"?mMin:harm;
+if(target_nm>maxTarget+1e-9)throw new Error(`Target ${fmt(target_nm)} nM is too high. Maximum achievable for ${layout} is ${fmt(maxTarget)} nM.`);
+let final_total=total,changed=false,rawFmol=target_nm*final_total/n;
+samples.forEach(s=>s.raw_sample_ul=rawFmol/s.molarity_nm);
+let minRaw=Math.min(...samples.map(s=>s.raw_sample_ul));
+if(st.low_vol_mode==="bump" && minRaw<minTransfer){
+  final_total=total*(minTransfer/minRaw);changed=true;rawFmol=target_nm*final_total/n;samples.forEach(s=>s.raw_sample_ul=rawFmol/s.molarity_nm);
+}
+let warnings=[],predilutions=[];
+let getWell=(sw,off)=>{let m=String(sw).trim().toUpperCase().match(/^([A-H])(\d+)$/);if(!m)return sw;let abs=(parseInt(m[2],10)-1)*8+(m[1].charCodeAt(0)-65)+off;return String.fromCharCode(65+(abs%8))+(Math.floor(abs/8)+1)};
+let dilOffset=0,dilStart=st.dil_start_well||"A2",dilRack=Number(st.dil_rack)||1;
+samples.forEach(s=>{if(s.raw_sample_ul<minTransfer){warnings.push(`Sample '${s.name}' calculated transfer ${fmt(s.raw_sample_ul,2)} µL is below ${fmt(minTransfer,2)} µL.`);if(st.low_vol_mode==="predilute"){let targetTransfer=minTransfer*(1+(Number(st.predilution_margin_pct)||0)/100);let dilutionFactor=targetTransfer/s.raw_sample_ul;let preVol=Number(st.predilution_volume_ul)||10;let stock=preVol/dilutionFactor;let diluent=preVol-stock;if(stock<minTransfer){let adjustedPreVol=minTransfer*dilutionFactor;stock=minTransfer;diluent=adjustedPreVol-stock;preVol=adjustedPreVol}let maxCap=Number(st.max_well_cap_ul)||200;if(preVol>maxCap){let steps=Math.ceil(Math.log(dilutionFactor)/Math.log(maxCap/minTransfer));let stepDF=Math.pow(dilutionFactor,1/steps);let currentMolarity=s.molarity_nm;let lastWell=s.source_well;for(let i=1;i<=steps;i++){let stepStock=minTransfer;let stepPreVol=stepStock*stepDF;let stepDiluent=stepPreVol-stepStock;let newMol=currentMolarity/stepDF;let dWell=getWell(dilStart,dilOffset++);predilutions.push({name:s.name,step:i,total_steps:steps,source_well:lastWell,dest_well:dWell,dest_rack:dilRack,dilution_factor:stepDF,final_volume_ul:stepPreVol,stock_ul:stepStock,diluent_ul:stepDiluent,new_molarity_nm:newMol,is_serial:true});lastWell=dWell;currentMolarity=newMol}s.final_dilution_well=lastWell;s.final_dilution_rack=dilRack}else{let dWell=getWell(dilStart,dilOffset++);predilutions.push({name:s.name,step:1,total_steps:1,source_well:s.source_well,dest_well:dWell,dest_rack:dilRack,dilution_factor:dilutionFactor,final_volume_ul:preVol,stock_ul:stock,diluent_ul:diluent,new_molarity_nm:s.molarity_nm/dilutionFactor,is_serial:false});s.final_dilution_well=dWell;s.final_dilution_rack=dilRack}s.effective_molarity_nm=s.molarity_nm/dilutionFactor;s.prediluted=true}else s.effective_molarity_nm=s.molarity_nm}else s.effective_molarity_nm=s.molarity_nm});
+rawFmol=target_nm*final_total/n;samples.forEach(s=>{s.sample_ul=rawFmol/s.effective_molarity_nm;s.round_sample_ul=roundTo(s.sample_ul,roundStep);s.round_sample_ul_excess=roundTo(s.round_sample_ul*excess,roundStep);s.actual_fmol=s.round_sample_ul*s.effective_molarity_nm;s.tip=tipFor(s.round_sample_ul_excess,tipMode);if(s.tip==="OVER_CAPACITY")warnings.push(`Sample '${s.name}' transfer ${fmt(s.round_sample_ul_excess,1)} µL exceeds the available 300 µL tip capacity.`);if(s.round_sample_ul<minTransfer)warnings.push(`Sample '${s.name}' still rounds to ${fmt(s.round_sample_ul,1)} µL, below the minimum transfer.`);if(s.implausible_size)warnings.push(`Sample '${s.name}' has an implausible size (${s.size} bp). Check input.`)});
+let sumRounded=samples.reduce((a,s)=>a+s.round_sample_ul,0),buffer_total,wellVol=null;
+if(layout==="normalize"){wellVol=final_total/n;samples.forEach(s=>{s.buffer_ul=wellVol-s.round_sample_ul;s.round_buffer_ul=roundTo(s.buffer_ul,roundStep);s.round_buffer_ul_excess=roundTo(s.round_buffer_ul*excess,roundStep);s.buffer_tip=tipFor(s.round_buffer_ul_excess,tipMode);if(s.round_buffer_ul<0)throw new Error(`Sample '${s.name}' needs more sample than its destination well volume. Lower target or increase final volume.`);if(s.buffer_tip==="OVER_CAPACITY")warnings.push(`Buffer for '${s.name}' exceeds the available 300 µL tip capacity.`)});buffer_total=samples.reduce((a,s)=>a+s.round_buffer_ul,0)}
+else{buffer_total=roundTo(final_total-sumRounded,roundStep);if(buffer_total<0)throw new Error("Rounded DNA volumes exceed total pool volume.");}
+let actuals=samples.map(s=>s.actual_fmol),avg=mean(actuals),sd=stdev(actuals),cv=avg?sd/avg*100:0,min=Math.min(...actuals),max=Math.max(...actuals);
+let summary={n,target_nm,total_fmol:target_nm*final_total,total_volume_ul:total,final_total_volume_ul:final_total,volume_bumped:changed,layout,fmol_per_sample:target_nm*final_total/n,sum_sample_ul:sumRounded,buffer_total_ul:buffer_total,well_volume_ul:wellVol,round_step_ul:roundStep,min_transfer_ul:minTransfer,excess_pct:Number(st.excess_pct)||0,warnings,predilutions,post_rounding:{mean_fmol:avg,sd_fmol:sd,cv_pct:cv,min_fmol:min,max_fmol:max,spread_pct:avg?(max-min)/avg*100:0}};
+return{samples,summary}
+}
+const CRLF="\r\n";function csvEsc(x){x=isBlank(x)?"":String(x);return /[",\r\n]/.test(x)?'"'+x.replace(/"/g,'""')+'"':x}function csvRow(a){return a.map(csvEsc).join(",")}
+function buildWorklist(rows,st){let L=[];L.push(csvRow(["Rack","Src.Barcode","Src.List Name","Dest.Barcode","Dest.List Name","","",""]));for(let r=1;r<=4;r++)L.push(csvRow([r,"","","","","","",""]));L.push(csvRow(["","","","","","","",""]));L.push(csvRow(["Barcode ID","Rack","Source","Rack","Destination","Volume","Tool","Name"]));for(const r of rows)L.push(csvRow(["",r.srcRack,r.src,r.destRack,r.dest,fmt(r.vol,1),r.tool,r.name]));return L.join(CRLF)+CRLF}
+function buildCsvs(samples,summary,st){let dna=[],buf=[],sourceRack=Number(st.source_rack)||1,destRack=Number(st.dest_rack)||1,poolWell=(st.pool_well||"A1").trim(),bufferPos=(st.buffer_pos||"1").trim();/* dilution is a SEPARATE worklist (buildDilutionWorklist) run first; pooling sources from the already-diluted wells */if(summary.layout==="one-tube"){samples.forEach(s=>{let sRack=s.prediluted?s.final_dilution_rack:sourceRack;let sWell=s.prediluted?s.final_dilution_well:s.source_well;dna.push({srcRack:sRack,src:sWell,destRack,dest:poolWell,vol:s.round_sample_ul_excess||s.round_sample_ul,tool:s.tip,name:s.name})});buf.push({srcRack:sourceRack,src:bufferPos,destRack,dest:poolWell,vol:roundTo(summary.buffer_total_ul*(1+(Number(st.excess_pct)||0)/100),summary.round_step_ul),tool:tipFor(summary.buffer_total_ul,st.tip_mode),name:"buffer"})}else{samples.forEach(s=>{let sRack=s.prediluted?s.final_dilution_rack:sourceRack;let sWell=s.prediluted?s.final_dilution_well:s.source_well;dna.push({srcRack:sRack,src:sWell,destRack,dest:s.source_well,vol:s.round_sample_ul_excess||s.round_sample_ul,tool:s.tip,name:s.name});buf.push({srcRack:sourceRack,src:bufferPos,destRack,dest:s.source_well,vol:s.round_buffer_ul_excess||s.round_buffer_ul,tool:s.buffer_tip,name:s.name})})}return{DNA:buildWorklist(dna,st),Buffer:buildWorklist(buf,st)}}
+// Dilution runs FIRST as one ordered worklist (robot mixes after each dispense),
+// so serial steps chain correctly: diluent then stock per step, in order.
+function buildDilutionWorklist(predilutions,st){let rows=[],sourceRack=Number(st.source_rack)||1,bufferPos=(st.buffer_pos||"1").trim();predilutions.forEach((p,i)=>{rows.push({srcRack:sourceRack,src:bufferPos,destRack:p.dest_rack,dest:p.dest_well,vol:p.diluent_ul,tool:tipFor(p.diluent_ul,st.tip_mode),name:p.name+(p.total_steps>1?"_diluent_s"+p.step:"_diluent")});let sRack=p.step===1?sourceRack:predilutions[i-1].dest_rack;rows.push({srcRack:sRack,src:p.source_well,destRack:p.dest_rack,dest:p.dest_well,vol:p.stock_ul,tool:tipFor(p.stock_ul,st.tip_mode),name:p.name+(p.total_steps>1?"_stock_s"+p.step:"_stock")})});return buildWorklist(rows,st)}
+// Standalone bench dilution: dilute a stock to a target concentration (any unit).
+// Returns single-step or auto serial-step plan; volumes only, no robot file.
+function computeStandaloneDilution(o){let stock=Number(o.stock_conc),target=Number(o.target_conc),finalVol=Number(o.final_volume_ul),minT=Number(o.min_transfer_ul)||1,maxCap=Number(o.max_well_cap_ul)||200,roundStep=Number(o.round_step_ul)||0.1,unit=o.unit||"nM";if(!(stock>0))throw new Error("Stock concentration must be > 0.");if(!(target>0))throw new Error("Target concentration must be > 0.");if(!(finalVol>0))throw new Error("Final volume must be > 0.");if(target>=stock)throw new Error(`Target (${fmt(target)} ${unit}) must be below the stock (${fmt(stock)} ${unit}); this tool dilutes, it cannot concentrate.`);let DF=stock/target,warnings=[],maxStepDF=maxCap/minT;let singleDna=finalVol/DF;let singleOk=DF<=maxStepDF&&finalVol<=maxCap&&singleDna>=minT;let steps=[];if(singleOk){let dna=roundTo(singleDna,roundStep),dil=roundTo(finalVol-dna,roundStep);steps.push({step:1,total_steps:1,dilution_factor:DF,conc_before:stock,conc_after:target,stock_ul:dna,diluent_ul:dil,final_volume_ul:roundTo(finalVol,roundStep)})}else{let nSteps=Math.max(2,Math.ceil(Math.log(DF)/Math.log(maxStepDF>1?maxStepDF:2)));let stepDF=Math.pow(DF,1/nSteps),V=Math.min(finalVol,maxCap);if(finalVol>maxCap)warnings.push(`Final volume ${fmt(finalVol)} µL exceeds the ${fmt(maxCap)} µL well cap; each step is capped at ${fmt(maxCap)} µL.`);let conc=stock;for(let i=1;i<=nSteps;i++){let vol=(i===nSteps)?Math.min(finalVol,maxCap):V;let stk=vol/stepDF,dil=vol-stk;if(stk<minT)warnings.push(`Step ${i} stock volume ${fmt(stk,2)} µL is below the ${fmt(minT)} µL minimum — increase the final volume or step volume.`);let after=conc/stepDF;steps.push({step:i,total_steps:nSteps,dilution_factor:stepDF,conc_before:conc,conc_after:after,stock_ul:roundTo(stk,roundStep),diluent_ul:roundTo(dil,roundStep),final_volume_ul:roundTo(vol,roundStep)});conc=after}}return{unit,df:DF,mode:singleOk?"single":"serial",steps,warnings,achieved:steps[steps.length-1].conc_after}}
+function buildDilutionPlanCsv(res){let L=[csvRow(["step","dilution_factor","conc_before_"+res.unit,"conc_after_"+res.unit,"stock_uL","diluent_uL","final_uL"])];res.steps.forEach(s=>L.push(csvRow([s.total_steps>1?`${s.step} of ${s.total_steps}`:"1",fmt(s.dilution_factor,3),fmt(s.conc_before,3),fmt(s.conc_after,3),fmt(s.stock_ul,1),fmt(s.diluent_ul,1),fmt(s.final_volume_ul,1)])));return L.join(CRLF)+CRLF}
+// Dilute a whole list of samples (each with its own stock/target/volume). Errors
+// are captured per-row so one bad sample doesn't sink the rest.
+function computeDilutionList(samplesIn,o){return samplesIn.map((s,i)=>{let name=(s.name||"sample_"+(i+1)).trim();try{let res=computeStandaloneDilution(Object.assign({},o,{stock_conc:s.stock,target_conc:s.target,final_volume_ul:s.final_vol}));res.name=name;res.ok=true;res.stock=Number(s.stock);res.target=Number(s.target);res.total_diluent_ul=res.steps.reduce((a,x)=>a+x.diluent_ul,0);return res}catch(e){return{name,ok:false,error:e.message,stock:s.stock,target:s.target,steps:[],warnings:[],total_diluent_ul:0}}})}
+function buildDilutionListCsv(list,unit){let L=[csvRow(["sample","stock_"+unit,"target_"+unit,"step","dilution_factor","conc_before","conc_after","DNA_uL","diluent_uL","final_uL"])];list.forEach(r=>{if(!r.ok){L.push(csvRow([r.name,r.stock,r.target,"ERROR",r.error,"","","","",""]));return}r.steps.forEach(s=>L.push(csvRow([r.name,fmt(r.stock,3),fmt(r.target,3),s.total_steps>1?`${s.step} of ${s.total_steps}`:"1",fmt(s.dilution_factor,3),fmt(s.conc_before,3),fmt(s.conc_after,3),fmt(s.stock_ul,1),fmt(s.diluent_ul,1),fmt(s.final_volume_ul,1)])))});let tot=list.reduce((a,r)=>a+(r.total_diluent_ul||0),0);L.push("");L.push(csvRow(["# total_diluent_uL",fmt(tot,1)]));return L.join(CRLF)+CRLF}
+function buildWorksheet(samples,summary,st){let L=[csvRow(["source_well","name","mode","avg_ng_ul","sd_ng_ul","size_bp","input_nM","effective_nM","raw_sample_uL","rounded_sample_uL","actual_fmol","buffer_uL","tip"])];samples.forEach(s=>L.push(csvRow([s.source_well,s.name,s.mode,fmt(s.conc_avg),fmt(s.conc_sd),s.size||"",fmt(s.molarity_nm),fmt(s.effective_molarity_nm),fmt(s.sample_ul,3),fmt(s.round_sample_ul,1),fmt(s.actual_fmol,3),s.round_buffer_ul==null?"":fmt(s.round_buffer_ul,1),s.tip])));L.push("");L.push(csvRow(["# summary"]));["run_name","operator","kit_lot","method","layout","target_nm","final_total_volume_ul"].forEach(k=>L.push(csvRow([k,st[k]||summary[k]||""])));L.push(csvRow(["post_rounding_cv_pct",fmt(summary.post_rounding.cv_pct,3)]));L.push(csvRow(["post_rounding_min_fmol",fmt(summary.post_rounding.min_fmol,3)]));L.push(csvRow(["post_rounding_max_fmol",fmt(summary.post_rounding.max_fmol,3)]));return L.join(CRLF)+CRLF}
+function buildPredilutionCsv(pred){let L=[csvRow(["sample","source_well","dest_rack","dest_well","step","dilution_factor","stock_library_uL","diluent_uL","final_volume_uL","new_nM"])];pred.forEach(p=>L.push(csvRow([p.name,p.source_well,p.dest_rack,p.dest_well,p.total_steps>1?`Step ${p.step} of ${p.total_steps}`:"1",fmt(p.dilution_factor,3),fmt(p.stock_ul,1),fmt(p.diluent_ul,1),fmt(p.final_volume_ul,1),fmt(p.new_molarity_nm,3)])));return L.join(CRLF)+CRLF}
+function buildInputsCsv(st){let L=[csvRow(["source_well","name","mode","conc_reads_ng_ul","size_bp","direct_nm"])];(st.samples||[]).forEach(s=>L.push(csvRow([s.source_well||"",s.name||"",s.mode||"mass",s.conc_reads||"",s.size||"",s.direct_nm||""])));L.push("");L.push(csvRow(["# parameters"]));["run_name","operator","kit_lot","method","pool_goal","target_nm","total_fmol","total_volume_ul","layout","min_transfer_ul","round_step_ul","excess_pct","source_rack","dest_rack","buffer_pos","pool_well","low_vol_mode","max_well_cap_ul","dil_rack","dil_start_well"].forEach(k=>L.push(csvRow([k,st[k]||""])));return L.join(CRLF)+CRLF}
+function buildInputsTxt(st){let L=["epMotion pooling input record","exported "+new Date().toISOString().slice(0,19),"","Run: "+(st.run_name||"-"),"Operator: "+(st.operator||"-"),"Platform: "+(presetLoadingLabel(st)||"-"),"Pool mode: "+(st.pool_goal||"nm"),"Target: "+(st.pool_goal==="fmol"?(st.total_fmol||"-")+" fmol":(st.target_nm||"-")+" nM"),"Volume: "+(st.total_volume_ul||"-")+" µL","Layout: "+(st.layout||"-"),""];(st.samples||[]).forEach((s,i)=>L.push(`${i+1}. ${s.source_well||""} ${s.name||""} ${s.mode||"mass"} ${s.conc_reads||""} ${s.size||""} ${s.direct_nm||""}`));return L.join("\n")+"\n"}
+function parseCsv(text){let rows=[],row=[],field="",q=false;for(let i=0;i<text.length;i++){let c=text[i];if(q){if(c==='"'){if(text[i+1]==='"'){field+='"';i++}else q=false}else field+=c}else if(c==='"')q=true;else if(c===","){row.push(field);field=""}else if(c==="\n"){row.push(field);rows.push(row);row=[];field=""}else if(c!=="\r")field+=c}if(field!==""||row.length){row.push(field);rows.push(row)}return rows}
+function findHeader(rows){const keys=["sample","name","conc","concentration","molarity","size","bp"];for(let i=0;i<Math.min(rows.length,30);i++){let h=rows[i].map(x=>String(x).toLowerCase());let score=h.reduce((a,c)=>a+(keys.some(k=>c.includes(k))?1:0),0);if(score>=2)return i}return 0}
+function colIndex(header,patterns){for(let i=0;i<header.length;i++){let h=header[i].toLowerCase().trim();if(patterns.some(p=>h.includes(p)))return i}return-1}
+function readSamplesCsv(text){let rows=parseCsv(text).filter(r=>r.some(c=>String(c).trim()!==""));if(!rows.length)throw new Error("No rows found.");let hi=findHeader(rows),header=rows[hi];let iName=colIndex(header,["sample name","sample","name","well position"]);let iWell=colIndex(header,["well","position"]);let iConc=colIndex(header,["conc","ng/µl","ng/ul","ng/"]);let iSize=colIndex(header,["size","bp","fragment"]);let iNm=colIndex(header,["nm","molarity"]);if(iName<0)throw new Error("Could not identify a sample/name column.");let out=[];for(let r=hi+1;r<rows.length;r++){let cells=rows[r];if((cells[0]||"").trim().startsWith("#"))break;let name=(cells[iName]||"").trim();if(!name||name.startsWith("#"))continue;let well=iWell>=0?(cells[iWell]||"").trim():"";let conc=iConc>=0?(cells[iConc]||"").trim():"";let size=iSize>=0?(cells[iSize]||"").trim():"";let nm=iNm>=0?(cells[iNm]||"").trim():"";let mode=nm?"molar":"mass";out.push({source_well:well,name,mode,conc_reads:conc,size:size?Number(size):null,direct_nm:nm?Number(nm):null})}if(!out.length)throw new Error("No usable sample rows found.");return out}
+return{PRESETS,WELLS,fmt,autoName,presetLoadingLabel,missingForQuick,missingForQuickPool,missingForCompute,prepareSamples,computeQuickPool,buildQuickPoolCsv,computePool,buildCsvs,buildDilutionWorklist,buildWorksheet,buildPredilutionCsv,computeStandaloneDilution,buildDilutionPlanCsv,computeDilutionList,buildDilutionListCsv,buildInputsCsv,buildInputsTxt,readSamplesCsv,parseReads}
+})();
+if(typeof document!=="undefined")(function(){
+const $=id=>document.getElementById(id),STORE="epmotion_pool_state_v2";
+function esc(s){return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function val(id){return $(id).value}
+function numOrNull(v){v=String(v||"").trim();return v===""?null:Number(v)}
+function buildPlatformOptions(){let sel=$("platform");Object.entries(PoolCore.PRESETS).forEach(([k,p])=>{let o=document.createElement("option");o.value=k;o.textContent=p.label;sel.appendChild(o)})}
+function buildPresetOptions(platform,keep){let sel=$("preset");sel.innerHTML="";let p=PoolCore.PRESETS[platform];if(!p){sel.disabled=true;$("presetNote").textContent="";return}sel.disabled=false;Object.entries(p.options).forEach(([k,o])=>{let opt=document.createElement("option");opt.value=k;opt.textContent=o.loading;sel.appendChild(opt)});sel.value=keep&&p.options[keep]?keep:p.default;applyPresetNote()}
+function applyPresetNote(){let plat=val("platform"),key=val("preset"),o=plat&&PoolCore.PRESETS[plat]&&PoolCore.PRESETS[plat].options[key];$("presetNote").textContent=o?o.note:""}
+function togglePoolGoal(){let isFmol=val("poolGoal")==="fmol";$("targetNmBox").style.display=isFmol?"none":"";$("totalFmolBox").style.display=isFmol?"":"none"}
+function toggleQuickPoolMode(){let isTotal=val("quickPoolMode")==="total";$("quickPerSampleBox").style.display=isTotal?"none":"";$("quickTotalBox").style.display=isTotal?"":"none"}
+function addRow(s={}){let tb=$("sampleBody"),i=tb.children.length;let tr=document.createElement("tr");let mode=s.mode||val("defaultMode")||"mass",well=s.source_well||PoolCore.WELLS[i]||"";tr.innerHTML=`<td class="idx"></td><td><input class="c-well" value="${esc(well)}"></td><td><input class="c-name" value="${esc(s.name||"")}" placeholder="name/number"></td><td><select class="c-mode"><option value="mass">ng/µL + bp</option><option value="molar">direct nM</option></select></td><td><input class="c-conc" value="${esc(s.conc_reads||"")}" placeholder="23.1, 23.8"></td><td class="num"><input class="c-size" type="number" step="any" min="0" value="${esc(s.size??$("sharedSize").value??"")}"></td><td class="num"><input class="c-nm" type="number" step="any" min="0" value="${esc(s.direct_nm??"")}"></td><td><button class="btn sm rm">✕</button></td>`;tb.appendChild(tr);tr.querySelector(".c-mode").value=mode;tr.querySelector(".rm").addEventListener("click",()=>{tr.remove();renumber();persist();refresh()});tr.querySelectorAll("input,select").forEach(inp=>inp.addEventListener("input",()=>{resizeSampleNameInput(tr);persist();refresh()}));resizeSampleNameInput(tr);renumber()}
+function resizeSampleNameInput(tr){let inp=tr.querySelector(".c-name");if(!inp)return;let len=(inp.value||inp.placeholder||"").length;let px=Math.min(320,Math.max(150,Math.round(len*8.5+36)));inp.style.width=px+"px"}
+function updateSampleSummary(st=null){st=st||collectState();let vals=[];(st.samples||[]).forEach(s=>{if((s.mode||"mass")==="mass"){let reads=PoolCore.parseReads(s.conc_reads||"");if(reads.length)vals.push(reads.reduce((a,b)=>a+b,0)/reads.length)}});let set=(id,text)=>{let el=$(id);if(el)el.textContent=text};set("summaryCount",(st.samples||[]).length);set("summaryMassCount",vals.length);if(vals.length){let avg=vals.reduce((a,b)=>a+b,0)/vals.length;let min=Math.min(...vals),max=Math.max(...vals);set("summaryAvgConc",PoolCore.fmt(avg,2)+" ng/µL");set("summaryConcRange",PoolCore.fmt(min,2)+"-"+PoolCore.fmt(max,2)+" ng/µL")}else{set("summaryAvgConc","-");set("summaryConcRange","-")}}
+function renumber(){[...$("sampleBody").children].forEach((tr,i)=>tr.querySelector(".idx").textContent=i+1)}
+function collectState(){let samples=[...$("sampleBody").children].map(tr=>({source_well:tr.querySelector(".c-well").value.trim(),name:tr.querySelector(".c-name").value.trim(),mode:tr.querySelector(".c-mode").value,conc_reads:tr.querySelector(".c-conc").value.trim(),size:numOrNull(tr.querySelector(".c-size").value),direct_nm:numOrNull(tr.querySelector(".c-nm").value)})).filter(s=>s.name||s.conc_reads||s.direct_nm||s.size);return{version:2,run_name:val("runName").trim(),operator:val("operator").trim(),kit_lot:val("kitLot").trim(),method:val("method").trim(),notes:val("notes").trim(),platform:val("platform")||null,preset:val("platform")?val("preset"):null,pool_goal:val("poolGoal")||"nm",target_nm:numOrNull(val("target")),total_fmol:numOrNull(val("totalFmol")),total_volume_ul:numOrNull(val("volume")),layout:val("layout")||null,min_transfer_ul:numOrNull(val("minTransfer")),round_step_ul:numOrNull(val("roundStep")),excess_pct:numOrNull(val("excessPct")),source_rack:numOrNull(val("sourceRack")),dest_rack:numOrNull(val("destRack")),buffer_pos:val("bufferPos"),pool_well:val("poolWell"),low_vol_mode:val("lowVolMode"),predilution_volume_ul:numOrNull(val("predilutionVol")),predilution_margin_pct:numOrNull(val("predilutionMargin")),tip_mode:val("tipMode"),quick_pool_mode:val("quickPoolMode")||"per_sample",quick_fmol_per_sample:numOrNull(val("quickFmolPerSample")),quick_total_fmol:numOrNull(val("quickTotalFmol")),quick_round_step_ul:numOrNull(val("quickRoundStep")),max_well_cap_ul:numOrNull(val("maxWellCap")),dil_rack:numOrNull(val("dilRack")),dil_start_well:val("dilStartWell"),samples}}
+function loadState(st){["runName","operator","kitLot","method","notes"].forEach(id=>$(id).value=st[id.replace(/[A-Z]/g,m=>"_"+m.toLowerCase())]||"");$("platform").value=st.platform&&PoolCore.PRESETS[st.platform]?st.platform:"";buildPresetOptions($("platform").value,st.preset);$("poolGoal").value=st.pool_goal||"nm";$("target").value=st.target_nm??"";$("totalFmol").value=st.total_fmol??"";togglePoolGoal();$("volume").value=st.total_volume_ul??"";$("layout").value=st.layout||"";$("minTransfer").value=st.min_transfer_ul??1;$("roundStep").value=st.round_step_ul??0.1;$("excessPct").value=st.excess_pct??0;$("sourceRack").value=st.source_rack??1;$("destRack").value=st.dest_rack??1;$("bufferPos").value=st.buffer_pos||"1";$("poolWell").value=st.pool_well||"A1";$("lowVolMode").value=st.low_vol_mode||"warn";$("predilutionVol").value=st.predilution_volume_ul??10;$("predilutionMargin").value=st.predilution_margin_pct??10;$("tipMode").value=st.tip_mode||"auto";$("quickPoolMode").value=st.quick_pool_mode||"per_sample";$("quickFmolPerSample").value=st.quick_fmol_per_sample??"";$("quickTotalFmol").value=st.quick_total_fmol??"";$("quickRoundStep").value=st.quick_round_step_ul??0.1;$("maxWellCap").value=st.max_well_cap_ul??200;$("dilRack").value=st.dil_rack??1;$("dilStartWell").value=st.dil_start_well||"A2";toggleQuickPoolMode();$("sampleBody").innerHTML="";(st.samples||[]).forEach(addRow);refresh()}
+function refresh(){let st=collectState(),molMiss=PoolCore.missingForQuick(st),quickPoolMiss=PoolCore.missingForQuickPool(st),poolMiss=PoolCore.missingForCompute(st),el=$("status");if(!poolMiss.length){el.className="ok";el.textContent="Ready for worklists"}else if(!quickPoolMiss.length){el.className="ok";el.textContent="Ready for quick pool"}else if(!molMiss.length){el.className="pending";el.textContent="Molarity ready · add quick/full pool target"}else{el.className="pending";el.textContent=molMiss.length+" sample item(s) to fill"}updateSampleSummary(st);renderLivePlate()}
+function persist(){try{localStorage.setItem(STORE,JSON.stringify(collectState()))}catch(e){}setDirty(true)}
+function download(fn,text,mime="text/csv"){let blob=new Blob([text],{type:mime+";charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=fn;document.body.appendChild(a);a.click();setTimeout(()=>{a.remove();URL.revokeObjectURL(url)},200)}
+function showMessages(msgs){$("messages").innerHTML=msgs.map(m=>`<div class="msg ${m.kind}">${esc(m.text)}</div>`).join("")}
+
+function calculateMolarities(){let st=collectState(),miss=PoolCore.missingForQuick(st);if(miss.length){showMessages([{kind:"warn",text:"Still needed for molarity calculation: "+miss.join("; ")}]);$("results").innerHTML="";return}try{let samples=PoolCore.prepareSamples(st.samples);let dups=[];let seen=new Set();samples.forEach(s=>{let n=(s.name||"").toLowerCase();if(n&&seen.has(n))dups.push(s.name);seen.add(n)});if(dups.length)throw new Error("Duplicate sample name(s): "+dups.join(", "));showMessages([{kind:"good",text:"Molarities calculated from the Sample section only. Add create-pool parameters when you are ready to generate epMotion worklists."}]);renderMolarityResults(samples)}catch(e){showMessages([{kind:"bad",text:e.message}]);$("results").innerHTML=""}}
+function quickPool(){let st=collectState(),miss=PoolCore.missingForQuickPool(st);if(miss.length){showMessages([{kind:"warn",text:"Still needed for Quick Pool: "+miss.join("; ")}]);$("results").innerHTML="";return}try{let res=PoolCore.computeQuickPool(st.samples,st);showMessages([{kind:"good",text:"Quick pool table calculated. This is a manual pooling table only; it does not create epMotion worklists."}]);renderQuickPoolResults(st,res.samples,res.summary)}catch(e){showMessages([{kind:"bad",text:e.message}]);$("results").innerHTML=""}}
+function renderQuickPoolResults(st,samples,summary){let prefix=PoolCore.autoName(st,"quick_pool"),csv=PoolCore.buildQuickPoolCsv(samples,summary);let h=`<h3>Quick pool table</h3><p class="hint">Manual pooling mode. No platform, preset, layout, rack, destination, or buffer settings are required.</p><p><span class="pill">Target ${PoolCore.fmt(summary.fmol_per_sample,3)} fmol/sample</span><span class="pill">Total ${PoolCore.fmt(summary.total_fmol,3)} fmol</span><span class="pill">CV ${PoolCore.fmt(summary.cv_pct,3)}%</span><span class="pill">Min/Max ${PoolCore.fmt(summary.min_fmol,3)} / ${PoolCore.fmt(summary.max_fmol,3)} fmol</span></p>`;h+='<table><thead><tr><th>Well</th><th>Name</th><th>Molarity nM</th><th>Target fmol</th><th>Raw µL</th><th>Rounded µL</th><th>Actual fmol</th><th>Tip</th></tr></thead><tbody>';samples.forEach(s=>{h+=`<tr><td>${esc(s.source_well)}</td><td>${esc(s.name)}</td><td>${PoolCore.fmt(s.molarity_nm,3)}</td><td>${PoolCore.fmt(summary.fmol_per_sample,3)}</td><td>${PoolCore.fmt(s.quick_raw_ul,3)}</td><td><b>${PoolCore.fmt(s.quick_rounded_ul,1)}</b></td><td>${PoolCore.fmt(s.quick_actual_fmol,3)}</td><td>${esc(s.quick_tip)}</td></tr>`});h+='</tbody></table>';h+=renderPlate(samples);h+=`<div class="bar no-print"><button class="btn secondary" id="dlQuickCsv">Download quick pool CSV</button><button class="btn" id="printBtn">Print / Save PDF</button><span class="hint">Prefix: <code>${esc(prefix)}</code></span></div>`;$("results").innerHTML=h;$("dlQuickCsv").addEventListener("click",()=>download(prefix+".csv",csv));$("printBtn").addEventListener("click",()=>window.print())}
+function renderMolarityResults(samples){let h='<h3>Quick molarity check</h3><p class="hint">This uses only the Sample section. No pooling volumes are calculated here.</p>';h+='<table><thead><tr><th>Well</th><th>Name</th><th>Mode</th><th>Avg ng/µL</th><th>SD ng/µL</th><th>Size bp</th><th>Molarity nM</th></tr></thead><tbody>';samples.forEach(s=>{h+=`<tr><td>${esc(s.source_well)}</td><td>${esc(s.name)}</td><td>${esc(s.mode)}</td><td>${s.conc_avg==null?"":PoolCore.fmt(s.conc_avg,2)}</td><td>${s.conc_sd==null?"":PoolCore.fmt(s.conc_sd,2)}</td><td>${s.size||""}</td><td><b>${PoolCore.fmt(s.molarity_nm,3)}</b></td></tr>`});h+='</tbody></table>';h+=renderPlate(samples);h+='<p class="hint">To create a pool, fill the required Create Pool parameters and click Generate worklists.</p>';$("results").innerHTML=h}
+function generate(){let st=collectState(),miss=PoolCore.missingForCompute(st);if(miss.length){showMessages([{kind:"warn",text:"Still needed: "+miss.join("; ")}]);$("results").innerHTML="";return}try{let res=PoolCore.computePool(st.samples,st);let msgs=res.summary.warnings.map(w=>({kind:"warn",text:w}));if(res.summary.volume_bumped)msgs.unshift({kind:"good",text:`Final volume was auto-bumped from ${PoolCore.fmt(res.summary.total_volume_ul,1)} µL to ${PoolCore.fmt(res.summary.final_total_volume_ul,1)} µL to satisfy the minimum transfer volume.`});showMessages(msgs);renderResults(st,res.samples,res.summary)}catch(e){showMessages([{kind:"bad",text:e.message}]);$("results").innerHTML=""}}
+function shortName(name){name=String(name||"").trim();if(!name)return "";return name.length>8?name.slice(0,8):name}
+function renderPlateMap(samples,title="Source rack plate map"){let used=new Map();(samples||[]).forEach((s,i)=>{let w=(s.source_well||PoolCore.WELLS[i]||"").trim().toUpperCase();if(w)used.set(w,s.name||`sample_${i+1}`)});let rows="ABCDEFGH".split("");let h=`<h3>${esc(title)}</h3><div class="plate-map-wrap"><div class="plate-map"><div></div>`;for(let c=1;c<=12;c++)h+=`<div class="plate-label">${c}</div>`;for(let r of rows){h+=`<div class="plate-row-label">${r}</div>`;for(let c=1;c<=12;c++){let w=r+c,n=used.get(w)||"";h+=`<div class="plate-well ${n?"used":"empty"}" title="${esc(w+(n?': '+n:''))}"><span class="well-code">${w}</span><span class="well-name">${esc(shortName(n))}</span></div>`}}h+=`</div></div><div class="plate-key"><span><i class="key-dot used"></i>Selected source well</span><span><i class="key-dot"></i>Empty</span></div>`;return h}
+function renderPlate(samples){return renderPlateMap(samples,"Source rack plate map")}
+function renderLivePlate(){let st=collectState();$('livePlate').innerHTML=renderPlateMap(st.samples,"")+'<div class="hint" style="margin-top:6px">Sample names appear inside their selected source wells. Long names are shortened on the map; hover to see the full name.</div>'}
+function addDilRow(s={}){let tb=$("dilBody"),i=tb.children.length,tr=document.createElement("tr");tr.innerHTML=`<td class="idx">${i+1}</td><td><input class="d-name" value="${esc(s.name||"")}" placeholder="sample ${i+1}"></td><td class="num"><input class="d-stock" type="number" step="any" min="0" value="${esc(s.stock??"")}" placeholder="stock"></td><td class="num"><input class="d-target" type="number" step="any" min="0" value="${esc(s.target??"")}" placeholder="default"></td><td class="num"><input class="d-final" type="number" step="any" min="0" value="${esc(s.final??"")}" placeholder="default"></td><td><button class="btn sm d-rm" title="remove">✕</button></td>`;tb.appendChild(tr);tr.querySelector(".d-rm").addEventListener("click",()=>{tr.remove();renumberDil()})}
+function renumberDil(){[...$("dilBody").children].forEach((tr,i)=>tr.querySelector(".idx").textContent=i+1)}
+function collectDilSamples(){let dt=val("dilTarget").trim(),dv=val("dilFinalVol").trim();return [...$("dilBody").children].map(tr=>({name:tr.querySelector(".d-name").value.trim(),stock:tr.querySelector(".d-stock").value.trim(),target:tr.querySelector(".d-target").value.trim()||dt,final_vol:tr.querySelector(".d-final").value.trim()||dv})).filter(s=>s.stock!=="")}
+function calcStandaloneDilution(){let samples=collectDilSamples();if(!samples.length){$("dilResults").innerHTML='<div class="msg warn">Add at least one sample with a stock concentration.</div>';return}let o={unit:val("dilUnit"),min_transfer_ul:val("dilMinT"),max_well_cap_ul:val("dilMaxCap"),round_step_ul:val("dilRoundStep")};let list=PoolCore.computeDilutionList(samples,o);renderDilutionList(list,val("dilUnit"))}
+function renderDilutionList(list,unit){let u=esc(unit),totalDil=0,nSerial=0,nErr=0;list.forEach(r=>{if(r.ok){if(r.steps.length>1)nSerial++;totalDil+=r.total_diluent_ul}else nErr++});let h=`<div class="msg ${nErr?'warn':'good'}">${list.length} sample(s) · total diluent ≈ ${PoolCore.fmt(totalDil,1)} µL${nSerial?` · ${nSerial} need serial dilution`:""}${nErr?` · ${nErr} with errors`:""}.</div>`;h+=`<table><thead><tr><th>Sample</th><th>Stock ${u}</th><th>Target ${u}</th><th>Step</th><th>Factor</th><th>DNA µL</th><th>Diluent µL</th><th>Final µL</th></tr></thead><tbody>`;list.forEach(r=>{if(!r.ok){h+=`<tr><td>${esc(r.name)}</td><td>${esc(String(r.stock??""))}</td><td>${esc(String(r.target??""))}</td><td colspan="5" class="danger">${esc(r.error)}</td></tr>`;return}r.steps.forEach((s,si)=>{h+="<tr>";if(si===0){h+=`<td rowspan="${r.steps.length}">${esc(r.name)}</td><td rowspan="${r.steps.length}">${PoolCore.fmt(r.stock,2)}</td><td rowspan="${r.steps.length}">${PoolCore.fmt(r.target,2)}</td>`}h+=`<td>${s.total_steps>1?`${s.step} of ${s.total_steps}`:"1"}</td><td>${PoolCore.fmt(s.dilution_factor,2)}×</td><td><b>${PoolCore.fmt(s.stock_ul,1)}</b></td><td><b>${PoolCore.fmt(s.diluent_ul,1)}</b></td><td>${PoolCore.fmt(s.final_volume_ul,1)}</td></tr>`})});h+=`</tbody></table><div class="bar no-print"><button class="btn secondary" id="dilDownload">Download dilution list CSV</button><span class="hint">For serial rows: dilute step 1, mix, then use it as the stock for step 2.</span></div>`;$("dilResults").innerHTML=h;$("dilDownload").addEventListener("click",()=>download("dilution_list.csv",PoolCore.buildDilutionListCsv(list,unit)))}
+function renderResults(st,samples,summary){let prefix=PoolCore.autoName(st,"pool"),files={},csvs=PoolCore.buildCsvs(samples,summary,st);files[`${prefix}_DNA.csv`]=csvs.DNA;files[`${prefix}_Buffer.csv`]=csvs.Buffer;files[`${prefix}_pooling_worksheet.csv`]=PoolCore.buildWorksheet(samples,summary,st);files[`${prefix}_inputs.csv`]=PoolCore.buildInputsCsv(st);if(summary.predilutions.length){files[`${prefix}_predilution_plan.csv`]=PoolCore.buildPredilutionCsv(summary.predilutions);files[`${prefix}_Dilution.csv`]=PoolCore.buildDilutionWorklist(summary.predilutions,st);}
+let ph=`<h2>epMotion Equimolar Pooling Worklist</h2><div class="meta"><b>Run:</b> ${esc(st.run_name||prefix)} &nbsp;·&nbsp; <b>Operator:</b> ${esc(st.operator||"-")} &nbsp;·&nbsp; <b>Kit lot:</b> ${esc(st.kit_lot||"-")}<br><b>Generated:</b> ${esc(new Date().toLocaleString())} &nbsp;·&nbsp; <b>Platform:</b> ${esc(PoolCore.presetLoadingLabel(st)||"-")} &nbsp;·&nbsp; <b>Layout:</b> ${esc(summary.layout)}<br><b>Target:</b> ${PoolCore.fmt(summary.target_nm)} nM / ${PoolCore.fmt(summary.total_fmol,2)} fmol total in ${PoolCore.fmt(summary.final_total_volume_ul,1)} µL &nbsp;·&nbsp; <b>Per sample target:</b> ${PoolCore.fmt(summary.fmol_per_sample,2)} fmol &nbsp;·&nbsp; <b>Samples:</b> ${summary.n}<br><b>Post-rounding CV:</b> ${PoolCore.fmt(summary.post_rounding.cv_pct,3)}% &nbsp;·&nbsp; <b>Min/Max fmol:</b> ${PoolCore.fmt(summary.post_rounding.min_fmol,3)} / ${PoolCore.fmt(summary.post_rounding.max_fmol,3)}</div>`;$("printHeader").innerHTML=ph;
+let h=ph.replace("<h2>","<h3>").replace("</h2>","</h3>");h+=`<p><span class="pill">Post-rounding CV ${PoolCore.fmt(summary.post_rounding.cv_pct,3)}%</span><span class="pill">Spread ${PoolCore.fmt(summary.post_rounding.spread_pct,3)}%</span><span class="pill">Buffer ${PoolCore.fmt(summary.buffer_total_ul,1)} µL</span></p>`;
+h+='<h3>Pooling table</h3><table><thead><tr><th>Well</th><th>Name</th><th>Input nM</th><th>Effective nM</th><th>Raw µL</th><th>Rounded µL</th><th>Actual fmol</th><th>Buffer µL</th><th>Tip</th></tr></thead><tbody>';
+samples.forEach(s=>{h+=`<tr><td>${esc(s.source_well)}</td><td>${esc(s.name)}${s.prediluted?' <span class="pill">pre-diluted</span>':''}</td><td>${PoolCore.fmt(s.molarity_nm,2)}</td><td>${PoolCore.fmt(s.effective_molarity_nm,2)}</td><td>${PoolCore.fmt(s.sample_ul,3)}</td><td>${PoolCore.fmt(s.round_sample_ul,1)}</td><td>${PoolCore.fmt(s.actual_fmol,3)}</td><td>${s.round_buffer_ul==null?'pooled':PoolCore.fmt(s.round_buffer_ul,1)}</td><td>${esc(s.tip)}</td></tr>`});
+h+='</tbody></table>';
+if(summary.predilutions.length){h+='<h3>Pre-dilution plan</h3><table id="predilTable"><thead><tr><th>Sample</th><th>Source well</th><th>Dest rack</th><th>Dest well</th><th>Step</th><th>Dilution factor</th><th>Stock µL</th><th>Diluent µL</th><th>Final µL</th><th>New nM</th></tr></thead><tbody>';summary.predilutions.forEach((p,i)=>h+=`<tr data-idx="${i}"><td>${esc(p.name)}</td><td>${esc(p.source_well)}</td><td><input class="p-rack" type="number" min="1" value="${esc(p.dest_rack)}" style="width:50px"></td><td><input class="p-well" value="${esc(p.dest_well)}" style="width:60px"></td><td><span class="pill">${p.total_steps>1?`Step ${p.step} of ${p.total_steps}`:"1"}</span></td><td>${PoolCore.fmt(p.dilution_factor,3)}×</td><td>${PoolCore.fmt(p.stock_ul,1)}</td><td>${PoolCore.fmt(p.diluent_ul,1)}</td><td>${PoolCore.fmt(p.final_volume_ul,1)}</td><td>${PoolCore.fmt(p.new_molarity_nm,3)}</td></tr>`);h+='</tbody></table>'}
+h+=renderPlate(samples);
+h+=`<div class="bar no-print">${summary.predilutions.length?'<button class="btn primary" id="updatePredilBtn" style="background:#005c99;border-color:#004d80">Update Custom Wells</button> ':''}<button class="btn primary" id="dlAll">Download all files</button><button class="btn" id="printBtn">Print / Save PDF</button><span class="hint">Prefix: <code>${esc(prefix)}</code></span></div><div class="downloads">`;Object.keys(files).forEach(fn=>h+=`<a href="#" data-fn="${esc(fn)}">${esc(fn)}</a>`);h+='</div><p class="hint">'+(summary.predilutions.length?'Run order on the epMotion: <strong>Dilution.csv</strong> first (the method mixes each well), then <strong>DNA.csv</strong>, then <strong>Buffer.csv</strong>. Pooling draws from the diluted wells.':'Load <strong>DNA.csv</strong> then <strong>Buffer.csv</strong> into the epMotion run.')+'</p>';$("results").innerHTML=h;
+if($("updatePredilBtn"))$("updatePredilBtn").addEventListener("click",()=>{[...$("predilTable").querySelectorAll("tbody tr")].forEach(tr=>{let idx=Number(tr.getAttribute("data-idx")),p=summary.predilutions[idx];p.dest_rack=Number(tr.querySelector(".p-rack").value);p.dest_well=tr.querySelector(".p-well").value.trim();if(p.step<p.total_steps){summary.predilutions[idx+1].source_well=p.dest_well}else{let s=samples.find(x=>x.name===p.name);if(s){s.final_dilution_rack=p.dest_rack;s.final_dilution_well=p.dest_well}}});renderResults(st,samples,summary)});$("dlAll").addEventListener("click",()=>{let i=0;Object.entries(files).forEach(([fn,txt])=>setTimeout(()=>download(fn,txt),(i++)*250))});$("printBtn").addEventListener("click",()=>window.print());$("results").querySelectorAll(".downloads a").forEach(a=>a.addEventListener("click",ev=>{ev.preventDefault();let fn=a.getAttribute("data-fn");download(fn,files[fn])}))}
+
+const DETAILED_GUIDE_PDF_B64 = "JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOSAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA4IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9Db250ZW50cyAxMCAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA4IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago2IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgOCAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0F1dGhvciAoXChhbm9ueW1vdXNcKSkgL0NyZWF0aW9uRGF0ZSAoRDoyMDI2MDYyMzA5MTgwOSswMCcwMCcpIC9DcmVhdG9yIChcKHVuc3BlY2lmaWVkXCkpIC9LZXl3b3JkcyAoKSAvTW9kRGF0ZSAoRDoyMDI2MDYyMzA5MTgwOSswMCcwMCcpIC9Qcm9kdWNlciAoUmVwb3J0TGFiIFBERiBMaWJyYXJ5IC0gXChvcGVuc291cmNlXCkpIAogIC9TdWJqZWN0IChcKHVuc3BlY2lmaWVkXCkpIC9UaXRsZSAoXChhbm9ueW1vdXNcKSkgL1RyYXBwZWQgL0ZhbHNlCj4+CmVuZG9iago4IDAgb2JqCjw8Ci9Db3VudCAyIC9LaWRzIFsgNCAwIFIgNSAwIFIgXSAvVHlwZSAvUGFnZXMKPj4KZW5kb2JqCjkgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMjk2OQo+PgpzdHJlYW0KR2IhO2ZoL2hVNyVZKWYzSlg7aXRIYVpzXltjTWtIYV8hSlltNTRcVHBHdEJXMD00RW5DKylxUDswTGEwXiZUSFZHMmZcYmxKOjVAUmtbVk0iOUIpLyFFXWs7cjovImczIUZPZ0pOI00vR1duZ2BpLlhvM1BAKjhIalBwJmo9MEUkPGE3VFkzIUs5Sm0tUTddSyU7LV0qJjRNJFJOWWRaUF8jUElpKVFXYEMsakV1XE9DIWVscHUmYytKb0JqQ09sSG11R0NdOkspLWxiMTxwRShibkdbZCZVZiZsTVQ7PDVuRnE9VzQsM1M0clIvQEdYKy8tSF8mX1spNjVKKCM8XGgwc2VyOmw6SiotaVVxNiR1KnI3I1xQSl51KUVfTkpEYG5cOXU9UzkqQ20nWTZBInNUaEsoUjBMSVVyR0AhVFhrIy1iPTRPSXIjKEhkLXBIQFY/PSshPix0YVRVXFRLbUxQPyk5Yl9zXnRzQWBlVXBDIiVKTiFGTVU/V0NGNW1AKCUvXlFPbSxFS2tpYSxJO0kiViNfI2FeX1kjRUEpJC5eSzIwTjB0NW04MkFPTzBpYDdKPSpOUk0lQystQz5cUkgsOUdMS0FxQkcnaVknO2lgLyE8K1ZEVW0wbVVCYT1DL2Q5XzohPC9PIkpRJilROysqW01BNlJGXFU9V1pIWkI/P2s4Xj1eajFEIS1IQkc+MGBwYkxnL19RWyheO1QwVWlNXVhGUm8jRnVKSFctTlRNblwxZVtZP2VXWTtldEBtV2FNLHFaLiReISUvYVRAR2o7NFdVQzY2b0NnQ0BQai0hKWU4c1BvK19BSiFWXmY1YUJWWGIkT0s3RWMkcjpDXF9lbEA7IUxnbVgkVVgoO2wmKkNWN2pMWWpvb2RETj1ALXJVLzkvW0MxPnMoPzBwKWp1amIoc2BqXWBGTz90MEtRU2gpVGtgSjUlTlBCZ19WOlJxaFxwJTo0JUQtM2hQMlRAZHVMLiNUaGpTSVVjKTEhcGhcYFhMTFVsV2hBPFhZTWRWPTBIaEIwOjpeVjE0dEY4UXF1PjBfPmheclE3N11AVE1oU00nLW83aVFzW1hcNS9zSDlEc09UQ1VRKjhuZF9eNzMnUTA5MzdjYyQwbGMkXkolMlYuNkdpSihmXW1EPVNwbW9Va1BGKEgjcjRrXFtVUFhvKzRrYGtsYkhFRE1HaXNZU1g9IVFkXlpMSSg+VDgtRlVnMkstU29kMCRiN0giak43LVgnUGVkcm46LSghS3NRIikiXFdwUXM3KyVkUCh0UkduITd0UkkmRDYjRTgoZicvKFNzKSIyOnREWFkqX2hENSpZNztvJ0xMLiU/PDJmaXEnR1Y/YFlIS1MqPzFnRDpORyNzVEU9WiFjNEROPl89czBQOzZAXClWbF9OWk9FUkJxZChcUGEuIjE7YDZcIjY7X1puNSMsTEchTz8ocltHVkxeJ0M7aVJdQ1tpV04kOFo4ME5sNlJTWyNeQGVnKS1FJmk7UGIqWnVyNVhWMD48XFJxViYpP2lzPjNxdWFXIUh0L2xnSWdvLzJSNmVQYmdrOVZWK2dyYDY9ZSJLPmk1TVdPPE9KV1d0IlNkTCN0QW08b15lKlMwI1E6OigvbzwoZzwvbzhtVD8tQjQvJnI8TUM6MTNxIzc9KSRpKU9rOVJdME0/YjMnMjd0UGRoSjZtcj0vaF4wcit0YEJFXWQsUTwtUDBNUy5vY2s5NztdIlNeLVZJJiU8cjwtU0NdSkdcYSpkNSRQYGxecjpuSGgucG1vJkBBIXAzVSkpV0tdO3I1K3E0MSE+ZDBjbHMoRDkocWg1XTssQm5aNy9XLDlIaV43P2AxJnBwYSJtMCpwQzRLXkdVLCFccFwyK2ZkazRlO3BmNUEzPEEmVz1ATGEiYylFN0BRKD9KTHBgOyk8ZD1FKzhyPmVcbF07KSo4a2dJKCY1NVVUY0woUl5FNVoqPHBEWDdbZ2M8SE1ZZks0P1xMVD8lUkZcWjImKmI2J2gvUC8+MEgxcU8/TGY1TVZaJW1mclMvVlMnckdybi0lXGFvQkMwSWlPc1w+T1JUbmQuOV8lJi5QP2lha3EtKUQjZmM0ajknTEAqcDInZVAoM0xGL0UqUz9JaEQjZzdCX185LWViPlxqXCZHLj9JLV1OKSJXJHNvTilFdCFGN0ohVixAUyUmYzQtMyZxVCJQXyhpdT5CTTE1WFQjJFNIJyI/KU05SVg4VVktTEBYP2BwKkxtJS45SSNhUVZoN21NYklSPy86RmBLc2pqTCdfTXQlVSthXiYpbjIlcFFtLWc3bV5EITtNOU9CV0ZFaSNrVE5VSjZzJjxbJTE9UidLaV5ZY1leOHU0OUk2TlomcmM4XDIuJVJpLXAzWSdIdEVfUmVlbkBIKWJoLWlYWWgjc1B1TWJaYDtPZlxYWFM8SSRwKm1jOFhyTF04I2lJclJNQCg3SGgzdGBSVDRZTT0uKGFiY1VoQ0ZqXWBfW0NIY1pFUTQ2NkRuXC1XUiJKZDMpLlY0NSZcPitUOjRRLG0jbiIxTFRfQjBCXTRcT0shKFJSTiozOko3TFpIMUIuJSFrQDdPai1RJDw7VlpUPltncUUtS11BTSQ9MT5kRVtbQCpbXW4zPjZuOzouKTVsLSdsZVBySWphISNKb15HYWlBbmhYK2snOl9DciVbPiYhSXNGJ0BPPlZzM15vMipXYE5TdTdkQ2BMV2FDRDg3UStwYzhXSVJUJyFHWiErVU1kdDVXME9QS0hmMCldNCdiSVUlKCVWRk8uc2hTZWtAbDdnLzRQNFhyX2hCSmA/UUcwbkolImNNPV5sazFpUjo0aXRTRTNmYUs1KTA/U1xGOV8iM1opOiphTiYsUW89WjxNYE1DLTFCNlpyQyk9UTxwUCI/OG9pMFhfQ0wiOU49Z0NMaj1tYmRyXyp0RWI5Z2hOOUJtczJ0cD5BVU5pW2JMbTVBTFg0R05EYzlcNlFrKTkpRU5iMT86ZmhRJDtQSi9VUTskRk1da2U0WHNlT2BgKTlGJGkqIW1pYTtNXmFTciFbTFlxRDspajNBL1RZNlhoXWxCKU0yKkRHMF5hQD1AKWlNMF1PIl5jOU45b3IsK2g5NlJUYVMyPzdVIkcnTGElI1RZSVpQYC1mJylEQjIrZjhoXUg8VF1QUkFybyZkKSlmX1NCTWQ6OlJIOVUqUiU9NG9cKzIsdXRZbExRTl9lJUUyPz46IS1dXUVEI3NNRSkwLGdjSDhUQlAuZUVJa1ckUT9iOiYrYy4wX0gja1QtUHFmLU5kQydfMmB1TnBzLWspa1ReN0pRKVUoP2cjNi1nYkh0Q11FOj9hLltMPj1EcydHX18wQ21RTyVaZDJvPWY4OT48SkRGckwxJ0VtR1BXXVFJZTpJXGcwcCMkbFklN1xeYCpOaTJZOzQ1Pk1EPls/RVVFImo3cXNVITJJJ25CYDZFNHNHYDcyYDdaczApbERWSSQrPWczOkE/QzNFKFdHUlptV0dPQis2NlgzTlEkK3VlYiNiNDoxYWghOGg5LWBUNHJSZCJmaEdBdT9IIiksXTNcOlxrZkc1O3QqM09SNydSLjhfaUEnRCY6REBJLHNqa0lWXmhsJjpzRSEhclJAQkVeSUdBcTojY21aTEFWLFMoSzVhQjhMZzVjQm8qNFdzRS8wVmMsYWJPb0EpUU0hay1FbkxNcDhbNSI+U0EtSkZiVjUoMzslI2ZAQXAyazlqI14wWnInOidoQm5DLyxbTEdkPD1gdTlgRTJhYFkyYi1mak9LNCdnSHRwcVQxKkQoWWNuKVZWdCcmOVMsWFlbMlFLamU5alVlSTJJIld1aEpzcC9hX15cYnBqXkUtN3BCVmVnKVwpNSpRKiVqXEAhUHRHNkQsM0pwKXBZSUQ5QkxrRCM4MFIuUyoxWnM8TSdRLWxTcSdLKE8xb0gjWGEiQUVNNio8fj5lbmRzdHJlYW0KZW5kb2JqCjEwIDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDIzNjYKPj4Kc3RyZWFtCkdhdG09PWEvVy8mcTlTWVIpZHUnUmhnNT1vVmtGMlpvcS5NYDRHPmFdKkJOJyRUNUJuVWZJMEBwQi5vc04/dXNmTzVqPVYwRk1MMUhwYUE9cHAmKkQ4UFxvJDhfNjJbQTM3LydQTzJLby9Vc1BpYkRXUD9HLjVxKT06PGpvSTB1YWJNRiVoYT1MQW9uJ0tJNDtOYmM4Izk5cEFgU25qUCZeQXBvUk9RJ0ErL1RdIVArQENYNSdPVCUuaiZ1I19XVSRpNGFrJ2VnLDJyUXFqZSZwWDo8V1pyVDRgNk8+XEIzMEtkUUMtakM8W1VdLGs2RFdvVVBkJVFzRFteVzYjPmdMSjNyaipOTGBaIkU0ZWx1c2ZHPmVIIy5JJSJYQTE2MDFiTm8lcj1cZUMsJi9COzFXI3JJRSgqRldgQFhRXEQoSy9dT1VaYicxSC9ENklNMnQ3ZWlKUyNSYjg4PycrQC41OXMvQjxWJmY8WUVkX2VLZkFWJ1Q0QychYTQwclRXWV5WZlVXR0RQPDNRcWhTSlNNXGdPVjlcLztHYkU9Ml4yNWNMSGBoXVFQMmBhKkduLzNNTz0pZ1o/T1pjUlRpSDMtMi5jWz1MO0BAImgub1EvUy5WNV8xRFxbVUM7LEhmMVUwaCpJOyxQby84P1IpSjwwXyQsKkRVaD46aXMuY1QsV25UY24tTTtZZzxnTGhPMjgxUzFcR0NfX1E6KDs7PipwPGo1VCFvT24vJ1lIMi5YV2pqPilnOUhtOFdscXRcO0g4SSUxT0VQTFFIMnQnRFFjKjVbZVA1N0opQ0tzZy4/ZFluZlxbSFNlLDZiTSNHYTliIWFnbGFZTWwrYTNrKWtkYCRQVEE0XkZvRDVTQVVgPGhgXWs8JkMoPlhwXjM9azBoIkd1PCYmXUFLZllzJykpJ2JcWV5TcEpcbktYdEZHM1pPRD5IJyVeX205NEssLS8rTClUNzZJRDUrdXRkOm9aND0tUnIkISNmInMqWUQ0IVowLUtUWSFyXGlgJ1BaYTFkN25qa2tuKWpAbyksaWxoKUpaPjtMN0N0XSllRFNjVjA4WF9XV2xoNEA1LGVGImxHTD1QYSFyIiNMNGlxbG5PRUNrSV5KSzRgV21dZGwjclxuLjdkVFtgMiFdPEk8SCRBOCxcQjtUQlc7SWpOOj9kZS9HSUFUQ1NvWUJNcHQvQWE4cFNZQSZHLS1OWWVgKEhcLzRXVWtuSGJUTzpBdXA3KCZPU0YyUl0kPWQlNWlkaiszU05LPikzVz44U3VWUC5JQWYtcy9TSmBuV1pGRy1YYEA0ZU9PUGVvQTAtSVRtQkYpYGdOPzldP1A8KkJoQTM0ZSY9Y3EnKyUjQk80Jkc9I2oxPjssXmo+bzNsVWhMXSYmKmZiJWxhY1JGOkpgNUxJL0ZVOHRUR1RERFhlcmNxcEA/Rl1MUDtGYVVCVFQ/U0E8aDFsYy9oRyZAbS9VL1daJGsyYSk7VV5XXW5RRWcoSFdSW1tOJlxOVSFFJz0qZXUlU1Q/PmlcPjNvMD43XUxdby1tISo+NGQnY1sja2ZadU9pI2tKbjQhYi9PMkJgI0NMPTM4X0tPYmRxM2wyR2tmclZtK0tTaGRGJGEqZ1U3OCM8MmlEUVciPjJjPThPU1dSViwpX0swK09uND5WclVdTztaY1lRWElNcjFyaiFqLEV0OUQqb2lHKF87bEpvMDEoXmpsclRqbGVrbnI7TS9FJztDcWwvMTgnVklzJyptNCY7LidROWtlKidBYjJHQDoxcFlGXE9lNyosJyhwTSdJUF0lYDpdWjVVQjQ8MFQiPCpRLDppImhuNFg8IjchPWQmPzYncEpKL1lKO25XYnNubEVXc3UrWGtCQXBuUW43OV5FNzRBTz4+KVcxUGQhT15HOWg6QWJbLm0wU1g0VTwpaS1sbiFLT0FvMCVOVlRtMXVaW0djTCJYbWhrRjtBVFNWcm5RUzlcLHRHWz5CbVJZS1xMZGg8bipVSWZRJ1FIRDZJTygnSWltQjd1Y1ZcIisqYyJrWmMrOigsWU5EQGIjLVUnRHNfP3E3W1xKRlwuazoyMF9cZC02KUwtQmVQc00iJ1w5OmA8amlxZDJnTSJxZl5cQTFXWzFqaWEqPE1sVlk4M09RIVIoZi84MEVhRGhJPmNfLzdEST0sWTZXIkM5XCpycVw2NShSVj0oUE09UGpIOT9pJ3EnbjshZCRKWEQqLid1VFBab1g0OGZSPEQkUUE9byJiXikyLywiTHI3W2ZgOkpMJ3A3ayIvLFMkPEVaWk48LEM7RCY8PTJ1LVNIZychbydgIzAmK2JHQFttWyxVa3VGVk8pIyFoaWtYLEs8JSxBJHUoWEdRXz02P0lwOG5gJDwxPiIqZUAzJlw/Q3JwdSUyJUA4RCYrOz9WPVxfKzkuVkVZZyU/X1pDYXVTSFYsdS4pPzVFPT5NQSFJaStHbCxII1tWPzY6NmJvbitbMCRiXFB0NnQiRUVBLXByczMnLGFeaj9gYCsjbDZXLiFpQnI4KlNqSkdVWjVkZiRWL1ouNjdvZz8iSScpZCpbSEFlL1lfRC9SQkdfUUNoKlVkPVJuYEVMYTZVSklWVUBnTlhgIzVQOzVZVUhSc0tAJihFQEM9Z2pOV0puRyk9M0tqdHUxPWxaWG8tW2Y8NjlYOSsoXmckUWM1KSdDZ3FETGspakdOQVttZlw0NlYsdDQyRzdjLUE3OTQqL2MzaFBnOlohTzRnSWJXLU1SQmc3cWxlRidPLDcnQFxJU1c5IyZUc1VNJi0nSSliTz1DJnNVOyoraVhPV0o4UCNQLl9kX0ctNkVhVGM3Oi9RP1c/NjUxT2NeVEE3RDtDL0hGLjpuMV4/Wz81QTMmRz5TJi1HP1Y9MzEuaD5uKTR1MEBMVl1cRVdAIkhTMF0tPjQ3SnJBa1QjUiNiLEsoRidhZU5fZWglNSFsXztHSnFBJUFdVVQ6KlxaYWVtdCU1M1xGaXNbNjlNW1dLRGlhZiIkbD9oUk5Ec0AqaCt0Vk4xZ0ZgN0ZnVGkxaVwnMjVGVCtKM1laNz1ncyZyNCEvXFNeZEFgQUBIamJJazdhIiRKcGxxbCckImMiLlttL2MvMyQ1KmRKLFdZbyckO2JESldCJj5MKUZSXWxbLmBQWn4+ZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgMTEKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDYxIDAwMDAwIG4gCjAwMDAwMDAxMDIgMDAwMDAgbiAKMDAwMDAwMDIwOSAwMDAwMCBuIAowMDAwMDAwMzIxIDAwMDAwIG4gCjAwMDAwMDA1MjQgMDAwMDAgbiAKMDAwMDAwMDcyOCAwMDAwMCBuIAowMDAwMDAwNzk2IDAwMDAwIG4gCjAwMDAwMDEwNzYgMDAwMDAgbiAKMDAwMDAwMTE0MSAwMDAwMCBuIAowMDAwMDA0MjAxIDAwMDAwIG4gCnRyYWlsZXIKPDwKL0lEIApbPGRjNDA2NGRiYzVhY2I5OWJhMDNiZDU2ZTJjMmQwZDA1PjxkYzQwNjRkYmM1YWNiOTliYTAzYmQ1NmUyYzJkMGQwNT5dCiUgUmVwb3J0TGFiIGdlbmVyYXRlZCBQREYgZG9jdW1lbnQgLS0gZGlnZXN0IChvcGVuc291cmNlKQoKL0luZm8gNyAwIFIKL1Jvb3QgNiAwIFIKL1NpemUgMTEKPj4Kc3RhcnR4cmVmCjY2NTkKJSVFT0YK";
+function downloadDetailedGuidePdf(){let bin=atob(DETAILED_GUIDE_PDF_B64),bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);let blob=new Blob([bytes],{type:"application/pdf"});let url=URL.createObjectURL(blob);let a=document.createElement("a");a.href=url;a.download="epMotion_Pooling_Helper_Detailed_User_Guide.pdf";document.body.appendChild(a);a.click();setTimeout(()=>{a.remove();URL.revokeObjectURL(url)},300)}
+buildPlatformOptions();
+$("platform").addEventListener("change",()=>{buildPresetOptions(val("platform"));let p=PoolCore.PRESETS[val("platform")];if(p){let def=p.options[p.default];$("target").value=def.target_nm;$("volume").value=def.volume_ul}persist();refresh()});
+$("preset").addEventListener("change",()=>{applyPresetNote();let plat=val("platform"),o=plat&&PoolCore.PRESETS[plat].options[val("preset")];if(o){$("target").value=o.target_nm;$("totalFmol").value=PoolCore.fmt(o.target_nm*o.volume_ul,2);$("volume").value=o.volume_ul}persist();refresh()});
+$("poolGoal").addEventListener("change",()=>{togglePoolGoal();persist();refresh()});$("quickPoolMode").addEventListener("change",()=>{toggleQuickPoolMode();persist();refresh()});
+["runName","operator","kitLot","method","notes","poolGoal","target","totalFmol","volume","layout","minTransfer","roundStep","excessPct","sourceRack","destRack","bufferPos","poolWell","lowVolMode","predilutionVol","predilutionMargin","tipMode","quickFmolPerSample","quickTotalFmol","quickRoundStep"].forEach(id=>$(id).addEventListener("input",()=>{persist();refresh()}));
+$("addRow").addEventListener("click",()=>{addRow();persist();refresh()});$("calcMolarities").addEventListener("click",calculateMolarities);$("quickPoolBtn").addEventListener("click",quickPool);$("quickPoolBtnBar").addEventListener("click",quickPool);$("generate").addEventListener("click",generate);$("dilCalcBtn").addEventListener("click",calcStandaloneDilution);$("dilAddRow").addEventListener("click",()=>addDilRow());addDilRow();
+$("exportCsv").addEventListener("click",()=>{let st=collectState();download(PoolCore.autoName(st,"inputs")+".csv",PoolCore.buildInputsCsv(st))});
+$("exportTxt").addEventListener("click",()=>{let st=collectState();download(PoolCore.autoName(st,"inputs")+".txt",PoolCore.buildInputsTxt(st),"text/plain")});
+$("saveRun").addEventListener("click",()=>{let st=collectState();download(PoolCore.autoName(st,"run")+".json",JSON.stringify(st,null,2),"application/json")});
+$("openRun").addEventListener("click",()=>$("openRunFile").click());$("openRunFile").addEventListener("change",ev=>{let f=ev.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{loadState(JSON.parse(r.result));showMessages([{kind:"good",text:"Loaded run "+f.name}]);setDirty(false);hideBanner()}catch(e){showMessages([{kind:"bad",text:"Could not open run: "+e.message}])}};r.readAsText(f);ev.target.value=""});
+$("importCsv").addEventListener("click",()=>$("importCsvFile").click());$("importCsvFile").addEventListener("change",ev=>{let f=ev.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let s=PoolCore.readSamplesCsv(r.result);s.forEach(addRow);persist();refresh();showMessages([{kind:"good",text:`Imported ${s.length} sample(s) from ${f.name}`}])}catch(e){showMessages([{kind:"bad",text:"Import failed: "+e.message}])}};r.readAsText(f);ev.target.value=""});
+$("templateBtn").addEventListener("click",()=>download("pooling_samples_template.csv","source_well,name,mode,conc_reads_ng_ul,size_bp,direct_nm\r\nA1,sample_1,mass,\"23.1,23.8\",400,\r\nB1,sample_2,molar,,,4.2\r\n"));
+function clearMeta(){["runName","operator","kitLot","method","notes"].forEach(id=>$(id).value="");persist();refresh()}
+function clearPoolParams(){$("platform").value="";buildPresetOptions("");$("poolGoal").value="nm";togglePoolGoal();$("target").value="";$("totalFmol").value="";$("volume").value="";$("layout").value="";$("minTransfer").value=1;$("roundStep").value=0.1;$("excessPct").value=0;$("sourceRack").value=1;$("destRack").value=1;$("bufferPos").value="1";$("poolWell").value="A1";$("lowVolMode").value="warn";$("predilutionVol").value=10;$("predilutionMargin").value=10;$("tipMode").value="auto";$("maxWellCap").value=200;$("dilRack").value=1;$("dilStartWell").value="A2";persist();refresh()}
+function clearQuick(){$("quickPoolMode").value="per_sample";toggleQuickPoolMode();$("quickFmolPerSample").value="";$("quickTotalFmol").value="";$("quickRoundStep").value=0.1;persist();refresh()}
+function clearSamplesOnly(){$("sampleBody").innerHTML="";addRow();persist();refresh()}
+function clearDilOnly(){$("dilBody").innerHTML="";addDilRow();$("dilUnit").value="nM";$("dilTarget").value="";$("dilFinalVol").value="";$("dilMinT").value=1;$("dilMaxCap").value=200;$("dilRoundStep").value=0.1;$("dilResults").innerHTML=""}
+function clearAllPage(){clearMeta();clearPoolParams();clearQuick();clearSamplesOnly();clearDilOnly();$("messages").innerHTML="";$("results").innerHTML="";$("printHeader").innerHTML="";clearRecovery();hideBanner();setDirty(false)}
+$("newRun").addEventListener("click",()=>{if(!confirm("Clear the whole page and start fresh? Unsaved entries will be lost."))return;clearAllPage()});
+$("clrMeta").addEventListener("click",clearMeta);$("clrPool").addEventListener("click",clearPoolParams);$("clrQuick").addEventListener("click",clearQuick);$("clrSamples").addEventListener("click",clearSamplesOnly);$("clrDil").addEventListener("click",clearDilOnly);
+function runTopAction(buttonId){let b=$(buttonId);if(b)b.click();setTimeout(()=>{let target=$("messages").innerHTML?$("messages"):($("results").innerHTML?$("results"):$("sampleTable"));target.scrollIntoView({behavior:"smooth",block:"start"})},80)}
+$("flowCalc").addEventListener("click",()=>runTopAction("calcMolarities"));
+$("flowQuick").addEventListener("click",()=>runTopAction("quickPoolBtnBar"));
+$("flowGenerate").addEventListener("click",()=>runTopAction("generate"));
+$("openGuide").addEventListener("click",downloadDetailedGuidePdf);
+$("closeGuide").addEventListener("click",()=>{$("guidePanel").hidden=true});
+$("printGuide").addEventListener("click",downloadDetailedGuidePdf);
+toggleQuickPoolMode();
+// --- Fresh start every open, with explicit Save + a recovery safety net ---
+let dirty=false;
+function setDirty(v){dirty=!!v}
+function hasData(st){if(!st)return false;let s=(st.samples||[]).some(x=>x&&(x.name||x.conc_reads||x.direct_nm||x.size));return s||!!st.run_name||!!st.operator}
+function clearRecovery(){try{localStorage.removeItem(STORE)}catch(e){}}
+function hideBanner(){let b=$("recoveryBanner");if(b){b.hidden=true;b.innerHTML=""}}
+function showRecoveryBanner(snap){let b=$("recoveryBanner");if(!b)return;b.innerHTML='⟳ Unsaved work from your last session was found. <button class="btn sm" id="recRestore" type="button">Restore it</button> <button class="btn sm" id="recDismiss" type="button">Start fresh</button>';b.hidden=false;$("recRestore").addEventListener("click",()=>{loadState(snap);setDirty(true);hideBanner();showMessages([{kind:"good",text:"Previous session restored. Remember to Save run to keep it."}])});$("recDismiss").addEventListener("click",()=>{clearRecovery();setDirty(false);hideBanner()})}
+function startFresh(){let snap=null;try{snap=JSON.parse(localStorage.getItem(STORE)||"null")}catch(e){}$("sampleBody").innerHTML="";addRow();refresh();setDirty(false);if(snap&&hasData(snap))showRecoveryBanner(snap)}
+// Save run clears the dirty flag and the recovery snapshot (work is now in a file)
+$("saveRun").addEventListener("click",()=>{setDirty(false);clearRecovery();hideBanner()});
+$("saveRunSamples").addEventListener("click",()=>$("saveRun").click());
+// Warn before leaving with unsaved entries (accidental close protection)
+window.addEventListener("beforeunload",e=>{if(dirty&&hasData(collectState())){e.preventDefault();e.returnValue=""}});
+startFresh();
+})();
+</script>
+
+<script>
+(function(){
+  function resizeNameInput(input){
+    if(!input || !input.classList || !input.classList.contains('c-name')) return;
+    const base = 160;
+    const max = 360;
+    const text = input.value || input.placeholder || '';
+    const wanted = Math.min(max, Math.max(base, text.length * 8 + 42));
+    input.style.width = wanted + 'px';
+  }
+  function resizeAll(){
+    document.querySelectorAll('#sampleTable .c-name').forEach(resizeNameInput);
+  }
+  document.addEventListener('input', function(e){
+    if(e.target && e.target.classList && e.target.classList.contains('c-name')) resizeNameInput(e.target);
+  });
+  document.addEventListener('click', function(e){
+    if(e.target && e.target.id === 'addRow') setTimeout(resizeAll, 0);
+  });
+  window.addEventListener('load', resizeAll);
+  setTimeout(resizeAll, 100);
+})();
+</script>
+</body>
+</html>

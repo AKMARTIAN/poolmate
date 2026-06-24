@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>epMotion Equimolar Pooling Helper</title>
+<style>
+  :root { --fg:#1d2733; --muted:#667; --line:#d9dee5; --bg:#f6f8fa;
+          --accent:#2563eb; --good:#0a7a3b; --warn:#b8860b; --bad:#c0392b; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+         color: var(--fg); margin: 0; background: #fff; line-height: 1.4; }
+  header { background: var(--bg); border-bottom: 1px solid var(--line);
+           padding: 14px 20px; }
+  header h1 { font-size: 18px; margin: 0; }
+  header p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+  main { max-width: 980px; margin: 0 auto; padding: 18px 20px 60px; }
+  fieldset { border: 1px solid var(--line); border-radius: 8px;
+             margin: 0 0 16px; padding: 12px 14px; }
+  legend { font-weight: 600; font-size: 13px; padding: 0 6px; color: var(--muted); }
+  label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 3px; }
+  input, select { font: inherit; padding: 6px 8px; border: 1px solid var(--line);
+                  border-radius: 6px; background: #fff; }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+  .row > div { flex: 1 1 130px; }
+  .note { font-size: 12px; color: var(--muted); margin-top: 8px; min-height: 1.2em; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid var(--line); padding: 4px 6px; text-align: left; font-size: 13px; }
+  th { background: var(--bg); }
+  td input { width: 100%; border: none; padding: 4px; }
+  td.num input { text-align: right; }
+  .btn { font: inherit; padding: 7px 12px; border: 1px solid var(--line);
+         background: #fff; border-radius: 6px; cursor: pointer; }
+  .btn:hover { background: var(--bg); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn.primary:hover { filter: brightness(1.07); }
+  .btn.sm { padding: 3px 8px; font-size: 12px; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; }
+  .spacer { flex: 1; }
+  #status { font-size: 13px; font-weight: 600; }
+  .ok { color: var(--good); } .pending { color: var(--warn); } .err { color: var(--bad); }
+  pre { background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+        padding: 12px; overflow-x: auto; font-size: 12.5px; white-space: pre; }
+  .msg { padding: 10px 12px; border-radius: 8px; margin: 10px 0; font-size: 13px; }
+  .msg.bad { background: #fdecea; color: var(--bad); border: 1px solid #f5c6cb; }
+  .msg.warn { background: #fff8e1; color: var(--warn); border: 1px solid #f0e0a0; }
+  .downloads a { margin-right: 10px; }
+  .hint { font-size: 12px; color: var(--muted); }
+  .danger { color: var(--bad); }
+  #printHeader { display: none; }
+  #printHeader h2 { margin: 0 0 4px; font-size: 18px; }
+  #printHeader .meta { font-size: 12.5px; color: var(--muted); }
+  #printHeader .meta b { color: var(--fg); font-weight: 600; }
+  @media print {
+    header, main > fieldset, .bar, #messages, .no-print { display: none !important; }
+    main { max-width: none; margin: 0; padding: 0; }
+    #printHeader { display: block; margin-bottom: 10px; }
+    #results h3 { margin-top: 10px; }
+    th { background: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    tr { page-break-inside: avoid; }
+    a[data-fn] { display: none !important; }
+    .downloads { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>epMotion Equimolar Pooling Helper</h1>
+  <p>Pools sequencing libraries to equal moles and writes the Eppendorf epMotion
+     <code>DNA.csv</code> / <code>Buffer.csv</code> worklists. Runs entirely in
+     your browser — nothing is uploaded. Your work auto-saves locally.</p>
+</header>
+<main>
+
+  <fieldset>
+    <legend>Run parameters (all optional — fill in later if you like)</legend>
+    <div class="row">
+      <div>
+        <label>Platform</label>
+        <select id="platform"><option value="">(not set)</option></select>
+      </div>
+      <div>
+        <label>Loading preset</label>
+        <select id="preset"></select>
+      </div>
+      <div>
+        <label>Target pool nM</label>
+        <input id="target" type="number" step="any" min="0" placeholder="e.g. 4">
+      </div>
+      <div>
+        <label>Total volume µL</label>
+        <input id="volume" type="number" step="any" min="0" placeholder="e.g. 50">
+      </div>
+      <div>
+        <label>Layout</label>
+        <select id="layout">
+          <option value="">(not set)</option>
+          <option value="one-tube">one-tube (all into one well)</option>
+          <option value="normalize">normalize (each in its own well)</option>
+        </select>
+      </div>
+    </div>
+    <div id="presetNote" class="note"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Samples — record names + concentrations first; size optional</legend>
+    <div class="row" style="margin-bottom:10px;">
+      <div style="flex:0 0 auto;">
+        <label>Shared fragment size (bp), optional</label>
+        <input id="sharedSize" type="number" step="any" min="0" style="width:160px"
+               placeholder="applies to new rows">
+      </div>
+      <div style="flex:0 0 auto; align-self:flex-end;">
+        <button class="btn" id="addRow">+ Add sample</button>
+      </div>
+    </div>
+    <table id="sampleTable">
+      <thead><tr>
+        <th style="width:34px">#</th><th>Name / number</th>
+        <th style="width:140px">Conc (ng/µL)</th>
+        <th style="width:120px">Size (bp)</th>
+        <th style="width:60px"></th>
+      </tr></thead>
+      <tbody id="sampleBody"></tbody>
+    </table>
+  </fieldset>
+
+  <div class="bar">
+    <button class="btn" id="importCsv">Import CSV…</button>
+    <input type="file" id="importCsvFile" accept=".csv,text/csv" hidden>
+    <button class="btn" id="exportCsv">Export contents (CSV)</button>
+    <button class="btn" id="exportTxt">Export contents (TXT)</button>
+    <button class="btn" id="saveRun">Save run (JSON)</button>
+    <button class="btn" id="openRun">Open run…</button>
+    <input type="file" id="openRunFile" accept=".json,application/json" hidden>
+    <button class="btn" id="templateBtn">Blank CSV template</button>
+    <button class="btn" id="newRun">New / clear</button>
+    <span class="spacer"></span>
+    <span id="status"></span>
+    <button class="btn primary" id="generate">Generate worklists</button>
+  </div>
+
+  <div id="messages"></div>
+  <div id="printHeader"></div>
+  <div id="results"></div>
+
+  <fieldset style="margin-top:20px;">
+    <legend>About the numbers</legend>
+    <p class="hint">
+      Molarity: <code>nM = conc(ng/µL) × 10⁶ / (660 × size_bp)</code> (660 g/mol per
+      dsDNA base pair; 1 nM = 1 fmol/µL). Each sample contributes equal moles:
+      <code>fmol/sample = target_nM × volume / n</code>,
+      <code>sample_µL = fmol/sample ÷ molarity</code>; buffer tops up to target.
+      Presets are vendor starting points (Illumina 2–4 nM pooling stock; ONT
+      SQK-LSK114/R10.4.1 by fmol) — confirm against your own SOP. Downloaded
+      files are prefixed with a unique pool-concentration + timestamp name so
+      runs never collide in your Downloads folder.
+    </p>
+  </fieldset>
+</main>
+
+<script>
+// ===PoolCore START===  (DOM-free logic; mirrors pooling_core.py)
+const PoolCore = (function () {
+  const TOOL = "TS_50", SOURCE_RACK = 1, DEST_RACK = 1,
+        BUFFER_SOURCE_POS = "1", POOL_WELL = "A1",
+        MIN_PIPETTE_UL = 1.0, DECIMALS = 1, MW_PER_BP = 660.0;
+
+  const ROWS = "ABCDEFGH";
+  const WELLS = [];
+  for (let c = 1; c <= 12; c++) for (const r of ROWS) WELLS.push(r + c);
+
+  const PRESETS = {
+    illumina: {
+      label: "Illumina",
+      default: "pool_4nM",
+      options: {
+        pool_4nM: { target_nm: 4.0, volume_ul: 50.0, loading: "4 nM pooling stock",
+          note: "Illumina standard: pool/normalize libraries to a 4 nM stock for "
+            + "denature & dilute (preferred 2–4 nM). Final on-instrument loading is a "
+            + "separate dilution: MiSeq & NextSeq 500/550 ~20 pM; NovaSeq 6000 ~300 pM "
+            + "(from 1.5 nM); NovaSeq X / X Plus ~300 pM; iSeq 100 denatures onboard." },
+        pool_2nM: { target_nm: 2.0, volume_ul: 50.0, loading: "2 nM pooling stock",
+          note: "2 nM stock — low end of Illumina's 2–4 nM range; good for lower-yield pools." },
+        iseq_1nM: { target_nm: 1.0, volume_ul: 50.0, loading: "1 nM (iSeq 100)",
+          note: "iSeq 100 dilutes the library to ~1 nM; the instrument denatures onboard." }
+      }
+    },
+    ont: {
+      label: "Oxford Nanopore (SQK-LSK114 / R10.4.1)",
+      default: "simplex_50fmol",
+      options: {
+        simplex_50fmol: { target_nm: Math.round(50/12*1000)/1000, volume_ul: 12.0,
+          loading: "50 fmol in 12 µL",
+          note: "High-output simplex: load 35–50 fmol for >95% pore occupancy "
+            + "(MinION/PromethION R10.4.1, SQK-LSK114). 50 fmol in 12 µL ≈ 4.17 nM." },
+        duplex_20fmol: { target_nm: Math.round(20/12*1000)/1000, volume_ul: 12.0,
+          loading: "20 fmol in 12 µL",
+          note: "Optimal duplex: load 10–20 fmol so the flow cell is neither under- "
+            + "nor over-loaded. 20 fmol in 12 µL ≈ 1.67 nM." }
+      }
+    }
+  };
+
+  const isBlank = v => v === null || v === undefined || v === "";
+  function round1(v) { return Math.round(v * 10) / 10; }
+  function fmtNum(v) {
+    if (isBlank(v)) return "";
+    const f = Number(v);
+    if (Number.isNaN(f)) return String(v);
+    return Number.isInteger(f) ? String(f) : String(f);
+  }
+  function ngToNm(conc, size) { return (conc * 1e6) / (MW_PER_BP * size); }
+
+  function presetLoadingLabel(state) {
+    const p = PRESETS[state.platform];
+    if (!p) return null;
+    const o = p.options[state.preset];
+    return o ? `${p.label} / ${o.loading}` : p.label;
+  }
+
+  function pad(n) { return String(n).padStart(2, "0"); }
+  function autoName(state, prefix = "pool") {
+    const tag = isBlank(state.target_nm) ? "draft" : (fmtNum(state.target_nm) + "nM");
+    const d = new Date();
+    const ts = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-`
+             + `${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+    return `${prefix}_${tag}_${ts}`;
+  }
+
+  function missingForCompute(state) {
+    const missing = [];
+    const samples = state.samples || [];
+    if (!samples.length) missing.push("at least one sample");
+    samples.forEach((s, i) => {
+      const tag = s.name || `sample ${i + 1}`;
+      if (isBlank(s.conc)) missing.push(`concentration for ${tag}`);
+      if (isBlank(s.size)) missing.push(`fragment size for ${tag}`);
+    });
+    if (isBlank(state.target_nm)) missing.push("target pool concentration (nM)");
+    if (isBlank(state.total_volume_ul)) missing.push("total pool volume (µL)");
+    if (state.layout !== "one-tube" && state.layout !== "normalize")
+      missing.push("layout (one-tube or normalize)");
+    return missing;
+  }
+
+  function computePool(samplesIn, target_nm, total_volume_ul, layout) {
+    const samples = samplesIn.map(s => Object.assign({}, s));
+    const n = samples.length;
+    if (!n) throw new Error("No samples provided.");
+    target_nm = Number(target_nm); total_volume_ul = Number(total_volume_ul);
+    if (!(target_nm > 0)) throw new Error("Target pool concentration (nM) must be > 0.");
+    if (!(total_volume_ul > 0)) throw new Error("Total pool volume (µL) must be > 0.");
+    if (layout !== "one-tube" && layout !== "normalize")
+      throw new Error("Layout must be 'one-tube' or 'normalize'.");
+
+    for (const s of samples) {
+      if (isBlank(s.conc) || isBlank(s.size))
+        throw new Error(`Sample '${s.name}' is missing a concentration or size.`);
+      s.conc = Number(s.conc); s.size = Number(s.size);
+      if (!(s.conc > 0) || !(s.size > 0))
+        throw new Error(`Sample '${s.name}' has a non-positive conc or size.`);
+      s.molarity_nm = ngToNm(s.conc, s.size);
+    }
+
+    const molarities = samples.map(s => s.molarity_nm);
+    const m_min = Math.min(...molarities);
+    const harmonic = n / molarities.reduce((a, m) => a + 1 / m, 0);
+    const fmol_per_sample = target_nm * total_volume_ul / n;
+
+    let max_target, limit_desc;
+    if (layout === "normalize") {
+      max_target = m_min;
+      limit_desc = `lowest sample molarity (${m_min.toFixed(2)} nM); the per-well `
+                 + `volume cannot hold enough of the most dilute library`;
+    } else {
+      max_target = harmonic;
+      limit_desc = `harmonic mean of sample molarities (${harmonic.toFixed(2)} nM)`;
+    }
+    if (target_nm > max_target + 1e-9) {
+      throw new Error(
+        `Target ${target_nm.toFixed(2)} nM is too high. For this sample set and the `
+        + `'${layout}' layout the maximum achievable pool concentration is `
+        + `${max_target.toFixed(2)} nM (${limit_desc}). Fixes: lower the target nM, `
+        + `increase the total volume, or concentrate/re-quantify the most dilute library.`);
+    }
+
+    for (const s of samples) s.sample_ul = fmol_per_sample / s.molarity_nm;
+    const sum_sample = samples.reduce((a, s) => a + s.sample_ul, 0);
+
+    let buffer_total, well_volume = null;
+    if (layout === "normalize") {
+      well_volume = total_volume_ul / n;
+      for (const s of samples) s.buffer_ul = well_volume - s.sample_ul;
+      buffer_total = samples.reduce((a, s) => a + s.buffer_ul, 0);
+    } else {
+      buffer_total = total_volume_ul - sum_sample;
+      for (const s of samples) s.buffer_ul = null;
+    }
+
+    const warnings = [];
+    for (const s of samples) {
+      if (round1(s.sample_ul) < MIN_PIPETTE_UL)
+        warnings.push(`Sample '${s.name}' needs only ${s.sample_ul.toFixed(2)} µL, `
+          + `below the ${MIN_PIPETTE_UL} µL minimum — it is very concentrated. `
+          + `Consider pre-diluting it or increasing the total pool volume.`);
+    }
+
+    const summary = { n, target_nm, total_volume_ul, layout, fmol_per_sample,
+      sum_sample_ul: sum_sample, buffer_total_ul: buffer_total,
+      max_target_nm: max_target, well_volume_ul: well_volume, warnings };
+    return { samples, summary };
+  }
+
+  // ---- CSV builders (epMotion worklist format, CRLF like Python csv) ----
+  const CRLF = "\r\n";
+  function csvRow(arr) { return arr.join(","); }
+  function buildWorklist(transferRows) {
+    const lines = [];
+    lines.push(csvRow(["Rack","Src.Barcode","Src.List Name","Dest.Barcode","Dest.List Name","","",""]));
+    for (const r of [1,2,3,4]) lines.push(csvRow([r,"","","","","","",""]));
+    lines.push(csvRow(["","","","","","","",""]));
+    lines.push(csvRow(["Barcode ID","Rack","Source","Rack","Destination","Volume","Tool","Name"]));
+    for (const [src, dest, vol, name] of transferRows)
+      lines.push(csvRow(["", SOURCE_RACK, src, DEST_RACK, dest, round1(vol), TOOL, name]));
+    return lines.join(CRLF) + CRLF;
+  }
+  function buildCsvs(samples, summary) {
+    const dna = [], buf = [];
+    if (summary.layout === "one-tube") {
+      samples.forEach((s, i) => dna.push([WELLS[i], POOL_WELL, s.sample_ul, s.name]));
+      buf.push([BUFFER_SOURCE_POS, POOL_WELL, summary.buffer_total_ul, "buffer"]);
+    } else {
+      samples.forEach((s, i) => {
+        dna.push([WELLS[i], WELLS[i], s.sample_ul, s.name]);
+        buf.push([BUFFER_SOURCE_POS, WELLS[i], s.buffer_ul, s.name]);
+      });
+    }
+    return { DNA: buildWorklist(dna), Buffer: buildWorklist(buf) };
+  }
+  function buildWorksheet(samples, summary) {
+    const L = [];
+    L.push(csvRow(["well","name","conc_ng_ul","size_bp","molarity_nM","sample_uL","buffer_uL"]));
+    samples.forEach((s, i) => {
+      const buf = s.buffer_ul === null ? "" : round1(s.buffer_ul);
+      L.push(csvRow([WELLS[i], s.name, s.conc, s.size,
+        Math.round(s.molarity_nm * 100) / 100, round1(s.sample_ul), buf]));
+    });
+    L.push(""); L.push(csvRow(["# summary"]));
+    L.push(csvRow(["layout", summary.layout]));
+    L.push(csvRow(["target_pool_nM", summary.target_nm]));
+    L.push(csvRow(["total_volume_uL", summary.total_volume_ul]));
+    L.push(csvRow(["fmol_per_sample", Math.round(summary.fmol_per_sample * 100) / 100]));
+    L.push(csvRow(["total_sample_uL", round1(summary.sum_sample_ul)]));
+    L.push(csvRow(["total_buffer_uL", round1(summary.buffer_total_ul)]));
+    return L.join(CRLF) + CRLF;
+  }
+  function paramRows(state) {
+    return [
+      ["platform", state.platform || ""], ["preset", state.preset || ""],
+      ["target_nm", fmtNum(state.target_nm)],
+      ["total_volume_ul", fmtNum(state.total_volume_ul)],
+      ["layout", state.layout || ""],
+      ["exported_at", new Date().toISOString().slice(0, 19)]
+    ];
+  }
+  function buildInputsCsv(state) {
+    const L = [csvRow(["name","conc_ng_ul","size_bp"])];
+    for (const s of state.samples || [])
+      L.push(csvRow([s.name || "", fmtNum(s.conc), fmtNum(s.size)]));
+    L.push(""); L.push(csvRow(["# parameters"]));
+    for (const r of paramRows(state)) L.push(csvRow(r));
+    return L.join(CRLF) + CRLF;
+  }
+  function buildInputsTxt(state) {
+    const L = ["epMotion pooling — input record",
+      "exported " + new Date().toISOString().slice(0, 19), ""];
+    L.push("Platform : " + (presetLoadingLabel(state) || "(not set)"));
+    L.push("Target   : " + (fmtNum(state.target_nm) || "-") + " nM");
+    L.push("Volume   : " + (fmtNum(state.total_volume_ul) || "-") + " µL");
+    L.push("Layout   : " + (state.layout || "(not set)"));
+    L.push("");
+    L.push("Name".padEnd(22) + "ng/µL".padStart(10) + "bp".padStart(10));
+    L.push("-".repeat(42));
+    for (const s of state.samples || [])
+      L.push((s.name || "").slice(0, 21).padEnd(22)
+        + (fmtNum(s.conc) || "-").padStart(10) + (fmtNum(s.size) || "-").padStart(10));
+    const miss = missingForCompute(state);
+    if (miss.length) { L.push("", "Still needed before generating worklists:");
+      miss.forEach(m => L.push("  - " + m)); }
+    else L.push("", "Ready to generate worklists.");
+    return L.join("\n") + "\n";
+  }
+
+  // ---- minimal CSV parser for import (handles quoted fields) ----
+  function parseCsv(text) {
+    const rows = []; let row = [], field = "", q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else q = false; }
+        else field += c;
+      } else if (c === '"') q = true;
+      else if (c === ",") { row.push(field); field = ""; }
+      else if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
+      else if (c === "\r") { /* skip */ }
+      else field += c;
+    }
+    if (field !== "" || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+  function readSamplesCsv(text) {
+    const rows = parseCsv(text).filter(r => r.length && r.some(c => c.trim() !== ""));
+    if (!rows.length) throw new Error("No rows in CSV.");
+    const header = rows[0].map(h => h.trim().toLowerCase());
+    const iName = header.indexOf("name");
+    if (iName < 0) throw new Error("CSV needs a 'name' column. Found: " + header.join(","));
+    const iConc = header.indexOf("conc_ng_ul"), iSize = header.indexOf("size_bp");
+    const out = [];
+    for (let r = 1; r < rows.length; r++) {
+      const cells = rows[r];
+      const first = (cells[0] || "").trim();
+      const name = (cells[iName] || "").trim();
+      if (first.startsWith("#") || name.startsWith("#")) break;  // params block
+      const conc = iConc >= 0 ? (cells[iConc] || "").trim() : "";
+      const size = iSize >= 0 ? (cells[iSize] || "").trim() : "";
+      if (!name && !conc && !size) continue;
+      out.push({ name: name || ("sample_" + (out.length + 1)),
+                 conc: conc === "" ? null : Number(conc),
+                 size: size === "" ? null : Number(size) });
+    }
+    if (!out.length) throw new Error("No sample rows found.");
+    return out;
+  }
+
+  return { PRESETS, WELLS, TOOL, POOL_WELL, MIN_PIPETTE_UL, round1, fmtNum, ngToNm,
+    presetLoadingLabel, autoName, missingForCompute, computePool, buildCsvs,
+    buildWorksheet, buildInputsCsv, buildInputsTxt, readSamplesCsv, parseCsv };
+})();
+// ===PoolCore END===
+
+// ---------------- UI (browser only) ----------------
+if (typeof document !== "undefined") (function () {
+  const $ = id => document.getElementById(id);
+  const STORE = "epmotion_pool_state_v1";
+
+  function buildPlatformOptions() {
+    const sel = $("platform");
+    for (const [k, p] of Object.entries(PoolCore.PRESETS)) {
+      const o = document.createElement("option"); o.value = k; o.textContent = p.label;
+      sel.appendChild(o);
+    }
+  }
+  function buildPresetOptions(platform, keep) {
+    const sel = $("preset"); sel.innerHTML = "";
+    const p = PoolCore.PRESETS[platform];
+    if (!p) { sel.disabled = true; $("presetNote").textContent = ""; return; }
+    sel.disabled = false;
+    for (const [k, o] of Object.entries(p.options)) {
+      const opt = document.createElement("option"); opt.value = k; opt.textContent = o.loading;
+      sel.appendChild(opt);
+    }
+    sel.value = keep && p.options[keep] ? keep : p.default;
+    applyPresetNote();
+  }
+  function applyPresetNote() {
+    const plat = $("platform").value, key = $("preset").value;
+    const o = plat && PoolCore.PRESETS[plat] && PoolCore.PRESETS[plat].options[key];
+    $("presetNote").textContent = o ? o.note : "";
+  }
+
+  function addRow(name = "", conc = "", size = "") {
+    const tb = $("sampleBody");
+    const tr = document.createElement("tr");
+    tr.innerHTML =
+      `<td class="idx"></td>` +
+      `<td><input class="c-name" value="${escapeHtml(name)}" placeholder="name/number"></td>` +
+      `<td class="num"><input class="c-conc" type="number" step="any" min="0" value="${escapeAttr(conc)}"></td>` +
+      `<td class="num"><input class="c-size" type="number" step="any" min="0" value="${escapeAttr(size)}"></td>` +
+      `<td><button class="btn sm rm">✕</button></td>`;
+    tb.appendChild(tr);
+    tr.querySelector(".rm").addEventListener("click", () => { tr.remove(); renumber(); persist(); refresh(); });
+    tr.querySelectorAll("input").forEach(inp =>
+      inp.addEventListener("input", () => { persist(); refresh(); }));
+    renumber();
+  }
+  function renumber() {
+    [...$("sampleBody").children].forEach((tr, i) =>
+      tr.querySelector(".idx").textContent = i + 1);
+  }
+  function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+  function escapeAttr(s){ return s === null || s === undefined ? "" : escapeHtml(s); }
+
+  function collectState() {
+    const samples = [...$("sampleBody").children].map(tr => ({
+      name: tr.querySelector(".c-name").value.trim(),
+      conc: valOrNull(tr.querySelector(".c-conc").value),
+      size: valOrNull(tr.querySelector(".c-size").value)
+    })).filter(s => s.name || s.conc !== null || s.size !== null);
+    return {
+      version: 1,
+      platform: $("platform").value || null,
+      preset: $("platform").value ? ($("preset").value || null) : null,
+      target_nm: valOrNull($("target").value),
+      total_volume_ul: valOrNull($("volume").value),
+      layout: $("layout").value || null,
+      samples
+    };
+  }
+  function valOrNull(v){ v = (v||"").trim(); return v === "" ? null : Number(v); }
+
+  function loadState(st) {
+    $("platform").value = st.platform && PoolCore.PRESETS[st.platform] ? st.platform : "";
+    buildPresetOptions($("platform").value, st.preset);
+    $("target").value = st.target_nm == null ? "" : st.target_nm;
+    $("volume").value = st.total_volume_ul == null ? "" : st.total_volume_ul;
+    $("layout").value = st.layout || "";
+    $("sampleBody").innerHTML = "";
+    (st.samples || []).forEach(s => addRow(s.name || "",
+      s.conc == null ? "" : s.conc, s.size == null ? "" : s.size));
+    refresh();
+  }
+
+  function refresh() {
+    const st = collectState();
+    const miss = PoolCore.missingForCompute(st);
+    const el = $("status");
+    if (miss.length) { el.className = "pending"; el.textContent = miss.length + " item(s) to fill"; }
+    else { el.className = "ok"; el.textContent = "Ready to generate"; }
+  }
+  function persist() {
+    try { localStorage.setItem(STORE, JSON.stringify(collectState())); } catch (e) {}
+  }
+
+  function download(filename, text, mime = "text/csv") {
+    const blob = new Blob([text], { type: mime + ";charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+    setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 200);
+  }
+
+  function showMessages(msgs) {
+    $("messages").innerHTML = msgs.map(m =>
+      `<div class="msg ${m.kind}">${escapeHtml(m.text)}</div>`).join("");
+  }
+
+  function generate() {
+    const st = collectState();
+    const miss = PoolCore.missingForCompute(st);
+    if (miss.length) {
+      showMessages([{ kind: "warn", text: "Still needed: " + miss.join("; ") }]);
+      $("results").innerHTML = ""; $("printHeader").innerHTML = ""; return;
+    }
+    let res;
+    try { res = PoolCore.computePool(st.samples, st.target_nm, st.total_volume_ul, st.layout); }
+    catch (e) { showMessages([{ kind: "bad", text: e.message }]);
+      $("results").innerHTML = ""; $("printHeader").innerHTML = ""; return; }
+    showMessages(res.summary.warnings.map(w => ({ kind: "warn", text: w })));
+    renderResults(st, res.samples, res.summary);
+  }
+
+  function renderResults(st, samples, summary) {
+    const prefix = PoolCore.autoName(st, "pool");
+
+    // Printable report header (shown on screen and on the printout/PDF).
+    const when = new Date().toLocaleString();
+    const plat = PoolCore.presetLoadingLabel(st) || "(not set)";
+    let ph = `<h2>epMotion Equimolar Pooling — Worklist</h2>`;
+    ph += `<div class="meta"><b>Generated:</b> ${escapeHtml(when)} &nbsp;·&nbsp; `
+        + `<b>Platform:</b> ${escapeHtml(plat)} &nbsp;·&nbsp; `
+        + `<b>Layout:</b> ${escapeHtml(summary.layout)}<br>`
+        + `<b>Target pool:</b> ${summary.target_nm} nM in ${summary.total_volume_ul} µL `
+        + `&nbsp;·&nbsp; <b>Per sample:</b> ${summary.fmol_per_sample.toFixed(2)} fmol `
+        + `&nbsp;·&nbsp; <b>Samples:</b> ${summary.n} &nbsp;·&nbsp; <b>Ref:</b> ${escapeHtml(prefix)}</div>`;
+    if (summary.warnings.length)
+      ph += `<div class="meta" style="margin-top:4px;color:var(--warn)"><b>Notes:</b> `
+          + summary.warnings.map(escapeHtml).join("<br>") + `</div>`;
+    $("printHeader").innerHTML = ph;
+
+    const files = {
+      [`${prefix}_DNA.csv`]: null, [`${prefix}_Buffer.csv`]: null,
+      [`${prefix}_pooling_worksheet.csv`]: null, [`${prefix}_inputs.csv`]: null
+    };
+    const csvs = PoolCore.buildCsvs(samples, summary);
+    files[`${prefix}_DNA.csv`] = csvs.DNA;
+    files[`${prefix}_Buffer.csv`] = csvs.Buffer;
+    files[`${prefix}_pooling_worksheet.csv`] = PoolCore.buildWorksheet(samples, summary);
+    files[`${prefix}_inputs.csv`] = PoolCore.buildInputsCsv(st);
+
+    let html = `<h3>Result — ${summary.fmol_per_sample.toFixed(2)} fmol per sample</h3>`;
+    html += "<table><thead><tr><th>Well</th><th>Name</th><th>ng/µL</th><th>bp</th>"
+          + "<th>nM</th><th>Sample µL</th><th>Buffer µL</th></tr></thead><tbody>";
+    samples.forEach((s, i) => {
+      const buf = s.buffer_ul === null ? "(pooled)" : PoolCore.round1(s.buffer_ul).toFixed(1);
+      html += `<tr><td>${PoolCore.WELLS[i]}</td><td>${escapeHtml(s.name)}</td>`
+        + `<td>${s.conc}</td><td>${s.size}</td><td>${s.molarity_nm.toFixed(2)}</td>`
+        + `<td>${PoolCore.round1(s.sample_ul).toFixed(1)}</td><td>${buf}</td></tr>`;
+    });
+    html += "</tbody></table>";
+    html += `<p class="hint">Total sample volume: ${PoolCore.round1(summary.sum_sample_ul).toFixed(1)} µL · `;
+    html += summary.layout === "one-tube"
+      ? `Buffer into ${PoolCore.POOL_WELL}: ${PoolCore.round1(summary.buffer_total_ul).toFixed(1)} µL</p>`
+      : `Buffer total: ${PoolCore.round1(summary.buffer_total_ul).toFixed(1)} µL `
+        + `(each well → ${PoolCore.round1(summary.well_volume_ul).toFixed(1)} µL)</p>`;
+
+    html += `<div class="bar no-print"><button class="btn primary" id="dlAll">Download all 4 files</button>`
+          + `<button class="btn" id="printBtn">🖨 Print / Save PDF</button>`
+          + `<span class="hint">Files are prefixed <code>${prefix}</code> so they group together.</span></div>`;
+    html += `<div class="downloads">`;
+    for (const fn of Object.keys(files))
+      html += `<a href="#" data-fn="${escapeAttr(fn)}">${escapeHtml(fn)}</a>`;
+    html += `</div>`;
+    html += `<p class="hint">Load <strong>DNA.csv</strong> then <strong>Buffer.csv</strong> into the epMotion run.</p>`;
+    $("results").innerHTML = html;
+
+    $("dlAll").addEventListener("click", () => {
+      let i = 0;
+      for (const [fn, txt] of Object.entries(files))
+        setTimeout(() => download(fn, txt), (i++) * 250);
+    });
+    $("printBtn").addEventListener("click", () => window.print());
+    $("results").querySelectorAll(".downloads a").forEach(a =>
+      a.addEventListener("click", ev => { ev.preventDefault();
+        const fn = a.getAttribute("data-fn"); download(fn, files[fn]); }));
+  }
+
+  // ---- wire up ----
+  buildPlatformOptions();
+  $("platform").addEventListener("change", () => { buildPresetOptions($("platform").value);
+    const o = PoolCore.PRESETS[$("platform").value];
+    if (o) { const def = o.options[o.default]; $("target").value = def.target_nm; $("volume").value = def.volume_ul; }
+    persist(); refresh(); });
+  $("preset").addEventListener("change", () => { applyPresetNote();
+    const plat = $("platform").value, o = plat && PoolCore.PRESETS[plat].options[$("preset").value];
+    if (o) { $("target").value = o.target_nm; $("volume").value = o.volume_ul; }
+    persist(); refresh(); });
+  ["target","volume","layout"].forEach(id =>
+    $(id).addEventListener("input", () => { persist(); refresh(); }));
+  $("addRow").addEventListener("click", () => {
+    addRow("", "", ($("sharedSize").value || "").trim()); persist(); refresh(); });
+  $("generate").addEventListener("click", generate);
+  $("exportCsv").addEventListener("click", () => {
+    const st = collectState();
+    download(PoolCore.autoName(st, "inputs") + ".csv", PoolCore.buildInputsCsv(st)); });
+  $("exportTxt").addEventListener("click", () => {
+    const st = collectState();
+    download(PoolCore.autoName(st, "inputs") + ".txt", PoolCore.buildInputsTxt(st), "text/plain"); });
+  $("saveRun").addEventListener("click", () => {
+    const st = collectState();
+    download(PoolCore.autoName(st, "run") + ".json", JSON.stringify(st, null, 2), "application/json"); });
+  $("openRun").addEventListener("click", () => $("openRunFile").click());
+  $("openRunFile").addEventListener("change", ev => {
+    const f = ev.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => { try { loadState(JSON.parse(r.result)); persist();
+      showMessages([{ kind: "warn", text: "Loaded run " + f.name }]); }
+      catch (e) { showMessages([{ kind: "bad", text: "Could not open run: " + e.message }]); } };
+    r.readAsText(f); ev.target.value = ""; });
+  $("importCsv").addEventListener("click", () => $("importCsvFile").click());
+  $("importCsvFile").addEventListener("change", ev => {
+    const f = ev.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => { try { const s = PoolCore.readSamplesCsv(r.result);
+      s.forEach(x => addRow(x.name, x.conc == null ? "" : x.conc, x.size == null ? "" : x.size));
+      persist(); refresh(); showMessages([{ kind: "warn", text: `Imported ${s.length} sample(s) from ${f.name}` }]); }
+      catch (e) { showMessages([{ kind: "bad", text: "Import failed: " + e.message }]); } };
+    r.readAsText(f); ev.target.value = ""; });
+  $("templateBtn").addEventListener("click", () =>
+    download("samples.csv", "name,conc_ng_ul,size_bp\r\nsample_1,,\r\nsample_2,,\r\nsample_3,,\r\n"));
+  $("newRun").addEventListener("click", () => {
+    if (!confirm("Clear everything and start a new run?")) return;
+    localStorage.removeItem(STORE);
+    loadState({ samples: [] }); $("messages").innerHTML = "";
+    $("results").innerHTML = ""; $("printHeader").innerHTML = ""; });
+
+  // restore previous session, or start with one empty row
+  let restored = null;
+  try { restored = JSON.parse(localStorage.getItem(STORE) || "null"); } catch (e) {}
+  if (restored && restored.samples) loadState(restored);
+  else { addRow(); refresh(); }
+})();
+</script>
+</body>
+</html>
