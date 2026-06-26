@@ -3,6 +3,12 @@
 Version history of the standalone web app. Archived snapshots live in
 `versions/`; `index.html` is the current release (= v6).
 
+## v8 — dilution tubes + done checklist
+- The standalone dilution calculator now shows a **tube per sample** (DNA vs
+  buffer as proportional layers; one mini-tube per serial step) with volumes.
+- Added a **Done** checklist: tick off each dilution tube and each pooling-table
+  row as you pipette, with a live "✓ X / N done" progress badge.
+
 ## v7 — tube pool preview
 - Added a **Plate / Tube** toggle to the pool preview card.
 - New dynamic **single-tube graphic**: an Eppendorf that fills with one
