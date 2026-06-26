@@ -3,6 +3,12 @@
 Version history of the standalone web app. Archived snapshots live in
 `versions/`; `index.html` is the current release (= v6).
 
+## v9 — persist done-checks with the run
+- Done-checks are now saved inside the run, so **Save run / Open run** and the
+  unsaved-session **recovery banner** restore your pipetting progress.
+- A plain page reopen still starts fresh (checks cleared); they only come back
+  when an earlier run is loaded.
+
 ## v8 — dilution tubes + done checklist
 - The standalone dilution calculator now shows a **tube per sample** (DNA vs
   buffer as proportional layers; one mini-tube per serial step) with volumes.
