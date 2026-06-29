@@ -49,22 +49,11 @@ macOS, or Linux. Nothing to install.
 | `Buffer.csv`, `DNA.csv` | The original Eppendorf epMotion worklist templates this matches. |
 | `*.pdf` | User guides. |
 
-## Editing
+## Want to change it?
 
-The web app is a single self-contained file: **`index.html`** (HTML + CSS +
-vanilla JS, no build step, no dependencies). Edit it directly and refresh the
-browser. The calculation engine is the `PoolCore` block near the top of the
-`<script>`; it has no DOM dependencies and can be unit-tested under Node:
-
-```bash
-# extract PoolCore and run a quick check
-node -e "$(awk '/const PoolCore=\(function/{f=1} f; /^}\)\(\);$/{exit}' index.html); console.log(PoolCore.fmt(2500,0))"
-```
-
-To publish a change: edit `index.html`, copy the working file to the next
-`versions/PoolMate_v<N>.html` snapshot (so the last good version is always a
-fallback), then `git commit` and `git push` — GitHub Pages rebuilds in under a
-minute.
+PoolMate is a single self-contained file (`index.html` — HTML, CSS, and vanilla
+JS, no build step). To customize it for your own lab, **fork the repository** and
+edit your copy; pull requests are welcome but not required.
 
 ## License
 
