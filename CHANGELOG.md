@@ -1,7 +1,13 @@
 # Changelog
 
 Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v10).
+`versions/`; `index.html` is the current release (= v11).
+
+## v11 — PoolMate user guides
+- Regenerated the embedded **detailed PDF guide** and the standalone guide PDFs
+  under the PoolMate name (`PoolMate_User_Guide.pdf`,
+  `PoolMate_Detailed_User_Guide.pdf`), refreshed to cover the per-row dilution
+  overrides and the mass-mode counter. Removed the old `epMotion_*` guide PDFs.
 
 ## v10 — PoolMate rebrand + per-row dilution overrides
 - Renamed the app to **PoolMate** (UI title, header, user guide, and generated
