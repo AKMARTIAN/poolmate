@@ -1,7 +1,15 @@
 # Changelog
 
 Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v13).
+`versions/`; `index.html` is the current release (= v14).
+
+## v14 — run dilutions on the pooling script
+- The standalone dilution calculator can now **export epMotion worklists**
+  (`dilution_DNA.csv` = stock, `dilution_Buffer.csv` = diluent) in the same Rack-1
+  format as the pooling templates, so a single-step dilution runs on the existing
+  pooling script as a separate run. Samples are auto-assigned wells in list order;
+  serial (multi-step) dilutions are excluded with a warning (each step needs its own
+  run). Buffer is drawn from Rack 1, position "1", matching the Eppendorf templates.
 
 ## v13 — clearer Plate / Tube layout labels
 - Renamed the layout options to **"Tube — pool everything into one tube"** and
