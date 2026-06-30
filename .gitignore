@@ -1,1 +1,7 @@
 .DS_Store
+
+# Local-only testing artifacts — never pushed (kept on the analyst's machine)
+TEST_PLAN.md
+BEGINNER_RUNBOOK.md
+PoolMate_Beginner_Runbook.pdf
+dryrun_*.csv
