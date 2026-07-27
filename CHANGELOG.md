@@ -1,7 +1,23 @@
 # Changelog
 
 Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v20).
+`versions/`; `index.html` is the current release (= v21).
+
+## v21 — choose the output well everywhere + full guidance
+- **Dilute gained a Plate view** (toggle with Tube view) showing stock plate → diluted plate,
+  plus per-row **In well** and **Out well**. The epMotion dilution export now uses those wells
+  instead of auto-assigning them.
+- **Pool (Plate layout) gained a per-sample "Out well"**, so a sample can be normalized into
+  any well of the output plate; `DNA.csv`/`Buffer.csv`, the worksheet, the inputs CSV, the
+  blank template and instrument-CSV import all carry it.
+- So all three tasks now let you pick exactly where each sample lands, and the live graphic
+  and exported worklists agree.
+- **Fixed:** the in-app user guide could never be opened (nothing un-hid the panel) — the
+  header button now opens it. Dilute inputs are now saved with the run like the other tabs.
+  Removed dead code (the old tube-graphic renderer and the retired Plate/Tube toggle).
+- **Guidance rewritten:** the in-app guide now has nine sections covering all three tabs
+  step by step, and both PDF guides were regenerated with full how-to coverage (the detailed
+  one is re-embedded for the in-app download). README refreshed.
 
 ## v20 — transfer-aware graphics (source → destination, with volumes)
 - Every preview now shows **where each sample goes and how much**:

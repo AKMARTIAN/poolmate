@@ -15,26 +15,31 @@ macOS, or Linux. Nothing to install.
 
 ## What it does
 
-- **Pooling** — enter sample concentrations (ng/µL + fragment size, or direct
-  nM, with replicate-read averaging) and a target (nM or fmol). It computes the
-  equal-mole transfer volume for each sample, the buffer top-up, and a
-  post-rounding equimolar-deviation (CV%) check, then exports the epMotion
+PoolMate has three self-contained tasks, each with a live graphic showing **where every
+sample goes and how much**:
+
+- **Pool** — combine libraries into one tube, or normalize each into its own well. Enter
+  concentrations (ng/µL + fragment size, or direct nM, with replicate-read averaging) and a
+  target (nM or fmol); PoolMate computes the equal-mole transfer per sample, the buffer
+  top-up, and a post-rounding equimolar-deviation (CV%) check, then exports the epMotion
   `DNA.csv` and `Buffer.csv`.
-- **Serial dilution** — when a sample is too concentrated to pipette within the
-  plate/tube and tip limits, it automatically lays out the dilution steps. For
-  pooling, this is exported as a separate ordered `Dilution.csv` that runs first
-  (the robot mixes each well), and the pool then draws from the diluted wells.
-- **Standalone dilution calculator** — dilute one sample or a whole **list** to
-  a target concentration (nM or ng/µL). Shows DNA + buffer/TE/water volumes per
-  sample, serial steps where needed, and the total diluent for the batch. Every
-  parameter (target, final volume, min transfer, max well capacity, rounding)
-  has a shared default that can be **overridden per row**.
-- **Quality of life** — platform presets (Illumina / ONT) with editable loading
-  targets, a live source-rack plate map, run metadata for records, print / save
-  to PDF, save & reopen runs as JSON, import instrument CSVs, auto-named
-  downloads so runs never overwrite, per-section and whole-page clear, and a
-  fresh blank start each time you open it (with a one-click recovery banner if a
-  previous session was left unsaved).
+- **Normalize** — dilute every library to one common concentration, plate → plate. Set a
+  target in nM or ng/µL and a volume per well; each library can optionally be routed to a
+  different **output well** (e.g. A3 → D5).
+- **Dilute** — dilute one sample or a whole list. **Tube view** gives a virtual tube per
+  sample with a Done checklist for bench work; **Plate view** gives a plate → plate map with
+  per-sample in/out wells. Every parameter (target, final volume, min transfer, max capacity,
+  rounding) has a shared default that can be overridden per row.
+- **Serial dilution** — when a sample is too concentrated to reach the target in one step,
+  the steps are laid out automatically. For pooling this is exported as an ordered
+  `Dilution.csv` that runs first.
+- **Quality of life** — platform presets (Illumina / ONT), run metadata, print / save to PDF,
+  save & reopen runs as JSON, instrument CSV import, auto-named downloads, per-section and
+  whole-page clear, and a fresh blank start each time (with one-click recovery of an unsaved
+  session).
+
+> Dilution and pooling are always **separate robot runs**: pooling must draw from wells that
+> have already been diluted *and mixed*.
 
 > ⚠️ The built-in platform presets are vendor starting points. **Confirm all
 > volumes and loading concentrations against your own kit / instrument SOP
