@@ -1,7 +1,16 @@
 # Changelog
 
 Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v18).
+`versions/`; `index.html` is the current release (= v19).
+
+## v19 — fill animations + bolder task tabs
+- **Fill animations:** tubes now fill from the bottom up (Dilute previews, dilution-result
+  mini tubes, and the Pool single-tube graphic), and Normalize plate wells pop in with a
+  staggered delay. The input→output arrow has a flowing dashed line.
+- **Task tabs** are now clearly coloured sections — Pool (indigo), Normalize (teal), Dilute
+  (amber) — each with a thick top accent, gradient fill when active, and a lift on hover, so
+  they read as real tabs instead of blending into the page.
+- Respects `prefers-reduced-motion`.
 
 ## v18 — live Dilute tubes + visual polish
 - **Dilute** now shows a live **virtual tube** per sample as you type — a proper glass tube
