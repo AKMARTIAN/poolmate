@@ -1,7 +1,19 @@
 # Changelog
 
 Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v19).
+`versions/`; `index.html` is the current release (= v20).
+
+## v20 — transfer-aware graphics (source → destination, with volumes)
+- Every preview now shows **where each sample goes and how much**:
+  - **Pool** follows the Layout choice — **Tube** draws source plate → pool tube (with the
+    pooled tube filling in layers, one per sample plus buffer); **Plate** draws source plate →
+    output plate. The old manual Plate/Tube toggle is gone; the preview follows the layout.
+  - **Normalize** draws library plate → normalized plate with the exact well mapping.
+- Each graphic is paired with a **transfer list**: `S1 · A1 → A1 · 3.1 µL + 13.6 µL buffer`,
+  and wells carry tooltips with their volume.
+- **Normalize gained an optional "Output well"** per library (defaults to the same well), so a
+  library can be moved — e.g. **A3 → D5** — and the exported DNA/Buffer worklists follow it.
+- Fixed a repaint issue from the fixed-attachment background.
 
 ## v19 — fill animations + bolder task tabs
 - **Fill animations:** tubes now fill from the bottom up (Dilute previews, dilution-result
