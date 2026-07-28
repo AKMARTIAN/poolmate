@@ -1,7 +1,20 @@
 # Changelog
 
 Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v21).
+`versions/`; `index.html` is the current release (= v22).
+
+## v22 — Quick pool works for any pooling style
+- Quick pool no longer requires an fmol target. Pick whichever target style matches your SOP:
+  - **Equimolar — fmol per sample** (as before)
+  - **Equimolar — total fmol split equally** (as before)
+  - **Equimolar — target nM in a final volume** (Illumina style; same maths as Generate
+    worklists, but as a manual table)
+  - **Equal volume from each sample** — plain volumetric pooling
+- Only the fields for the chosen style are shown, and only those are required.
+- Equal-volume pooling is not equimolar, so the results explain that the CV is expected and
+  each sample contributes a different number of molecules. The exported CSV records the
+  mode, whether it was equimolar, the volume per sample and the total transfer volume.
+- Guide and both PDFs updated with a target-styles table.
 
 ## v21 — choose the output well everywhere + full guidance
 - **Dilute gained a Plate view** (toggle with Tube view) showing stock plate → diluted plate,
