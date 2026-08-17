@@ -1,7 +1,23 @@
 # Changelog
 
 Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v23).
+`versions/`; `index.html` is the current release (= v24).
+
+## v24 — more Load presets (native barcoding, Flongle, NextSeq 1000/2000)
+- Added flow cell presets that were missing:
+  - **ONT native barcoding (NBD114) on MinION/GridION** — 10–20 fmol, notably lower than the
+    plain ligation kit.
+  - **ONT native barcoding on Flongle** — 5–10 fmol, with the Flongle loading mix
+    (15 µL SB + 10 µL LIB/LIS + 5 µL library = 30 µL) and its priming mix noted.
+  - **ONT long reads (>10 kb)** — flagged as load-by-mass, so no fmol target applies.
+  - **NextSeq 1000/2000 Standard SBS** — 650 pM onboard / 65 pM manual denature.
+  - **NextSeq 1000/2000 XLEAP-SBS** — ~75% of the Standard SBS concentration (488 pM), with
+    the P1/P2 vs P3/P4 adjustment and a titration recommendation in the note.
+- Rapid kits (SQK-RBK114, specified by mass) and NovaSeq 6000 / NovaSeq X are called out in
+  the Custom preset notes rather than given invented numbers.
+- Selecting a preset with no defined value now **clears** that field instead of leaving a
+  stale one, so you cannot accidentally load with a previous instrument's volume.
+- Detailed PDF gained a full preset/source table.
 
 ## v23 — new Load tab: flow cell loading (ONT + Illumina)
 - A fourth task, **Load**, works out what to put on a flow cell. Pick the **platform** and a
