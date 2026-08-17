@@ -1,7 +1,24 @@
 # Changelog
 
 Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v22).
+`versions/`; `index.html` is the current release (= v23).
+
+## v23 — new Load tab: flow cell loading (ONT + Illumina)
+- A fourth task, **Load**, works out what to put on a flow cell. Pick the **platform** and a
+  **flow cell / kit preset**, then enter **one pool or several pools to combine** (nM, or
+  ng/µL + size bp). A per-pool **Share** sets relative representation — all 1 is equal molar.
+- **Oxford Nanopore:** target load in fmol → µL of each pool, the Elution Buffer top-up that
+  fills the library slot, and the loading mix (SB + Library Beads/Solution + library) to load
+  via the SpotON port.
+- **Illumina:** loading concentration in pM and final volume → combined pool molarity, then
+  the dilution steps down to the loading pM, split into serial steps when one step would not
+  be pipettable. The denature step is deliberately **not** calculated — it is
+  instrument-specific and the guide points to the vendor's Denature and Dilute protocol.
+- Presets carry sourced vendor starting points and every value stays editable, with a Custom
+  option; the results repeat a "confirm against your SOP" note and the preset's source note.
+- Live tube graphic of the loaded library, a per-pool breakdown table, bench steps, and a
+  downloadable `flowcell_loading.csv`.
+- Guide and both PDFs extended to cover the Load tab and the preset defaults.
 
 ## v22 — Quick pool works for any pooling style
 - Quick pool no longer requires an fmol target. Pick whichever target style matches your SOP:

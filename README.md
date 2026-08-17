@@ -15,7 +15,7 @@ macOS, or Linux. Nothing to install.
 
 ## What it does
 
-PoolMate has three self-contained tasks, each with a live graphic showing **where every
+PoolMate has four self-contained tasks, each with a live graphic showing **where every
 sample goes and how much**:
 
 - **Pool** — combine libraries into one tube, or normalize each into its own well. Enter
@@ -33,6 +33,11 @@ sample goes and how much**:
 - **Serial dilution** — when a sample is too concentrated to reach the target in one step,
   the steps are laid out automatically. For pooling this is exported as an ordered
   `Dilution.csv` that runs first.
+- **Load** — work out what to put on a flow cell. Pick Oxford Nanopore or Illumina and a
+  flow cell / kit preset, enter one pool or several pools to combine (with a per-pool share),
+  and PoolMate gives the µL of each pool plus the bench steps: the ONT loading mix (with the
+  Elution Buffer top-up), or the Illumina dilution steps down to the loading pM. Presets are
+  vendor starting points and every value is editable.
 - **Quality of life** — platform presets (Illumina / ONT), run metadata, print / save to PDF,
   save & reopen runs as JSON, instrument CSV import, auto-named downloads, per-section and
   whole-page clear, and a fresh blank start each time (with one-click recovery of an unsaved
