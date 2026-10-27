@@ -1,7 +1,28 @@
 # Changelog
 
 Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v24).
+`versions/`; `index.html` is the current release (= v25).
+
+## v25 — per-sample share, and a link to the epMotion Protocol Builder
+- **Share column in the Pool tab.** Each sample now carries a relative share of the pool:
+  1 everywhere is equimolar (what PoolMate has always done), 2 gives that library twice the
+  representation, 0 leaves it out. Volumes, the buffer top-up and the achievable-target check
+  are all share-weighted; the pooling table shows the intended share next to the share the
+  sample actually ends up with after rounding, and the CV is measured against the intended
+  share rather than against a flat average. Shares apply to **one-tube pooling only** — a
+  normalize layout gives every well the same amount by definition, and now says so.
+- **Pool plan export.** Every pooling run also writes `<prefix>_pool.poolplan.json`: the
+  samples, the target, the settings and the worked-out volumes in one small file.
+- **Pool plan import.** The *Import CSV* button now also accepts a pool plan, so a plan
+  written by the Protocol Builder (or an earlier PoolMate run) fills the sample table. A plan
+  measured in **pg/µL** is converted to ng/µL on the way in, since that is what PoolMate's
+  mass mode works in.
+- **What the link is for.** The [epMotion Protocol Builder](https://github.com/AKMARTIAN/epmotion-toolkit)
+  imports a plan on its Pool tab and writes a ready-to-run `.export52` — the pre-dilutions,
+  the pooling and the mixing in one protocol — so there are no worklist CSVs to load at the
+  instrument at all. Both programs use 660 g/mol per base pair and a shared test checks on
+  every build that they land on the same volumes. The `DNA.csv` / `Buffer.csv` worklists are
+  unchanged and still work with the fixed epMotion pooling methods.
 
 ## v24 — more Load presets (native barcoding, Flongle, NextSeq 1000/2000)
 - Added flow cell presets that were missing:

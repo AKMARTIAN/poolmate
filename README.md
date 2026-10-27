@@ -15,14 +15,16 @@ macOS, or Linux. Nothing to install.
 
 ## What it does
 
-PoolMate has four self-contained tasks, each with a live graphic showing **where every
+PoolMate has five self-contained tasks, each with a live graphic showing **where every
 sample goes and how much**:
 
 - **Pool** — combine libraries into one tube, or normalize each into its own well. Enter
   concentrations (ng/µL + fragment size, or direct nM, with replicate-read averaging) and a
   target (nM or fmol); PoolMate computes the equal-mole transfer per sample, the buffer
   top-up, and a post-rounding equimolar-deviation (CV%) check, then exports the epMotion
-  `DNA.csv` and `Buffer.csv`.
+  `DNA.csv` and `Buffer.csv`. A per-sample **share** makes a pool deliberately uneven when you
+  want it: 1 everywhere is equimolar, 2 gives that library twice the representation, 0 leaves
+  it out.
 - **Normalize** — dilute every library to one common concentration, plate → plate. Set a
   target in nM or ng/µL and a volume per well; each library can optionally be routed to a
   different **output well** (e.g. A3 → D5).
@@ -38,13 +40,20 @@ sample goes and how much**:
   and PoolMate gives the µL of each pool plus the bench steps: the ONT loading mix (with the
   Elution Buffer top-up), or the Illumina dilution steps down to the loading pM. Presets are
   vendor starting points and every value is editable.
+- **Pool plan** — every pooling run also writes a small `<prefix>_pool.poolplan.json`. Take it
+  to the **[epMotion Protocol Builder](https://github.com/AKMARTIAN/epmotion-toolkit)** (Pool tab
+  → *Import plan / CSV*) and it writes a ready-to-run `.export52` with the pre-dilutions, the
+  pooling and the mixing in a single protocol — no worklist CSVs to load at the instrument.
+  The builder exports the same format, and the *Import CSV* button here reads it back.
 - **Quality of life** — platform presets (Illumina / ONT), run metadata, print / save to PDF,
   save & reopen runs as JSON, instrument CSV import, auto-named downloads, per-section and
   whole-page clear, and a fresh blank start each time (with one-click recovery of an unsaved
   session).
 
-> Dilution and pooling are always **separate robot runs**: pooling must draw from wells that
-> have already been diluted *and mixed*.
+> Dilution and pooling are always **separate robot runs** when you drive the instrument with
+> these worklist CSVs: pooling must draw from wells that have already been diluted *and mixed*.
+> A protocol built from a pool plan does both in one run, because it mixes each dilution
+> itself before anything is pooled.
 
 > ⚠️ The built-in platform presets are vendor starting points. **Confirm all
 > volumes and loading concentrations against your own kit / instrument SOP
