@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>epMotion Protocol Builder</title>
+<meta name="description" content="Build Eppendorf epMotion protocols in your browser: lay out the deck, add steps, pool libraries, and export a .export52 with a printable deck setup sheet.">
+<style>
+:root{
+  --navy:#081d3c; --navy-2:#102a5f; --blue:#0f68d8; --teal:#18a0a6; --green:#129447; --purple:#7b22ce;
+  --surface:#ffffff; --canvas:#f5f8fc; --soft:#f8fbff;
+  --text:#14213d; --muted:#5b6b85; --line:#d9e3ef; --line-2:#c3d2e5;
+  --warn:#8a5a00; --warn-bg:#fff7e4; --warn-line:#f0cf86;
+  --radius:16px;
+  --shadow:0 10px 28px rgba(15,23,42,.08);
+  --shadow-lift:0 18px 40px rgba(15,23,42,.13);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --surface:#111a2b; --canvas:#0a1120; --soft:#16202f;
+    --text:#e8eefa; --muted:#9fb0c9; --line:#25334a; --line-2:#32425c;
+    --warn:#f1c874; --warn-bg:#2a2214; --warn-line:#5a4722;
+    --shadow:0 10px 28px rgba(0,0,0,.4);
+    --shadow-lift:0 18px 40px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --surface:#111a2b; --canvas:#0a1120; --soft:#16202f;
+  --text:#e8eefa; --muted:#9fb0c9; --line:#25334a; --line-2:#32425c;
+  --warn:#f1c874; --warn-bg:#2a2214; --warn-line:#5a4722;
+  --shadow:0 10px 28px rgba(0,0,0,.4);
+  --shadow-lift:0 18px 40px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html{background:var(--canvas)}
+body{
+  margin:0; background:var(--canvas); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+a{color:var(--blue)}
+code{
+  background:var(--soft); border:1px solid var(--line); border-radius:6px;
+  padding:1px 6px; font-size:.92em;
+}
+
+/* ---------- header ---------- */
+.top{
+  position:relative; overflow:hidden; color:#fff;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#13526b 100%);
+  box-shadow:0 16px 34px rgba(8,29,60,.22);
+}
+.top:before{
+  content:""; position:absolute; right:-100px; top:-120px; width:320px; height:320px;
+  border-radius:50%; background:rgba(122,242,226,.1);
+}
+.top:after{
+  content:""; position:absolute; left:30%; bottom:-150px; width:300px; height:300px;
+  border-radius:50%; background:rgba(255,255,255,.055);
+}
+.top-in{position:relative; max-width:1060px; margin:0 auto; padding:20px 20px 0}
+.brand{display:flex; align-items:center; gap:13px}
+.mark{
+  width:42px; height:42px; border-radius:12px; display:grid; place-items:center; flex:0 0 auto;
+  border:1px solid rgba(122,242,226,.45); background:rgba(122,242,226,.12); color:#7af2e2;
+}
+.mark svg{width:23px; height:23px}
+.brand b{font-size:17px; font-weight:750; letter-spacing:-.02em; display:block}
+.brand span{font-size:13px; color:rgba(255,255,255,.72)}
+
+.hero{position:relative; max-width:1060px; margin:0 auto; padding:34px 20px 44px}
+.hero h1{
+  margin:0; font-size:clamp(28px,5vw,42px); line-height:1.1;
+  font-weight:800; letter-spacing:-.03em; max-width:19em;
+}
+.hero p{
+  margin:16px 0 0; font-size:clamp(15px,2.2vw,17.5px);
+  color:rgba(255,255,255,.84); max-width:40em;
+}
+.hero code{
+  background:rgba(255,255,255,.16); border-color:rgba(255,255,255,.24); color:#fff;
+}
+.cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px}
+.btn{
+  display:inline-flex; align-items:center; gap:9px; text-decoration:none;
+  font-weight:700; font-size:15px; padding:13px 22px; border-radius:11px;
+  border:1px solid transparent; transition:transform .14s ease, box-shadow .14s ease, background .14s ease;
+}
+.btn svg{width:17px; height:17px; flex:0 0 auto}
+.btn.main{background:linear-gradient(135deg,#0f68d8,#18a0a6); color:#fff; box-shadow:0 10px 24px rgba(15,104,216,.34)}
+.btn.main:hover{transform:translateY(-1px); box-shadow:0 16px 32px rgba(15,104,216,.42)}
+.btn.ghost{background:rgba(255,255,255,.08); color:#fff; border-color:rgba(190,210,255,.42)}
+.btn.ghost:hover{background:rgba(255,255,255,.16)}
+.access{
+  margin:18px 0 0; max-width:40em; font-size:14px; line-height:1.55;
+  color:rgba(255,255,255,.72);
+  border-left:3px solid rgba(122,242,226,.5); padding-left:14px;
+}
+.access b{color:rgba(255,255,255,.95); font-weight:700}
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:24px; list-style:none; padding:0}
+.chips li{
+  font-size:12.5px; font-weight:600; color:rgba(255,255,255,.9);
+  background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.17);
+  border-radius:999px; padding:6px 13px;
+}
+
+/* ---------- layout ---------- */
+main{max-width:1060px; margin:0 auto; padding:0 20px 72px}
+section{padding:48px 0 0}
+h2{
+  font-size:clamp(20px,3vw,25px); letter-spacing:-.02em; margin:0 0 6px; font-weight:750;
+}
+.lede{color:var(--muted); margin:0 0 22px; max-width:46em; font-size:15.5px}
+.card{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+  padding:20px 22px; box-shadow:var(--shadow);
+}
+.grid{display:grid; gap:14px}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+/* numbered flow */
+.flow{counter-reset:s}
+.flow .card{display:flex; flex-direction:column; gap:9px}
+.flow .n{
+  width:30px; height:30px; border-radius:9px; display:grid; place-items:center;
+  font-weight:800; font-size:14px; background:rgba(15,104,216,.1);
+  color:var(--blue); border:1px solid rgba(15,104,216,.26);
+}
+.flow b{font-size:16px; letter-spacing:-.01em}
+.flow p{margin:0; color:var(--muted); font-size:14.5px}
+
+/* tab list */
+.tabs{list-style:none; margin:0; padding:0; display:grid; gap:10px}
+.tabs li{
+  display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:baseline;
+  background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px 17px;
+}
+.tabs .k{
+  font-weight:750; font-size:14.5px; color:var(--blue); white-space:nowrap;
+}
+.tabs .v{color:var(--muted); font-size:14.5px}
+.tabs .v b{color:var(--text); font-weight:650}
+
+/* feature cards */
+.feat b{display:block; font-size:15.5px; margin-bottom:5px; letter-spacing:-.01em}
+.feat p{margin:0; color:var(--muted); font-size:14.5px}
+.feat .ic{
+  width:34px; height:34px; border-radius:10px; display:grid; place-items:center;
+  margin-bottom:11px; font-size:17px;
+}
+.ic.b{background:rgba(15,104,216,.11); color:var(--blue)}
+.ic.t{background:rgba(24,160,166,.13); color:var(--teal)}
+.ic.g{background:rgba(18,148,71,.12); color:var(--green)}
+.ic.p{background:rgba(123,34,206,.11); color:var(--purple)}
+
+/* pool example table */
+.tbl{width:100%; border-collapse:collapse; font-size:14px; margin-top:4px}
+.tbl th,.tbl td{text-align:left; padding:9px 11px; border-bottom:1px solid var(--line)}
+.tbl th{font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); font-weight:700}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td b{font-weight:700}
+.wrap-x{overflow-x:auto; -webkit-overflow-scrolling:touch}
+
+/* callout */
+.warn{
+  background:var(--warn-bg); border:1px solid var(--warn-line); border-left:4px solid var(--warn);
+  border-radius:12px; padding:17px 19px;
+}
+.warn h3{margin:0 0 8px; font-size:16px; color:var(--warn)}
+.warn ul{margin:0; padding-left:20px; color:var(--text); font-size:14.5px}
+.warn li{margin:4px 0}
+.warn p{margin:10px 0 0; font-size:14px; color:var(--muted)}
+
+/* partner card */
+.mate{display:grid; grid-template-columns:1fr auto; gap:18px; align-items:center}
+.mate p{margin:7px 0 0; color:var(--muted); font-size:14.5px; max-width:44em}
+.mate b{font-size:16.5px; letter-spacing:-.01em}
+.btn.small{padding:10px 17px; font-size:14px; background:var(--soft); color:var(--blue); border-color:var(--line-2)}
+.btn.small:hover{background:var(--surface); box-shadow:var(--shadow)}
+
+/* steps at instrument */
+ol.bench{margin:0; padding-left:22px; font-size:15px}
+ol.bench li{margin:7px 0}
+ol.bench b{font-weight:700}
+
+footer{
+  border-top:1px solid var(--line); margin-top:56px; padding:26px 20px 40px;
+  color:var(--muted); font-size:13.5px;
+}
+.foot-in{max-width:1060px; margin:0 auto; display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between}
+
+@media (max-width:860px){
+  .g3,.g2{grid-template-columns:1fr}
+  .mate{grid-template-columns:1fr}
+}
+@media (max-width:420px){
+  .cta .btn{width:100%; justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <div class="mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 3h8M9 3v5l-4.5 8.5A3 3 0 0 0 7.2 21h9.6a3 3 0 0 0 2.7-4.5L15 8V3"/><path d="M7 15h10"/>
+        </svg>
+      </div>
+      <div>
+        <b>epMotion Protocol Builder</b>
+        <span>for the epMotion 5073t and 5075</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero">
+    <h1>Write an epMotion protocol without writing a protocol.</h1>
+    <p>Lay out the deck, add steps from menus, and build a library pool from the concentrations you measured. You get a <code>.export52</code> that imports straight into epBlue, and a printable sheet showing exactly what goes where on the deck.</p>
+    <div class="cta">
+      <a class="btn main" href="https://github.com/AKMARTIAN/epmotion-toolkit/blob/main/builder/epMotion_Protocol_Builder.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
+        Get the builder
+      </a>
+      <a class="btn ghost" href="https://github.com/AKMARTIAN/epmotion-toolkit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3-.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0 0 19.9 4a4.9 4.9 0 0 0-.1-3.6s-1.1-.3-3.7 1.4a12.7 12.7 0 0 0-6.8 0C6.7.1 5.6.4 5.6.4A4.9 4.9 0 0 0 5.5 4a5.2 5.2 0 0 0-1.4 3.7c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 0 0-.9 2.6V21"/></svg>
+        Open the repository
+      </a>
+    </div>
+    <p class="access">
+      The builder is a single HTML file kept in the lab's <b>private</b> repository. Press
+      <b>Download raw file</b> on the page that opens, then open the downloaded file in your browser —
+      that copy keeps working with no internet connection. You'll need to be signed in to GitHub with
+      access to the repository; if you haven't got it, ask whoever runs the instruments.
+    </p>
+    <ul class="chips">
+      <li>No install</li>
+      <li>Works offline</li>
+      <li>Nothing you type leaves your computer</li>
+      <li>Runs on the instrument PC or a tablet</li>
+    </ul>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <h2>How a run comes together</h2>
+    <p class="lede">Three stages. The builder keeps your work in the browser between sessions, and <b>Save</b> writes a file you can reopen later.</p>
+    <div class="grid g3 flow">
+      <div class="card">
+        <div class="n">1</div>
+        <b>Build it in the browser</b>
+        <p>Pick the instrument, set the deck, add your steps. Problems show up as you go — red must be fixed, amber is worth a look.</p>
+      </div>
+      <div class="card">
+        <div class="n">2</div>
+        <b>Export two files</b>
+        <p>The <code>.export52</code> for epBlue, and a setup sheet you can print or open on a tablet at the bench.</p>
+      </div>
+      <div class="card">
+        <div class="n">3</div>
+        <b>Run it</b>
+        <p>Import into epBlue, set the deck up as the sheet shows, choose <b>automatically detect tools</b>, and enter the sample count from the sheet.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The six tabs</h2>
+    <p class="lede">Work left to right. A pooling run only needs Deck, Pool and Review.</p>
+    <ul class="tabs">
+      <li><span class="k">Run</span><span class="v">The instrument, how many samples (1–8, one column), and which plate column they are in. Mark any columns that are already used and you will be warned if a step would put liquid into one.</span></li>
+      <li><span class="k">Deck</span><span class="v">Drag labware onto the positions, or tap an item and then tap a position. Positions use the codes <b>engraved on the deck</b> — never software slot numbers.</span></li>
+      <li><span class="k">Reagents</span><span class="v">Name each reagent and say what kind of liquid it is; that picks the pipetting profile. Put it in a tube or a trough and the load volume is worked out for you.</span></li>
+      <li><span class="k">Steps</span><span class="v">Add steps from the menu. Bead clean-up expands into beads, binding, magnet, washes, drying and elution. Plate moves, magnet waits and tip changes are added for you.</span></li>
+      <li><span class="k">Pool</span><span class="v">Build a library pool from concentrations alone. See below.</span></li>
+      <li><span class="k">Review &amp; export</span><span class="v">The live checks, a step-by-step walkthrough whose row numbers match epBlue's command list, and the two downloads.</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Pooling libraries</h2>
+    <p class="lede">Say where the samples are, type in what you measured, and say what you are aiming for. The builder works out how much of each library to take, adds the buffer, and writes the transfers into the protocol — no worklist CSVs to load at the instrument.</p>
+    <div class="grid g2 feat">
+      <div class="card">
+        <div class="ic b">◎</div>
+        <b>From a plate or from tubes</b>
+        <p>Samples in any wells of the plate, or in 1.5 mL tubes; the pool goes into one tube or one free well. A pool can draw from up to 96 wells or 24 tubes.</p>
+      </div>
+      <div class="card">
+        <div class="ic t">≡</div>
+        <b>Four ways to say what you want</b>
+        <p>A pool concentration and volume, a total in fmol, a set amount from each sample, or simply the same volume from each. Illumina and ONT presets fill in starting points.</p>
+      </div>
+      <div class="card">
+        <div class="ic g">⇵</div>
+        <b>Uneven pools on purpose</b>
+        <p>A <b>relative share</b> per sample: 1 everywhere is equimolar, 2 gives that library twice the share, 0 leaves it out. You see the share each sample really ends up with.</p>
+      </div>
+      <div class="card">
+        <div class="ic p">↯</div>
+        <b>Concentrations in your units</b>
+        <p>ng/µL or pg/µL with an average fragment size, or straight as nM. The maths matches PoolMate, so the two programs never disagree.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <b style="font-size:16px; letter-spacing:-.01em">A library that is far too strong is diluted for you</b>
+      <p class="lede" style="margin:7px 0 14px">One dilution step can only divide by so much, so anything stronger is taken down in stages — each into its own well or tube, and mixed before the next one draws from it. A library at 1400 nM headed for a 2 nM pool becomes two steps:</p>
+      <div class="wrap-x">
+        <table class="tbl">
+          <thead><tr><th>Step</th><th>Take</th><th>Buffer</th><th>Into</th><th>Factor</th><th>Ends at</th></tr></thead>
+          <tbody>
+            <tr><td>1 of 2</td><td>2 µL from <b>A1</b></td><td>+ 18 µL</td><td><b>A10</b></td><td>1:10</td><td>140 nM</td></tr>
+            <tr><td>2 of 2</td><td>2 µL from <b>A10</b></td><td>+ 18 µL</td><td><b>B10</b></td><td>1:10</td><td>14 nM</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="lede" style="margin:14px 0 0">The free wells and tube positions on your deck are counted first. If the dilutions need more room than the run can spare, the builder says so — and can write them as <b>a separate run first</b>, which also lets you re-quantify before you pool. You then get two protocols, each with its own setup sheet, and the pooling sheet tells you which to run first.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Checks before you can export</h2>
+    <p class="lede">The builder will not export a protocol with a problem in it. Among other things, it checks:</p>
+    <div class="card">
+      <ul style="margin:0; padding-left:20px; font-size:15px; color:var(--text)">
+        <li>that the plate is sitting on something that can hold it, and that labware and reagents are where the steps expect them</li>
+        <li>that every volume is inside the range of a tool that is actually on the deck, and that ethanol only ever uses the 300 µL tool</li>
+        <li>that nothing shakes while hot, and that a cold hold is released rather than left cold</li>
+        <li>that no step puts liquid into a column you marked as already used</li>
+        <li>that the last wash comes off at the bottom of the well, never below it</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Planning at the desk with PoolMate</h2>
+    <div class="card mate">
+      <div>
+        <b>PoolMate</b>
+        <p>PoolMate plans pools, normalisations and dilutions at the bench. Press <b>Generate worklists</b> there, keep the <code>..._pool.poolplan.json</code>, then open it here with <b>Pool → Import plan / CSV</b> — and a pool planned at the desk becomes a run. The builder saves the same file back, so a plan travels either way.</p>
+      </div>
+      <a class="btn small" href="https://akmartian.github.io/poolmate/">Open PoolMate →</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Before you trust a run</h2>
+    <div class="warn">
+      <h3>Not yet run on the instruments</h3>
+      <ul>
+        <li><b>Pooling</b>, including the dilutions it does inside the run</li>
+        <li>The <b>3-trough reservoir rack</b> on the 5075 — the builder flags it</li>
+        <li><b>Tempering C2 below 10 °C</b> on the 5073t — the builder warns</li>
+      </ul>
+      <p>Watch the first of these runs and use material you can afford to lose. More than 8 samples in a column workflow is not supported; pooling is not limited that way.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>At the instrument</h2>
+    <div class="card">
+      <ol class="bench">
+        <li>In epBlue, <b>import</b> the <code>.export52</code>.</li>
+        <li>Set the deck up exactly as the setup sheet shows. <b>Take the caps off the tubes</b> and empty the liquid waste.</li>
+        <li>At run setup, select <b>automatically detect tools</b>. If you skip this, epBlue reports that a tool position is occupied.</li>
+        <li>When epBlue asks for the number of samples, enter <b>the number on the sheet</b>.</li>
+        <li>In the Volume dialog, nothing should be outlined in red.</li>
+      </ol>
+      <p class="lede" style="margin:14px 0 0">If epBlue reports an error at a command number, look at that row in the walkthrough on the Review tab — the row numbers match.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-in">
+    <span>epMotion Protocol Builder — for the epMotion 5073t and 5075.</span>
+    <span>Presets are starting points. Check volumes and concentrations against your own kit SOP.</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -41,7 +41,7 @@ sample goes and how much**:
   Elution Buffer top-up), or the Illumina dilution steps down to the loading pM. Presets are
   vendor starting points and every value is editable.
 - **Pool plan** — every pooling run also writes a small `<prefix>_pool.poolplan.json`. Take it
-  to the **[epMotion Protocol Builder](https://github.com/AKMARTIAN/epmotion-toolkit)** (Pool tab
+  to the **[epMotion Protocol Builder](https://akmartian.github.io/poolmate/builder/)** (Pool tab
   → *Import plan / CSV*) and it writes a ready-to-run `.export52` with the pre-dilutions, the
   pooling and the mixing in a single protocol — no worklist CSVs to load at the instrument.
   The builder exports the same format, and the *Import CSV* button here reads it back.
@@ -64,6 +64,7 @@ sample goes and how much**:
 | Path | What it is |
 |------|------------|
 | `index.html` | The live web app (this is what GitHub Pages serves). |
+| `builder/` | A page about the **[epMotion Protocol Builder](https://akmartian.github.io/poolmate/builder/)**, the companion program that turns a pool plan into a robot protocol. The builder itself lives in a private lab repository and the page links to it. |
 | `versions/` | Archived snapshots of each working version (`pool.html` → `pool_enhanced_v9.html` → `PoolMate_v10.html`). The newest snapshot mirrors `index.html` and serves as a fallback. |
 | `Buffer.csv`, `DNA.csv` | The original Eppendorf epMotion worklist templates this matches. |
 | `*.pdf` | User guides. |
