@@ -372,6 +372,155 @@ legend{letter-spacing:-.01em}
 @keyframes wellPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 .norm-well-fill{animation:wellPop .4s cubic-bezier(.2,.8,.3,1) both;transform-box:fill-box;transform-origin:center}
 @media(prefers-reduced-motion:reduce){.tube-liquid,.norm-well-fill{animation:none}}
+
+/* --- plan backwards tab ----------------------------------------------------- */
+.tabbtn[data-tabbtn="backwards"]{border-top-color:#c4b5fd}
+.tabbtn[data-tabbtn="backwards"].active{background:linear-gradient(180deg,#f6f1ff,#ece0ff);border-color:#a78bfa;border-top:5px solid #7c3aed;color:#4c1d95;box-shadow:0 10px 22px rgba(124,58,237,.2)}
+.tabbtn[data-tabbtn="backwards"].active small{color:#7c3aed}
+.backwards-card legend:before{content:'\21A9 ';color:var(--purple)}
+.bw-table table{min-width:760px}
+.bw-share-wrap{display:flex;align-items:center;gap:4px}
+input.bw-share{width:100%;text-align:right;font-variant-numeric:tabular-nums}
+input.bw-share.auto{color:#8796ab;font-style:italic;background:#f4f7fb}
+input.bw-share.over{color:var(--bad);background:var(--bad-soft);border-color:#f3b4ab!important}
+.bw-lock{appearance:none;border:0;background:transparent;cursor:pointer;font-size:12px;line-height:1;padding:2px;color:#94a3b8;border-radius:5px}
+.bw-lock[data-locked="1"]{color:var(--purple)}
+.bw-lock:hover{background:#eef2f7}
+.bw-sharebar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 0;font-size:13px}
+.stage{border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;background:#fff;padding:14px 16px;margin:12px 0;box-shadow:0 5px 16px rgba(15,23,42,.05)}
+.stage.two{border-left-color:var(--purple)}
+.stage h4{margin:0 0 4px;font-size:15.5px}
+.stage .stage-sub{font-size:13px;color:var(--muted);margin:0 0 10px}
+.bench-list{list-style:none;margin:0;padding:0}
+.bench-list li{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed #e6ecf4;font-size:14.5px}
+.bench-list li:last-child{border-bottom:0}
+.bench-list .n{flex:0 0 24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:800;display:grid;place-items:center}
+.bench-list .t b{font-variant-numeric:tabular-nums}
+.bench-list .d{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+
+/* --- take to the lab -------------------------------------------------------- */
+.lab-panel[hidden]{display:none!important}
+.lab-panel{position:fixed;inset:0;z-index:9000;background:#f3f7fb;color:#18212f;display:flex;flex-direction:column;overflow:hidden;font-size:17px}
+.lab-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 18px 12px;background:linear-gradient(135deg,#102a5f,#2457c5 60%,#18a0a6);color:#fff;flex:0 0 auto}
+.lab-title{font-size:19px;font-weight:800;letter-spacing:-.01em}
+.lab-sub{font-size:13.5px;color:rgba(255,255,255,.86);margin-top:3px}
+.lab-head-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end}
+.lab-count{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.26);border-radius:999px;padding:7px 13px;font-size:14px;font-weight:800;white-space:nowrap}
+.lab-btn{font:inherit;font-size:15px;font-weight:750;min-height:44px;padding:9px 16px;border-radius:11px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.1);color:#fff;cursor:pointer}
+.lab-btn:hover{background:rgba(255,255,255,.2)}
+.lab-bar{flex:0 0 auto;height:6px;background:#dde6f1}
+.lab-bar-fill{height:100%;width:0;background:linear-gradient(90deg,#0d9488,#34d399);transition:width .2s ease}
+.lab-steps{list-style:none;margin:0;padding:12px 14px 28px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1 1 auto}
+.lab-step{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;cursor:pointer;
+  min-height:72px;padding:14px 16px;margin:0 0 10px;border-radius:14px;
+  border:1.5px solid var(--line);background:#fff;color:inherit;box-shadow:0 2px 8px rgba(15,23,42,.05);
+  -webkit-tap-highlight-color:transparent}
+.lab-step .box{flex:0 0 36px;height:36px;border-radius:10px;border:2px solid #c3cfdd;background:#fff;display:grid;place-items:center;font-size:21px;font-weight:900;line-height:1;color:transparent}
+.lab-step .body{flex:1 1 auto;min-width:0}
+.lab-step .txt{display:block;font-size:17.5px;font-weight:700;line-height:1.3}
+.lab-step .txt b{font-variant-numeric:tabular-nums;font-size:19.5px}
+.lab-step .sub{display:block;font-size:13.5px;color:var(--muted);margin-top:3px}
+.lab-step .tagline{flex:0 0 auto;font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#94a3b8}
+.lab-step.done{background:#eafaf0;border-color:#7ecfa0}
+.lab-step.done .box{background:#0f9a56;border-color:#0f9a56;color:#fff}
+.lab-step.done .txt{text-decoration:line-through;color:#4b6b58}
+.lab-step.done .tagline{color:#0f7a43}
+.lab-step.current{background:#fff7e0;border-color:#f0b429;box-shadow:0 6px 18px rgba(217,119,6,.18)}
+.lab-step.current .box{border-color:#d97706}
+.lab-step.current .tagline{color:#b06c06}
+.lab-step.next{background:#eef6ff;border-color:#8fbdfb}
+.lab-step.next .tagline{color:#1f4e8a}
+.lab-stage-head{margin:14px 2px 8px;font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#64748b}
+.lab-foot{flex:0 0 auto;padding:12px 16px;border-top:1px solid var(--line);background:#fff;font-size:13.5px;color:var(--muted)}
+.lab-done-banner{margin:4px 0 10px;padding:14px 16px;border-radius:14px;background:#eafaf0;border:1.5px solid #7ecfa0;color:#0f7a43;font-weight:800;font-size:16px}
+@media (max-width:560px){
+  .lab-head{padding:13px 13px 10px}.lab-title{font-size:17px}.lab-head-actions{gap:6px}
+  .lab-btn{padding:9px 13px;font-size:14px}.lab-count{padding:7px 10px;font-size:13px}
+  .lab-steps{padding:10px 10px 32px}
+  .lab-step{gap:11px;padding:13px 13px;min-height:76px}
+  .lab-step .txt{font-size:17px}.lab-step .txt b{font-size:19px}
+  .lab-step .tagline{display:none}
+}
+@media (prefers-color-scheme:dark){
+  .lab-panel{background:#0b1220;color:#e6edf7}
+  .lab-panel .lab-bar{background:#1b2740}
+  .lab-step{background:#121b2b;border-color:#26354c;box-shadow:none}
+  .lab-step .box{background:#0b1220;border-color:#3a4c68}
+  .lab-step .sub{color:#93a3bb}
+  .lab-step .tagline{color:#6b7f9c}
+  .lab-step.done{background:#102a1e;border-color:#2f6b48}
+  .lab-step.done .box{background:#1f9d5f;border-color:#1f9d5f;color:#06220f}
+  .lab-step.done .txt{color:#8fb9a0}
+  .lab-step.done .tagline{color:#4cc98a}
+  .lab-step.current{background:#2c2410;border-color:#b7821c;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+  .lab-step.current .box{border-color:#d9a63c}
+  .lab-step.current .tagline{color:#e0b457}
+  .lab-step.next{background:#101f38;border-color:#2f568d}
+  .lab-step.next .tagline{color:#79a8ef}
+  .lab-stage-head{color:#8ba0bd}
+  .lab-foot{background:#0e1726;border-top-color:#24334a;color:#93a3bb}
+  .lab-done-banner{background:#102a1e;border-color:#2f6b48;color:#5fd39a}
+}
+@media print{.lab-panel{display:none!important}}
+
+
+/* --- "what this run leaves you" + the vessel drawing ------------------------ */
+.leaves{margin:16px 0 4px;padding:16px 18px;border:2px solid var(--good);border-radius:14px;background:var(--good-soft)}
+.leaves h4{margin:0 0 10px;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--good)}
+.leaves-list{list-style:none;margin:0;padding:0;counter-reset:lv}
+.leaves-list li{counter-increment:lv;display:grid;grid-template-columns:140px 1fr;gap:4px 12px;align-items:baseline;padding:7px 0;border-bottom:1px dashed rgba(8,116,67,.22)}
+.leaves-list li:last-child{border-bottom:0}
+.leaves-list li>b{font-size:12px;letter-spacing:.05em;color:#0b6b44}
+.leaves-list li>b:before{content:counter(lv) ". "}
+.leaves-list li>span{font-size:15px;font-weight:700;color:#113a27}
+.leaves-list li>span.is-end{font-weight:800}
+.leaves-list li>span.sub{grid-column:2;font-size:12.5px;font-weight:600;color:#3b6b55}
+.vessel-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:14px 0 0}
+.vessel-card{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;background:#fff;border:1.5px solid var(--line)}
+.vessel-card.end{border-color:var(--good)}
+.vessel-card.inter{border-color:var(--warn);border-style:dashed}
+.vlabel{font-size:17px;font-weight:850;letter-spacing:-.01em}
+.vvol{font-size:14px;font-weight:750;margin-top:2px}
+.vmass{font-size:12px;color:var(--muted);margin-top:1px}
+.vtube .vbody{fill:#fff;stroke:#9fb0c6;stroke-width:2}
+.vtube .vlip{stroke:#9fb0c6;stroke-width:3;stroke-linecap:round}
+.vtube.end .vfill{fill:#56c98c}
+.vtube.inter .vfill{fill:#efc14f}
+.vessel-arrow{display:flex;flex-direction:column;align-items:center;color:var(--muted);font-weight:800}
+.vessel-arrow span{font-size:24px;line-height:1}
+.vessel-arrow small{font-size:11.5px;font-variant-numeric:tabular-nums}
+@media (max-width:560px){.leaves-list li{grid-template-columns:1fr}.leaves-list li>span.sub{grid-column:1}}
+
+/* --- the same block at the foot of the bench checklist --------------------- */
+.lab-finale{margin:6px 0 10px;padding:16px;border-radius:14px;border:2px solid #0f9a56;background:#eafaf0}
+.lab-finale h4{margin:0 0 10px;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#0b6b44}
+.lab-finale ol{list-style:none;margin:0;padding:0;counter-reset:lf}
+.lab-finale li{counter-increment:lf;padding:8px 0;border-bottom:1px dashed rgba(8,116,67,.25);font-size:16.5px;font-weight:700;color:#113a27}
+.lab-finale li:last-child{border-bottom:0}
+.lab-finale li b{display:block;font-size:11.5px;letter-spacing:.06em;font-weight:800;color:#0b6b44;margin-bottom:2px}
+.lab-finale li b:before{content:counter(lf) ". "}
+.lab-finale li .sub{display:block;font-size:13px;font-weight:600;color:#3b6b55;margin-top:3px}
+@media (prefers-color-scheme:dark){
+  .lab-finale{background:#0f2a1e;border-color:#2f8257}
+  .lab-finale h4{color:#5fd39a}
+  .lab-finale li{color:#d6f0e1;border-bottom-color:rgba(95,211,154,.22)}
+  .lab-finale li b{color:#5fd39a}
+  .lab-finale li .sub{color:#96c2ab}
+}
+
+/* --- the same output block, one row per diluted sample --------------------- */
+.leaves-rows{display:flex;flex-direction:column;gap:10px}
+.leaves-row{padding:10px 12px;border-radius:11px;background:#fff;border:1.5px solid #bde8cf}
+.leaves-row.bad{border-color:#f3b4ab;background:var(--bad-soft)}
+.lr-where{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:#0b6b44;font-weight:800}
+.leaves-row.bad .lr-where{color:var(--bad)}
+.lr-what{font-size:15px;font-weight:700;color:#113a27;margin-top:3px}
+.leaves-row.bad .lr-what{color:#7c2217}
+.lr-end{font-size:13px;font-weight:800;margin-top:4px}
+.lr-end.ok{color:var(--good)}
+.lr-end.no{color:var(--bad);font-weight:700}
+.lr-inter{font-size:13px;font-weight:600;color:#8a5a06;background:var(--warn-soft);border:1px solid #f2dc9f;border-radius:9px;padding:7px 10px;margin:4px 0}
+
 </style>
 </head>
 <body>
@@ -395,6 +544,7 @@ legend{letter-spacing:-.01em}
   <button class="tabbtn" data-tabbtn="normalize" type="button">Normalize<small>dilute each library, plate → plate</small></button>
   <button class="tabbtn" data-tabbtn="dilute" type="button">Dilute<small>dilute a sample or a list</small></button>
   <button class="tabbtn" data-tabbtn="load" type="button">Load<small>flow cell loading (ONT / Illumina)</small></button>
+  <button class="tabbtn" data-tabbtn="backwards" type="button">Plan backwards<small>from the endpoint, then to the bench</small></button>
 </nav>
 <div class="tab-lead no-print" data-tab="pool">
   <b>Pool libraries into one tube.</b>
@@ -590,6 +740,61 @@ legend{letter-spacing:-.01em}
 <div id="dilResults"></div>
 </fieldset>
 
+<div class="tab-lead no-print" data-tab="backwards" hidden>
+  <b>Plan a pool backwards, from the endpoint.</b>
+  <span>Say what has to be in the tube at the end — <b>4 nM in 50 µL</b> — and how much of the pool each library should be. PoolMate works out the volumes, and when the endpoint cannot be reached in one step (it usually cannot) it plans the <b>pool&nbsp;→&nbsp;dilute</b> pair the lab does by hand. Then press <b>Take to the lab</b> and tick the steps off at the bench.</span>
+</div>
+<fieldset class="backwards-card" data-tab="backwards" hidden style="grid-column:1/-1">
+<legend>Endpoint</legend>
+<div style="display:flex;justify-content:flex-end;margin:-2px 0 8px"><button class="btn sm" id="clrBw" type="button">Clear section</button></div>
+<div class="row">
+  <div><label>Target pool molarity nM<span class="req">*</span></label><input id="bwTargetNm" type="number" step="any" min="0" value="4"><span class="inline-help">What the sequencer wants. Illumina pooling stocks are usually 4 nM.</span></div>
+  <div><label>Target pool volume µL<span class="req">*</span></label><input id="bwTotalVol" type="number" step="any" min="0" value="50"><span class="inline-help">How much you want to end up holding at that concentration.</span></div>
+  <div><label>Concentration unit<span class="req">*</span></label><select id="bwUnit"><option value="mass">ng/µL + bp</option><option value="molar">direct nM</option></select><span class="inline-help"><code>nM = ng/µL × 10⁶ / (660 × bp)</code>. Fragment size is also what lets the guide quote ng/µL.</span></div>
+  <div><label>Pool vessel holds µL<span class="req">*</span></label><input id="bwVessel" type="number" step="any" min="0" value="200"><span class="inline-help">The <b>vessel</b> is what limits a single step, not the pipette — a PCR well ≈ 200 µL, a 1.5 mL tube ≈ 1500 µL. Give it room and two stages are almost never needed.</span></div>
+  <div><label>Aim for transfers of at least µL</label><input id="bwAim" type="number" step="any" min="0" value="2"><span class="inline-help">Bigger transfers are more accurate — 1 µL carries ≈5% from the 0.1 µL rounding alone, 2 µL ≈2.5%, 10 µL ≈0.5% — but use proportionally more library. Never exceeds the vessel, never forces a second stage.</span></div>
+  <div><label>Min transfer µL</label><input id="bwMinT" type="number" step="any" min="0" value="1"><span class="inline-help">The TS_50 floor. No step is ever emitted below it.</span></div>
+  <div><label>Round to µL</label><input id="bwRound" type="number" step="any" min="0" value="0.1"></div>
+  <div><label>Pool vessel label</label><input id="bwVesselA" value="T7"><span class="inline-help">The tube or well the pool is built in. Used by name in every step.</span></div>
+  <div><label>Final vessel label</label><input id="bwVesselB" value="T8"><span class="inline-help">Only used when a second stage is needed.</span></div>
+</div>
+<div class="row" style="margin-top:4px">
+  <div style="flex:0 0 auto;align-self:flex-end"><button class="btn" id="bwAddRow" type="button">+ Add sample</button></div>
+  <div style="flex:0 0 auto;align-self:flex-end"><button class="btn sm" id="bwEvenSplit" type="button">Even split</button></div>
+  <div style="flex:1 1 320px"><span class="inline-help"><b>Share</b> is each library's percentage of the pool and the column always totals 100. A value you type is <b>locked</b> (🔒); the rest is shared out between the unlocked rows and shown greyed. Press 🔒 to release a row.</span></div>
+</div>
+<div class="table-wrap bw-table"><table id="bwTable">
+<thead><tr><th style="width:34px">#</th><th style="width:110px">Tube / well<span class="req">*</span></th><th>Name</th><th style="width:150px" id="bwConcHead">Conc ng/µL<span class="req">*</span></th><th style="width:100px" id="bwSizeHead">Size bp<span class="req">*</span></th><th style="width:118px">Share %<span class="req">*</span></th><th style="width:50px"></th></tr></thead>
+<tbody id="bwBody"></tbody>
+</table></div>
+<div class="bw-sharebar" id="bwShareBar"></div>
+<div class="action-strip">
+  <button class="btn primary" id="bwPlanBtn" type="button">Plan the pool</button>
+  <button class="btn secondary" id="bwLabBtn" type="button" disabled>🧪 Take to the lab</button>
+  <button class="btn" id="bwPrintBtn" type="button">Print / Save PDF</button>
+  <span class="hint">Bench guide only — no epMotion files. The volumes come from the same <code>PoolCore</code> the other tabs use.</span>
+</div>
+<div id="bwMessages"></div>
+<div id="bwResults"></div>
+</fieldset>
+
+<div id="labPanel" class="lab-panel no-print" hidden role="dialog" aria-modal="true" aria-label="Bench checklist">
+  <div class="lab-head">
+    <div style="min-width:0">
+      <div class="lab-title" id="labTitle">Bench checklist</div>
+      <div class="lab-sub" id="labSub"></div>
+    </div>
+    <div class="lab-head-actions">
+      <span class="lab-count" id="labCount" aria-live="polite">0 of 0 done</span>
+      <button class="lab-btn" id="labReset" type="button">Reset</button>
+      <button class="lab-btn" id="labClose" type="button">Close</button>
+    </div>
+  </div>
+  <div class="lab-bar"><div class="lab-bar-fill" id="labBarFill"></div></div>
+  <div class="lab-steps" id="labStepList"></div>
+  <div class="lab-foot" id="labFoot">Tap a line to tick it off. Your place is kept if the page reloads.</div>
+</div>
+
 <div class="bar" data-tab="pool">
 <button class="btn" id="importCsv">Import instrument CSV/TXT…</button><input type="file" id="importCsvFile" accept=".csv,.txt,.json,text/csv,text/plain,application/json" hidden>
 <button class="btn" id="exportCsv">Export contents (CSV)</button>
@@ -706,6 +911,27 @@ const isBlank=v=>v===null||v===undefined||v==="";
 function roundTo(v,step){step=Number(step)||0.1;return Math.round(v/step)*step}
 function fmt(v,d=2){if(isBlank(v)||Number.isNaN(Number(v)))return"";let s=Number(v).toFixed(d);return s.indexOf(".")>=0?s.replace(/\.?0+$/,""):s}
 function ngToNm(conc,size){return conc*1e6/(MW_PER_BP*size)}
+/* A concentration unit decides a conversion, so an unrecognised token must never be
+ * guessed at. Matching one exact string and letting everything else fall through to the
+ * other branch turns "ng/uL" - an ASCII u instead of a micro sign, the obvious thing to
+ * type - into a silent 3.8x error that reports success. Accept the spellings people
+ * actually write, and throw on anything else. */
+/* The same rule as concUnit, for every other token that steers the arithmetic. A lookup
+ * miss must FAIL, not fall into whichever branch happens to be the else: that is how the
+ * unit bug turned ng/uL into nM, and defaults indistinguishable from success come in
+ * pairs. Blank keeps the historic default; anything unrecognised throws by name. */
+function oneOf(v,allowed,dflt,what){
+const t=String(v==null?"":v).trim().toLowerCase();
+if(t==="")return dflt;
+const hit=allowed.find(a=>a.toLowerCase()===t);
+if(hit)return hit;
+throw new Error(`'${v}' is not a valid ${what}. Use ${allowed.join(", ")}.`)}
+function concUnit(u,whose){
+const t=String(u==null?"":u).trim().toLowerCase().replace(/\u00b5|\u03bc/g,"u");
+if(t===""||t==="nm"||t==="nmol/l"||t==="nmol")return"nM";
+if(t==="ng/ul"||t==="ngul"||t==="ng/l"||t==="ng per ul")return"ng/\u00b5L";
+if(t==="pg/ul"||t==="pgul")return"pg/\u00b5L";
+throw new Error((whose?whose+": ":"")+`'${u}' is not a concentration unit this understands. Use nM, ng/µL or pg/µL.`)}
 function pad(n){return String(n).padStart(2,"0")}
 function autoName(st,prefix="pool"){let tag=isBlank(st.target_nm)?"draft":fmt(st.target_nm)+"nM";let name=(st.run_name||"").trim().replace(/[^\w.-]+/g,"_");let d=new Date();let ts=`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;return `${prefix}_${name?name+"_":""}${tag}_${ts}`}
 function presetLoadingLabel(st){const p=PRESETS[st.platform];if(!p)return null;const o=p.options[st.preset];return o?`${p.label} / ${o.loading}`:p.label}
@@ -716,14 +942,28 @@ function missingForQuick(st){const m=[];if(!(st.samples||[]).length)m.push("at l
 function missingForQuickPool(st){const m=missingForQuick(st);let mode=st.quick_pool_mode||"per_sample";if(mode==="total"){if(!(Number(st.quick_total_fmol)>0))m.push("total pool fmol")}else if(mode==="nm"){if(!(Number(st.quick_target_nm)>0))m.push("target pool nM");if(!(Number(st.quick_final_vol_ul)>0))m.push("final pool volume")}else if(mode==="equal_vol"){if(!(Number(st.quick_equal_vol_ul)>0))m.push("volume per sample")}else{if(!(Number(st.quick_fmol_per_sample)>0))m.push("fmol per sample")}return m}
 function computeQuickPool(samplesIn,st){const samples=prepareSamples(samplesIn);const dups=validateNames(samples);if(dups.length)throw new Error("Duplicate sample name(s): "+dups.join(", "));let roundStep=Number(st.quick_round_step_ul)||0.1;let n=samples.length;let mode=st.quick_pool_mode||"per_sample";let fmolPerSample=null,equalVol=null;if(mode==="total"){fmolPerSample=Number(st.quick_total_fmol)/n}else if(mode==="nm"){let t=Number(st.quick_target_nm),v=Number(st.quick_final_vol_ul);if(!(t>0)||!(v>0))throw new Error("Target nM and final pool volume must be > 0.");fmolPerSample=t*v/n}else if(mode==="equal_vol"){equalVol=Number(st.quick_equal_vol_ul);if(!(equalVol>0))throw new Error("Volume per sample must be > 0.")}else{fmolPerSample=Number(st.quick_fmol_per_sample)}if(equalVol===null&&!(fmolPerSample>0))throw new Error("Quick pool target must be > 0.");samples.forEach(s=>{if(equalVol!==null){s.quick_raw_ul=equalVol;s.quick_fmol=equalVol*s.molarity_nm}else{s.quick_fmol=fmolPerSample;s.quick_raw_ul=fmolPerSample/s.molarity_nm}s.quick_rounded_ul=roundTo(s.quick_raw_ul,roundStep);s.quick_actual_fmol=s.quick_rounded_ul*s.molarity_nm;s.quick_tip=tipFor(s.quick_rounded_ul,st.tip_mode||"auto")});let actuals=samples.map(s=>s.quick_actual_fmol),avg=mean(actuals),sd=stdev(actuals),cv=avg?sd/avg*100:0;let sumUl=samples.reduce((a2,s)=>a2+s.quick_rounded_ul,0);return{samples,summary:{n,mode,equimolar:equalVol===null,volume_per_sample_ul:equalVol,fmol_per_sample:(equalVol===null?fmolPerSample:avg),total_fmol:(equalVol===null?fmolPerSample*n:actuals.reduce((a2,x)=>a2+x,0)),sum_transfer_ul:sumUl,round_step_ul:roundStep,mean_fmol:avg,cv_pct:cv,min_fmol:Math.min(...actuals),max_fmol:Math.max(...actuals)}}}
 function buildQuickPoolCsv(samples,summary){let L=[csvRow(["source_well","name","molarity_nM","target_fmol","raw_transfer_uL","rounded_transfer_uL","actual_fmol","tip"])];samples.forEach(s=>L.push(csvRow([s.source_well,s.name,fmt(s.molarity_nm,3),fmt(summary.fmol_per_sample,3),fmt(s.quick_raw_ul,3),fmt(s.quick_rounded_ul,1),fmt(s.quick_actual_fmol,3),s.quick_tip])));L.push("");L.push(csvRow(["# summary"]));L.push(csvRow(["mode",summary.mode]));if(summary.volume_per_sample_ul!=null)L.push(csvRow(["volume_per_sample_uL",fmt(summary.volume_per_sample_ul,2)]));L.push(csvRow(["equimolar",summary.equimolar?"yes":"no"]));L.push(csvRow(["total_transfer_uL",fmt(summary.sum_transfer_ul,1)]));L.push(csvRow(["total_fmol",fmt(summary.total_fmol,3)]));L.push(csvRow(["post_rounding_cv_pct",fmt(summary.cv_pct,3)]));return L.join(CRLF)+CRLF}
-function tipFor(vol,mode){if(mode&&mode!=="auto")return mode;if(vol<=50)return"TS_50";if(vol<=300)return"TS_300";return"OVER_CAPACITY"}
+/* A tool's capacity is a property of the tool, not of how it was chosen. Returning the
+ * forced tool regardless of volume names a tip that cannot move the liquid, and - worse
+ * - suppresses the OVER_CAPACITY the automatic path would have raised. */
+const TIP_MAX={TS_50:50,TS_300:300};
+function tipFor(vol,mode){
+mode=oneOf(mode,["auto","TS_50","TS_300"],"auto","tip policy");
+if(mode!=="auto")return vol<=TIP_MAX[mode]+1e-9?mode:"OVER_CAPACITY";
+if(vol<=TIP_MAX.TS_50)return"TS_50";
+if(vol<=TIP_MAX.TS_300)return"TS_300";
+return"OVER_CAPACITY"}
+function tipLimitNote(mode){
+const m=oneOf(mode,["auto","TS_50","TS_300"],"auto","tip policy");
+return m==="auto"?`the ${fmt(TIP_MAX.TS_300,0)} µL capacity of the largest tip`
+ :`the ${fmt(TIP_MAX[m],0)} µL capacity of the ${m} tip you forced`}
 function missingForCompute(st){const m=missingForQuick(st);if(st.pool_goal==="fmol"){if(!(Number(st.total_fmol)>0))m.push("total pool fmol")}else{if(!(Number(st.target_nm)>0))m.push("target pool concentration (nM)")}if(!(Number(st.total_volume_ul)>0))m.push("total pool volume (µL)");if(st.layout!=="one-tube"&&st.layout!=="normalize")m.push("layout");return m}
 function validateNames(samples){const seen=new Set(),dups=[];samples.forEach(s=>{let n=(s.name||"").trim().toLowerCase();if(n){if(seen.has(n))dups.push(s.name);seen.add(n)}});return dups}
-function prepareSamples(samplesIn){return samplesIn.map((s,i)=>{let out=Object.assign({},s);out.name=(out.name||`sample_${i+1}`).trim();out.source_well=(out.source_well||WELLS[i]||"").trim();out.dest_well=(out.dest_well||"").trim().toUpperCase()||out.source_well;out.mode=out.mode||"mass";out.share=(out.share==null||out.share==="")?1:Number(out.share);if(!(out.share>=0))out.share=1;if(out.mode==="molar"){out.molarity_nm=Number(out.direct_nm);out.conc_avg=null;out.conc_sd=null;out.conc_reads_list=[]}else{let reads=parseReads(out.conc_reads);out.conc_reads_list=reads;out.conc_avg=mean(reads);out.conc_sd=stdev(reads);out.size=Number(out.size);out.molarity_nm=ngToNm(out.conc_avg,out.size)}return out})}
+function prepareSamples(samplesIn){return samplesIn.map((s,i)=>{let out=Object.assign({},s);out.name=(out.name||`sample_${i+1}`).trim();out.source_well=(out.source_well||WELLS[i]||"").trim();out.dest_well=(out.dest_well||"").trim().toUpperCase()||out.source_well;out.mode=oneOf(out.mode,["mass","molar"],"mass",`input mode for sample '${out.name}'`);out.share=(out.share==null||out.share==="")?1:Number(out.share);if(!(out.share>=0))out.share=1;if(out.mode==="molar"){out.molarity_nm=Number(out.direct_nm);out.conc_avg=null;out.conc_sd=null;out.conc_reads_list=[]}else{let reads=parseReads(out.conc_reads);out.conc_reads_list=reads;out.conc_avg=mean(reads);out.conc_sd=stdev(reads);out.size=Number(out.size);out.molarity_nm=ngToNm(out.conc_avg,out.size)}return out})}
 function computePool(samplesIn,st){
 let total=Number(st.total_volume_ul),layout=st.layout,minTransfer=Number(st.min_transfer_ul)||1,roundStep=Number(st.round_step_ul)||0.1,excess=1+(Number(st.excess_pct)||0)/100,tipMode=st.tip_mode||"auto";
-let target_nm=st.pool_goal==="fmol" ? Number(st.total_fmol)/total : Number(st.target_nm);
-if(st.pool_goal==="fmol" && !(Number(st.total_fmol)>0))throw new Error("Total pool fmol must be > 0.");
+let goal=oneOf(st.pool_goal,["nm","fmol"],"nm","pool calculation mode");
+let target_nm=goal==="fmol" ? Number(st.total_fmol)/total : Number(st.target_nm);
+if(goal==="fmol" && !(Number(st.total_fmol)>0))throw new Error("Total pool fmol must be > 0.");
 if(!(target_nm>0)||!(total>0))throw new Error("Target nM/total fmol and total volume must be > 0.");
 if(layout!=="one-tube"&&layout!=="normalize")throw new Error("Layout must be one-tube or normalize.");
 let samples=prepareSamples(samplesIn);
@@ -744,9 +984,9 @@ let warnings=[],predilutions=[];
 let getWell=(sw,off)=>{let m=String(sw).trim().toUpperCase().match(/^([A-H])(\d+)$/);if(!m)return sw;let abs=(parseInt(m[2],10)-1)*8+(m[1].charCodeAt(0)-65)+off;return String.fromCharCode(65+(abs%8))+(Math.floor(abs/8)+1)};
 let dilOffset=0,dilStart=st.dil_start_well||"A2",dilRack=Number(st.dil_rack)||1;
 samples.forEach(s=>{if(s.raw_sample_ul<minTransfer){warnings.push(`Sample '${s.name}' calculated transfer ${fmt(s.raw_sample_ul,2)} µL is below ${fmt(minTransfer,2)} µL.`);if(st.low_vol_mode==="predilute"){let targetTransfer=minTransfer*(1+(Number(st.predilution_margin_pct)||0)/100);let dilutionFactor=targetTransfer/s.raw_sample_ul;let preVol=Number(st.predilution_volume_ul)||10;let stock=preVol/dilutionFactor;let diluent=preVol-stock;if(stock<minTransfer){let adjustedPreVol=minTransfer*dilutionFactor;stock=minTransfer;diluent=adjustedPreVol-stock;preVol=adjustedPreVol}let maxCap=Number(st.max_well_cap_ul)||200;if(preVol>maxCap){let steps=Math.ceil(Math.log(dilutionFactor)/Math.log(maxCap/minTransfer));let stepDF=Math.pow(dilutionFactor,1/steps);let currentMolarity=s.molarity_nm;let lastWell=s.source_well;for(let i=1;i<=steps;i++){let stepStock=minTransfer;let stepPreVol=stepStock*stepDF;let stepDiluent=stepPreVol-stepStock;let newMol=currentMolarity/stepDF;let dWell=getWell(dilStart,dilOffset++);predilutions.push({name:s.name,step:i,total_steps:steps,source_well:lastWell,dest_well:dWell,dest_rack:dilRack,dilution_factor:stepDF,final_volume_ul:stepPreVol,stock_ul:stepStock,diluent_ul:stepDiluent,new_molarity_nm:newMol,is_serial:true});lastWell=dWell;currentMolarity=newMol}s.final_dilution_well=lastWell;s.final_dilution_rack=dilRack}else{let dWell=getWell(dilStart,dilOffset++);predilutions.push({name:s.name,step:1,total_steps:1,source_well:s.source_well,dest_well:dWell,dest_rack:dilRack,dilution_factor:dilutionFactor,final_volume_ul:preVol,stock_ul:stock,diluent_ul:diluent,new_molarity_nm:s.molarity_nm/dilutionFactor,is_serial:false});s.final_dilution_well=dWell;s.final_dilution_rack=dilRack}s.effective_molarity_nm=s.molarity_nm/dilutionFactor;s.prediluted=true}else s.effective_molarity_nm=s.molarity_nm}else s.effective_molarity_nm=s.molarity_nm});
-rawFmol=target_nm*final_total/n;samples.forEach(s=>{s.sample_ul=fmolFor(s,final_total)/s.effective_molarity_nm;s.round_sample_ul=roundTo(s.sample_ul,roundStep);s.round_sample_ul_excess=roundTo(s.round_sample_ul*excess,roundStep);s.actual_fmol=s.round_sample_ul*s.effective_molarity_nm;s.tip=tipFor(s.round_sample_ul_excess,tipMode);if(s.tip==="OVER_CAPACITY")warnings.push(`Sample '${s.name}' transfer ${fmt(s.round_sample_ul_excess,1)} µL exceeds the available 300 µL tip capacity.`);if(s.round_sample_ul<minTransfer)warnings.push(`Sample '${s.name}' still rounds to ${fmt(s.round_sample_ul,1)} µL, below the minimum transfer.`);if(s.implausible_size)warnings.push(`Sample '${s.name}' has an implausible size (${s.size} bp). Check input.`)});
+rawFmol=target_nm*final_total/n;samples.forEach(s=>{s.sample_ul=fmolFor(s,final_total)/s.effective_molarity_nm;s.round_sample_ul=roundTo(s.sample_ul,roundStep);s.round_sample_ul_excess=roundTo(s.round_sample_ul*excess,roundStep);s.actual_fmol=s.round_sample_ul*s.effective_molarity_nm;s.tip=tipFor(s.round_sample_ul_excess,tipMode);if(s.tip==="OVER_CAPACITY")warnings.push(`Sample '${s.name}' transfer ${fmt(s.round_sample_ul_excess,1)} µL exceeds ${tipLimitNote(tipMode)}. Split it into several strokes, or lower the volume.`);if(s.round_sample_ul<minTransfer)warnings.push(`Sample '${s.name}' still rounds to ${fmt(s.round_sample_ul,1)} µL, below the minimum transfer.`);if(s.implausible_size)warnings.push(`Sample '${s.name}' has an implausible size (${s.size} bp). Check input.`)});
 let sumRounded=samples.reduce((a,s)=>a+s.round_sample_ul,0),buffer_total,wellVol=null;
-if(layout==="normalize"){wellVol=final_total/n;samples.forEach(s=>{s.buffer_ul=wellVol-s.round_sample_ul;s.round_buffer_ul=roundTo(s.buffer_ul,roundStep);s.round_buffer_ul_excess=roundTo(s.round_buffer_ul*excess,roundStep);s.buffer_tip=tipFor(s.round_buffer_ul_excess,tipMode);if(s.round_buffer_ul<0)throw new Error(`Sample '${s.name}' needs more sample than its destination well volume. Lower target or increase final volume.`);if(s.buffer_tip==="OVER_CAPACITY")warnings.push(`Buffer for '${s.name}' exceeds the available 300 µL tip capacity.`)});buffer_total=samples.reduce((a,s)=>a+s.round_buffer_ul,0)}
+if(layout==="normalize"){wellVol=final_total/n;samples.forEach(s=>{s.buffer_ul=wellVol-s.round_sample_ul;s.round_buffer_ul=roundTo(s.buffer_ul,roundStep);s.round_buffer_ul_excess=roundTo(s.round_buffer_ul*excess,roundStep);s.buffer_tip=tipFor(s.round_buffer_ul_excess,tipMode);if(s.round_buffer_ul<0)throw new Error(`Sample '${s.name}' needs more sample than its destination well volume. Lower target or increase final volume.`);if(s.buffer_tip==="OVER_CAPACITY")warnings.push(`Diluent for '${s.name}' (${fmt(s.round_buffer_ul_excess||s.round_buffer_ul,1)} µL) exceeds ${tipLimitNote(tipMode)}.`)});buffer_total=samples.reduce((a,s)=>a+s.round_buffer_ul,0)}
 else{buffer_total=roundTo(final_total-sumRounded,roundStep);if(buffer_total<0)throw new Error("Rounded DNA volumes exceed total pool volume.");}
 samples.forEach(s=>{s.pool_pct=0});let actuals=samples.filter(s=>s.share>0).map(s=>s.actual_fmol/s.share),avg=mean(actuals),sd=stdev(actuals),cv=avg?sd/avg*100:0,min=Math.min(...actuals),max=Math.max(...actuals);let fmolSum=samples.reduce((a,s)=>a+s.actual_fmol,0);samples.forEach(s=>{s.pool_pct=fmolSum?s.actual_fmol/fmolSum*100:0;s.want_pct=frac(s)*100});
 let summary={n,target_nm,total_fmol:target_nm*final_total,total_volume_ul:total,final_total_volume_ul:final_total,volume_bumped:changed,layout,fmol_per_sample:target_nm*final_total/n,sum_sample_ul:sumRounded,buffer_total_ul:buffer_total,well_volume_ul:wellVol,round_step_ul:roundStep,min_transfer_ul:minTransfer,excess_pct:Number(st.excess_pct)||0,warnings,predilutions,post_rounding:{mean_fmol:avg,sd_fmol:sd,cv_pct:cv,min_fmol:min,max_fmol:max,spread_pct:avg?(max-min)/avg*100:0}};
@@ -758,13 +998,96 @@ function buildCsvs(samples,summary,st){let dna=[],buf=[],sourceRack=Number(st.so
 // Dilution runs FIRST as one ordered worklist (robot mixes after each dispense),
 // so serial steps chain correctly: diluent then stock per step, in order.
 function buildDilutionWorklist(predilutions,st){let rows=[],sourceRack=Number(st.source_rack)||1,bufferPos=(st.buffer_pos||"1").trim(),bufferRack=Number(st.buffer_rack)||sourceRack;predilutions.forEach((p,i)=>{rows.push({srcRack:bufferRack,src:bufferPos,destRack:p.dest_rack,dest:p.dest_well,vol:p.diluent_ul,tool:tipFor(p.diluent_ul,st.tip_mode),name:p.name+(p.total_steps>1?"_diluent_s"+p.step:"_diluent")});let sRack=p.step===1?sourceRack:predilutions[i-1].dest_rack;rows.push({srcRack:sRack,src:p.source_well,destRack:p.dest_rack,dest:p.dest_well,vol:p.stock_ul,tool:tipFor(p.stock_ul,st.tip_mode),name:p.name+(p.total_steps>1?"_stock_s"+p.step:"_stock")})});return buildWorklist(rows,st)}
-// Standalone bench dilution: dilute a stock to a target concentration (any unit).
-// Returns single-step or auto serial-step plan; volumes only, no robot file.
-function computeStandaloneDilution(o){let stock=Number(o.stock_conc),target=Number(o.target_conc),finalVol=Number(o.final_volume_ul),minT=Number(o.min_transfer_ul)||1,maxCap=Number(o.max_well_cap_ul)||200,roundStep=Number(o.round_step_ul)||0.1,unit=o.unit||"nM";if(!(stock>0))throw new Error("Stock concentration must be > 0.");if(!(target>0))throw new Error("Target concentration must be > 0.");if(!(finalVol>0))throw new Error("Final volume must be > 0.");if(target>=stock)throw new Error(`Target (${fmt(target)} ${unit}) must be below the stock (${fmt(stock)} ${unit}); this tool dilutes, it cannot concentrate.`);let DF=stock/target,warnings=[],maxStepDF=maxCap/minT;let singleDna=finalVol/DF;let singleOk=DF<=maxStepDF&&finalVol<=maxCap&&singleDna>=minT;let steps=[];if(singleOk){let dna=roundTo(singleDna,roundStep),dil=roundTo(finalVol-dna,roundStep);steps.push({step:1,total_steps:1,dilution_factor:DF,conc_before:stock,conc_after:target,stock_ul:dna,diluent_ul:dil,final_volume_ul:roundTo(finalVol,roundStep)})}else{let nSteps=Math.max(2,Math.ceil(Math.log(DF)/Math.log(maxStepDF>1?maxStepDF:2)));let stepDF=Math.pow(DF,1/nSteps),V=Math.min(finalVol,maxCap);if(finalVol>maxCap)warnings.push(`Final volume ${fmt(finalVol)} µL exceeds the ${fmt(maxCap)} µL well cap; each step is capped at ${fmt(maxCap)} µL.`);let conc=stock;for(let i=1;i<=nSteps;i++){let vol=(i===nSteps)?Math.min(finalVol,maxCap):V;let stk=vol/stepDF,dil=vol-stk;if(stk<minT)warnings.push(`Step ${i} stock volume ${fmt(stk,2)} µL is below the ${fmt(minT)} µL minimum — increase the final volume or step volume.`);let after=conc/stepDF;steps.push({step:i,total_steps:nSteps,dilution_factor:stepDF,conc_before:conc,conc_after:after,stock_ul:roundTo(stk,roundStep),diluent_ul:roundTo(dil,roundStep),final_volume_ul:roundTo(vol,roundStep)});conc=after}}return{unit,df:DF,mode:singleOk?"single":"serial",steps,warnings,achieved:steps[steps.length-1].conc_after}}
+/* Dilute a stock to a target concentration. Volumes only, any unit, no robot file.
+ *
+ * The 1 uL floor constrains the TRANSFER, not the dilution FACTOR, so what decides
+ * whether one step is enough is the VESSEL: 200x fits a PCR well, 1500x a 1.5 mL tube.
+ * Serial steps are a fallback, never a remedy - each carries its own rounding.
+ *
+ * Where serial IS needed, the intermediates are made in the VESSEL (maxCap), not in the
+ * final volume. Making them at the final volume is what used to produce sub-microlitre
+ * steps: a 1800x dilution into 20 uL came back as two steps of 0.5 uL, which nobody can
+ * pipette, reported only as a warning underneath the numbers.
+ *
+ * The factors are then split so that the total rounding error is least. A step's error
+ * is about (round/2) x factor / volume, so minimising the sum subject to a fixed product
+ * of factors puts each step's factor proportional to its volume - which is the same as
+ * saying every step transfers the SAME volume. The last step is sized exactly instead,
+ * so the chain lands on target rather than on the product of rounded factors.
+ *
+ * Every concentration reported is the one the ROUNDED volumes actually give, not the
+ * one the factors were meant to give.
+ */
+function computeStandaloneDilution(o){
+let stock=Number(o.stock_conc),target=Number(o.target_conc),finalVol=Number(o.final_volume_ul),
+ minT=Number(o.min_transfer_ul)||1,maxCap=Number(o.max_well_cap_ul)||200,
+ roundStep=Number(o.round_step_ul)||0.1,unit=o.unit||"nM";
+if(!(stock>0))throw new Error("Stock concentration must be > 0.");
+if(!(target>0))throw new Error("Target concentration must be > 0.");
+if(!(finalVol>0))throw new Error("Final volume must be > 0.");
+if(!(minT>0))throw new Error("Minimum transfer must be > 0.");
+if(target>=stock)throw new Error(`Target (${fmt(target)} ${unit}) must be below the stock (${fmt(stock)} ${unit}); this tool dilutes, it cannot concentrate.`);
+const after=(before,stk,dil)=>{const v=stk+dil;return v>0?stk*before/v:0};
+let DF=stock/target,warnings=[],maxStepDF=maxCap/minT;
+let singleDna=finalVol/DF;
+let singleOk=DF<=maxStepDF&&finalVol<=maxCap&&singleDna>=minT;
+let steps=[];
+if(singleOk){
+ let dna=roundTo(singleDna,roundStep),dil=roundTo(finalVol-dna,roundStep);
+ steps.push({step:1,total_steps:1,dilution_factor:DF,conc_before:stock,
+  conc_after:after(stock,dna,dil),nominal_conc_after:target,
+  stock_ul:dna,diluent_ul:dil,final_volume_ul:roundTo(dna+dil,roundStep)})
+}else{
+ if(finalVol>maxCap)warnings.push(`Final volume ${fmt(finalVol)} µL exceeds the ${fmt(maxCap)} µL vessel; each step is capped at ${fmt(maxCap)} µL.`);
+ const lastV=Math.min(finalVol,maxCap),interV=maxCap;
+ /* fewest steps that can carry the factor, intermediates made in the full vessel */
+ let nSteps=0,vols=null;
+ for(let n=2;n<=6;n++){
+  const vv=[];for(let i=0;i<n-1;i++)vv.push(interV);vv.push(lastV);
+  if(DF<=vv.reduce((a,v)=>a*(v/minT),1)+1e-9){nSteps=n;vols=vv;break}}
+ if(!nSteps)throw new Error(`A ${fmt(DF,1)}× dilution into ${fmt(finalVol,1)} ${"µL"} cannot be made in 6 steps or fewer with a ${fmt(maxCap,0)} µL vessel and a ${fmt(minT,2)} µL minimum transfer. Use a larger vessel, or dilute in two runs.`);
+ const take=1/Math.pow(DF/vols.reduce((a,v)=>a*v,1),1/nSteps);  /* the common transfer */
+ let conc=stock;
+ for(let i=0;i<nSteps;i++){
+  const v=vols[i],isLast=i===nSteps-1;
+  /* the last step is sized to LAND on target from wherever rounding has left us */
+  let stk=roundTo(isLast?v*target/conc:take,roundStep);
+  if(stk<minT)stk=roundTo(minT,roundStep);
+  if(stk>v)stk=roundTo(v,roundStep);
+  const dil=roundTo(v-stk,roundStep);
+  if(dil>1e-9&&dil<minT-1e-9)
+   throw new Error(`Step ${i+1} would add only ${fmt(dil,2)} µL of diluent, under the ${fmt(minT,2)} µL minimum. Use a larger vessel or a larger final volume.`);
+  const conc2=after(conc,stk,dil);
+  steps.push({step:i+1,total_steps:nSteps,dilution_factor:conc2>0?conc/conc2:0,
+   conc_before:conc,conc_after:conc2,stock_ul:stk,diluent_ul:dil,
+   final_volume_ul:roundTo(stk+dil,roundStep)});
+  conc=conc2}
+ /* One step needs room: minT of stock made up to DF x minT. Both limits - the final
+  * volume and the vessel - are that same requirement, so say it once. */
+ const needVol=DF*minT;
+ if(nSteps>1)warnings.push(`${nSteps} serial steps: one step at ${fmt(DF,1)}× would need ${fmt(needVol,0)} µL of room (${fmt(minT,2)} µL of stock made up to ${fmt(needVol,0)} µL), against your ${fmt(finalVol,1)} µL final volume${maxCap<needVol-1e-9?` and ${fmt(maxCap,0)} µL vessel`:""}. Each step carries its own ${fmt(roundStep,2)} µL rounding, so more room would do better.`);
+}
+const landed=steps[steps.length-1].conc_after;
+if(Math.abs(landed-target)>target*0.02)
+ warnings.push(`Rounding leaves this at ${fmt(landed,3)} ${unit} against a ${fmt(target,3)} ${unit} target (${fmt((landed-target)/target*100,1)}%).`);
+return{unit,df:DF,mode:singleOk?"single":"serial",steps,warnings,achieved:landed}}
 function buildDilutionPlanCsv(res){let L=[csvRow(["step","dilution_factor","conc_before_"+res.unit,"conc_after_"+res.unit,"stock_uL","diluent_uL","final_uL"])];res.steps.forEach(s=>L.push(csvRow([s.total_steps>1?`${s.step} of ${s.total_steps}`:"1",fmt(s.dilution_factor,3),fmt(s.conc_before,3),fmt(s.conc_after,3),fmt(s.stock_ul,1),fmt(s.diluent_ul,1),fmt(s.final_volume_ul,1)])));return L.join(CRLF)+CRLF}
 // Dilute a whole list of samples (each with its own stock/target/volume). Errors
 // are captured per-row so one bad sample doesn't sink the rest.
 function computeDilutionList(samplesIn,o){return samplesIn.map((s,i)=>{let name=(s.name||"sample_"+(i+1)).trim();try{let ov={stock_conc:s.stock,target_conc:s.target,final_volume_ul:s.final_vol};if(s.min_transfer!=null&&s.min_transfer!=="")ov.min_transfer_ul=s.min_transfer;if(s.max_cap!=null&&s.max_cap!=="")ov.max_well_cap_ul=s.max_cap;if(s.round_step!=null&&s.round_step!=="")ov.round_step_ul=s.round_step;let res=computeStandaloneDilution(Object.assign({},o,ov));res.name=name;res.ok=true;res.well=(s.well||"").trim();res.dest_well=(s.dwell||"").trim();res.stock=Number(s.stock);res.target=Number(s.target);res.total_diluent_ul=res.steps.reduce((a,x)=>a+x.diluent_ul,0);return res}catch(e){return{name,ok:false,error:e.message,well:(s.well||"").trim(),dest_well:(s.dwell||"").trim(),stock:s.stock,target:s.target,steps:[],warnings:[],total_diluent_ul:0}}})}
+/* computeStandaloneDilution reports each step's INTENDED conc_after. What the tube
+ * actually holds once the volumes have been rounded to the step is C1V1 = C2V2 applied
+ * to the rounded volumes, chained through the steps - which is what a bench guide has to
+ * quote. One implementation, here, so the tab and the checklist cannot disagree. */
+function chainDilution(stock,steps){
+let c=Number(stock);
+return (steps||[]).map(s=>{
+ const vol=s.stock_ul+s.diluent_ul;
+ const after=vol>0?s.stock_ul*c/vol:0;
+ const o={step:s.step,total_steps:s.total_steps,conc_before:c,conc_after:after,
+  stock_ul:s.stock_ul,diluent_ul:s.diluent_ul,volume_ul:vol,
+  dilution_factor:after>0?c/after:0};
+ c=after;return o})}
 function buildDilutionListCsv(list,unit){let L=[csvRow(["sample","stock_"+unit,"target_"+unit,"step","dilution_factor","conc_before","conc_after","DNA_uL","diluent_uL","final_uL"])];list.forEach(r=>{if(!r.ok){L.push(csvRow([r.name,r.stock,r.target,"ERROR",r.error,"","","","",""]));return}r.steps.forEach(s=>L.push(csvRow([r.name,fmt(r.stock,3),fmt(r.target,3),s.total_steps>1?`${s.step} of ${s.total_steps}`:"1",fmt(s.dilution_factor,3),fmt(s.conc_before,3),fmt(s.conc_after,3),fmt(s.stock_ul,1),fmt(s.diluent_ul,1),fmt(s.final_volume_ul,1)])))});let tot=list.reduce((a,r)=>a+(r.total_diluent_ul||0),0);L.push("");L.push(csvRow(["# total_diluent_uL",fmt(tot,1)]));return L.join(CRLF)+CRLF}
 // Standalone dilution -> epMotion DNA.csv + Buffer.csv (same format as pooling).
 // A single-step dilution is mechanically identical to a pooling transfer: stock (DNA) +
@@ -798,13 +1121,16 @@ function loadPresetById(platform,id){return (LOAD_PRESETS[platform]||[]).find(p=
 // fmol = nM x µL, so a pool at C nM supplies C fmol per µL.
 function computeLoad(poolsIn,o){o=o||{};let round=Number(o.round_step_ul)||0.1,minT=Number(o.min_transfer_ul)||1;
 let pools=(poolsIn||[]).map((p,i)=>{let out={name:(p.name||"pool_"+(i+1)).trim(),share:Number(p.share)>0?Number(p.share):1};
-if((p.unit||"nM")==="ng/µL"){let c=Number(p.conc),bp=Number(p.size);if(!(c>0))throw new Error(out.name+": concentration must be > 0.");if(!(bp>0))throw new Error(out.name+": size in bp is needed to convert ng/µL to nM.");out.conc_nm=ngToNm(c,bp);out.from="("+fmt(c,2)+" ng/µL @ "+bp+" bp)"}
+let pu=concUnit(p.unit,out.name);if(pu!=="nM"){let c=Number(p.conc),bp=Number(p.size);if(!(c>0))throw new Error(out.name+": concentration must be > 0.");if(!(bp>0))throw new Error(out.name+": size in bp is needed to convert "+pu+" to nM.");if(pu==="pg/\u00b5L")c=c/1000;out.conc_nm=ngToNm(c,bp);out.from="("+fmt(Number(p.conc),2)+" "+pu+" @ "+bp+" bp)"}
 else{out.conc_nm=Number(p.conc);if(!(out.conc_nm>0))throw new Error(out.name+": concentration must be > 0.");out.from=""}
 return out});
 if(!pools.length)throw new Error("Add at least one pool.");
 let totalShare=pools.reduce((a,p)=>a+p.share,0);
+/* ONT and Illumina produce completely different answers, so there is no safe default */
+const plat=oneOf(o.platform,["ont","illumina"],"","sequencing platform");
+if(!plat)throw new Error("Choose a platform: ont or illumina.");
 let targetFmol;
-if(o.platform==="illumina"){let pm=Number(o.target_pm),fv=Number(o.final_volume_ul);
+if(plat==="illumina"){let pm=Number(o.target_pm),fv=Number(o.final_volume_ul);
  if(!(pm>0))throw new Error("Loading concentration (pM) must be > 0.");
  if(!(fv>0))throw new Error("Final volume must be > 0.");
  targetFmol=pm*fv/1000; // pM x µL = fmol/1000
@@ -812,8 +1138,8 @@ if(o.platform==="illumina"){let pm=Number(o.target_pm),fv=Number(o.final_volume_
 pools.forEach(p=>{p.fmol=targetFmol*p.share/totalShare;p.raw_ul=p.fmol/p.conc_nm;p.ul=roundTo(p.raw_ul,round);p.below_min=p.ul<minT});
 let sumUl=pools.reduce((a,p)=>a+p.ul,0),warnings=[];
 pools.filter(p=>p.below_min).forEach(p=>warnings.push(p.name+": needs only "+fmt(p.raw_ul,3)+" µL — below the "+fmt(minT,2)+" µL minimum. Dilute the pool first, or pre-mix a larger volume and take an aliquot."));
-let res={platform:o.platform,pools,target_fmol:targetFmol,sum_ul:sumUl,total_share:totalShare,warnings,round_step_ul:round};
-if(o.platform==="ont"){let slot=Number(o.slot_ul)||0;res.slot_ul=slot;
+let res={platform:plat,pools,target_fmol:targetFmol,sum_ul:sumUl,total_share:totalShare,warnings,round_step_ul:round};
+if(plat==="ont"){let slot=Number(o.slot_ul)||0;res.slot_ul=slot;
  if(slot>0){res.top_up_ul=roundTo(slot-sumUl,round);if(res.top_up_ul<0)warnings.push("The pools need "+fmt(sumUl,1)+" µL, more than the "+fmt(slot,1)+" µL library slot. Concentrate the pool, or reduce the target load.")}
  res.mix=(o.mix||[]).map(m=>({name:m[0],vol:m[1]}));res.total_ul=o.total_ul||null;
 }else{let pm=Number(o.target_pm),fv=Number(o.final_volume_ul);res.target_pm=pm;res.final_volume_ul=fv;
@@ -871,20 +1197,369 @@ return{kind:PLAN_KIND,v:1,app:"PoolMate",created:new Date().toISOString(),
  messages:{errors:[],warnings:(summary.warnings||[]).concat(serial?["One or more samples need a serial dilution; the plan carries only the last step."]:[]),
   notes:["Volumes computed by PoolMate. The builder recalculates them from the same concentrations."]}};
 }
+/* A plan is a FILE: hand-editable, and written by whichever version of whichever tool
+ * produced it, so its input is far less controlled than a constructor call. Reading
+ * `f.well || f.pos` ignores `kind` entirely, so a plan whose kind is wrong or missing
+ * silently draws from a tube position instead of a well - and a wrong DESTINATION is the
+ * one error a concentration readout never reveals. Liquid goes where nobody is looking,
+ * the vessel that should have had it is short, and nothing downstream says so. */
+function readPlanPos(f,whose){
+f=f||{};
+/* A position the plan does not state at all is benign: prepareSamples assigns a default
+ * well and the operator sees it. A PARTIALLY stated one is the dangerous case - a kind
+ * that does not match the field present is how liquid ends up in the wrong vessel - so
+ * that is refused rather than guessed. */
+if(f.kind==null&&f.well==null&&f.pos==null)return"";
+const kind=oneOf(f.kind,["well","tube"],"",`vessel kind for ${whose}`);
+if(!kind)throw new Error(`${whose}: the plan gives a position but does not say whether it is a plate well or a tube.`);
+if(kind==="well"){
+ const w=String(f.well==null?"":f.well).trim().toUpperCase();
+ if(!/^[A-H](?:[1-9]|1[0-2])$/.test(w))throw new Error(`${whose}: '${f.well}' is not a plate well (A1-H12).`);
+ return w}
+const n=parseInt(String(f.pos==null?"":f.pos).trim(),10);
+if(!(n>0))throw new Error(`${whose}: '${f.pos}' is not a tube position.`);
+return String(n)}
 function readPoolPlan(plan){
 if(!plan||plan.kind!==PLAN_KIND)throw new Error("That file is not a pool plan.");
 return(plan.samples||[]).map((x,i)=>{let c=x.conc||{},f=x.from||{};
+ const who=x.name||("sample_"+(i+1));
  let u=String(c.unit||"").toLowerCase();
  let molar=/nm|nmol/.test(u)||!c.size_bp;
  /* PoolMate's mass mode is ng/uL; a plan measured in pg/uL converts on the way in */
  let val=Number(c.value);let mass=/pg/.test(u)?val/1000:val;
- return{source_well:f.well||String(f.pos==null?"":f.pos),dest_well:"",name:x.name||("sample_"+(i+1)),
+ return{source_well:readPlanPos(f,who),dest_well:"",name:who,
   mode:molar?"molar":"mass",conc_reads:molar?"":String(isFinite(mass)?mass:""),
   size:molar?null:Number(c.size_bp)||null,direct_nm:molar?(Number(c.value)||Number(x.nm)||null):null,
   share:x.share==null?1:Number(x.share)}});
 }
 
-return{PRESETS,WELLS,fmt,autoName,buildPoolPlan,readPoolPlan,PLAN_KIND,presetLoadingLabel,missingForQuick,missingForQuickPool,missingForCompute,prepareSamples,computeQuickPool,buildQuickPoolCsv,computePool,buildCsvs,buildDilutionWorklist,buildWorksheet,buildPredilutionCsv,computeStandaloneDilution,buildDilutionPlanCsv,computeDilutionList,buildDilutionListCsv,buildDilutionWorklists,buildNormalizationCsvs,LOAD_PRESETS,loadPresetById,computeLoad,buildInputsCsv,buildInputsTxt,readSamplesCsv,parseReads}
+/* ---- plan backwards from the endpoint ---------------------------------------
+ * Everything above this point works FORWARDS: you have libraries, it tells you
+ * what the pool comes out at. At the bench the endpoint is what is actually
+ * fixed - a sequencer wants 4 nM in 50 uL - so this works the other way round.
+ *
+ *   fmol_total = target_nM x total_uL        sample i contributes share_i of it
+ *   v_i        = share_i x fmol_total / nm_i      buffer = total_uL - sum(v_i)
+ *
+ * 4 nM in 50 uL is only 200 fmol. Split six ways that is 33 fmol each, so a
+ * library at a typical 100 nM needs 0.33 uL - far under the 1 uL tool floor.
+ * Nearly every realistic endpoint pool is therefore INFEASIBLE in one step, and
+ * the planner's real job is to notice that and fall back to two stages: pool at
+ * the lowest molarity that keeps every transfer at or above the minimum, then
+ * dilute that pool down to the endpoint. That is what the lab already does by
+ * hand (pool at 6 nM, then a separate run dilutes to 4) and what the bench runs
+ * in validation/ prove.
+ *
+ * No arithmetic is reimplemented here. Stage 1 IS computePool() at a different
+ * target; stage 2 IS computeStandaloneDilution(). The molarity conversion, the
+ * 0.1 uL rounding and the minimum-transfer handling are the same code the other
+ * tabs use, so the two can never drift apart.
+ */
+
+/* Shares always total 100. A share the user typed is LOCKED; the rest is divided
+ * among the unlocked rows, and the LAST unlocked row takes the exact remainder so
+ * the column adds up with no rounding dust. locked[i] of null/"" means auto. */
+function splitShares(locked,step){
+step=Number(step)||0.01;
+const fix=v=>Math.round(v*1e6)/1e6;
+const isAuto=v=>v===null||v===undefined||v==="";
+const auto=[];locked.forEach((v,i)=>{if(isAuto(v))auto.push(i)});
+/* fix() the sum so the split cannot depend on floating-point addition order:
+ * without it a remainder landing exactly on a half-step flips on dust */
+const lockedSum=fix(locked.reduce((a,v)=>a+(isAuto(v)?0:Number(v)||0),0));
+const remaining=100-lockedSum;
+const shares=locked.map(v=>isAuto(v)?0:Number(v)||0);
+if(auto.length){
+ const each=Math.round(remaining/auto.length/step)*step;
+ auto.forEach((i,k)=>{shares[i]=(k===auto.length-1)?remaining-each*(auto.length-1):each});
+}
+const total=shares.reduce((a,v)=>a+v,0);
+return{shares:shares.map(fix),auto,locked_sum:fix(lockedSum),remaining:fix(remaining),
+ total:fix(total),over:lockedSum>100+1e-9,all_locked:auto.length===0,
+ negative:shares.some(v=>v<-1e-9)};
+}
+
+function planBackwards(samplesIn,o){
+o=o||{};
+const target=Number(o.target_nm),total=Number(o.total_volume_ul);
+const minT=Number(o.min_transfer_ul)||1,round=Number(o.round_step_ul)||0.1;
+const maxT=Number(o.max_transfer_ul)||300;
+/* the VESSEL is what limits a single step, not the pipette - see the note above */
+const cap=Number(o.pool_vessel_ul)||Number(o.max_pool_volume_ul)||200;
+/* Not the floor: 1 uL carries ~5% from the 0.1 uL rounding alone, 2 uL ~2.5%. Bigger
+ * transfers are proportionally more library though - contrary to a claim in the
+ * TIER0_sweep note, scaling a transfer up is NOT free - so 2 uL is the default and
+ * the caller sets it. It never forces a second stage; legality is decided first. */
+const aim=Math.max(minT,Number(o.aim_transfer_ul)||2*minT);
+const dil=o.diluent_label||"diluent";
+const A=String(o.vessel_label==null?"T7":o.vessel_label).trim()||"T7";
+const B=String(o.final_vessel_label==null?"T8":o.final_vessel_label).trim()||"T8";
+if(!(target>0))throw new Error("Target pool molarity must be greater than 0 nM.");
+if(!(total>0))throw new Error("Target pool volume must be greater than 0 µL.");
+if(!(minT>0))throw new Error("Minimum transfer must be greater than 0 µL.");
+if(!(cap>=total))throw new Error(`The pool vessel holds ${fmt(cap,1)} µL, less than the ${fmt(total,1)} µL you asked for.`);
+if(!samplesIn||!samplesIn.length)throw new Error("Add at least one sample.");
+/* share_pct is this planner's name for what prepareSamples/computePool call share */
+const rows=samplesIn.map(s=>Object.assign({},s,{share:(s.share_pct==null?s.share:s.share_pct)}));
+const prep=prepareSamples(rows);
+const dups=validateNames(prep);if(dups.length)throw new Error("Duplicate sample name(s): "+dups.join(", "));
+const shareTotal=prep.reduce((a,s)=>a+s.share,0);
+if(Math.abs(shareTotal-100)>0.05)throw new Error(`Shares add up to ${fmt(shareTotal,2)}% — they have to total 100%.`);
+prep.forEach(s=>{
+ if(!(s.molarity_nm>0))throw new Error(`Sample '${s.name}' has no usable concentration.`);
+ if(!(s.share>0))throw new Error(`Sample '${s.name}' has a 0% share — give it a share or take the row out.`);
+ if(s.mode!=="molar"&&!(s.size>0))throw new Error(`Sample '${s.name}' needs a fragment size in bp.`)});
+const inputWarnings=prep.filter(s=>s.mode!=="molar"&&(s.size<50||s.size>100000))
+ .map(s=>`Sample '${s.name}' has an implausible size (${s.size} bp). Check the input.`);
+const frac=s=>s.share/100;
+const fmol_total=target*total;
+/* ng/uL needs a fragment size; in nM mode it is optional, so the mass readout is only
+ * offered when every library has one. Nothing in the volumes depends on it. */
+const ngul=s=>s.mode!=="molar"?s.conc_avg:(s.size>0?s.molarity_nm*MW_PER_BP*s.size/1e6:null);
+const massKnown=prep.every(s=>ngul(s)!=null);
+
+/* The three numbers the whole plan turns on, all in fmol (nM x uL):
+ *   harm  the strongest pool these libraries can make, share-weighted
+ *   K     the pool content below which SOME transfer drops under the tool minimum
+ *   Kaim  the pool content at which the smallest transfer reaches the aimed-for size */
+const harm=1/prep.reduce((a,s)=>a+frac(s)/s.molarity_nm,0);
+const K   =Math.max(...prep.map(s=>minT*s.molarity_nm/frac(s)));
+const Kaim=Math.max(...prep.map(s=>aim *s.molarity_nm/frac(s)));
+const base={pool_goal:"nm",layout:"one-tube",min_transfer_ul:minT,round_step_ul:round,
+ excess_pct:0,low_vol_mode:"warn",tip_mode:"auto"};
+const poolAt=(nmv,vol)=>computePool(rows,Object.assign({},base,{target_nm:nmv,total_volume_ul:vol}));
+const common={target_nm:target,total_volume_ul:total,fmol_total,n:prep.length,
+ min_transfer_ul:minT,round_step_ul:round,max_transfer_ul:maxT,
+ pool_vessel_ul:cap,aim_transfer_ul:aim,diluent_label:dil,
+ vessel_label:A,final_vessel_label:B,mass_known:massKnown,
+ max_pool_nm:harm,shares_total:Math.round(shareTotal*1e6)/1e6,
+ samples:prep.map(s=>({name:s.name,well:s.source_well,nm:s.molarity_nm,share_pct:s.share,
+  fmol:frac(s)*fmol_total,ng_ul:ngul(s),mode:s.mode,size:s.size||null}))};
+const fail=(reason,message,extra)=>Object.assign({ok:false,stages:0,reason,message,
+ blockers:[],suggestions:[],warnings:inputWarnings.slice(),steps:[],output:null},extra||{},common);
+
+/* --- no plan exists: the libraries are too dilute to reach the endpoint ----- */
+if(target>harm+1e-9){
+ const weak=prep.slice().sort((a,b)=>a.molarity_nm-b.molarity_nm)[0];
+ return fail("too_dilute",
+  `A ${fmt(target)} nM pool is stronger than these libraries can make. With these shares the strongest possible pool is ${fmt(harm,2)} nM, held down by '${weak.name}' at ${fmt(weak.molarity_nm,2)} nM.`,
+  {blockers:[{name:weak.name,well:weak.source_well,nm:weak.molarity_nm,kind:"too_dilute"}],
+   suggestions:[`Lower the target to ${fmt(harm,2)} nM or less, or concentrate '${weak.name}' and re-quantify it.`]});
+}
+
+/* ---------- describe a vessel the way the bench sheet has to ---------------- */
+function vessel(label,volume_ul,nm,ng){
+ return{label,volume_ul,nm,ng_ul:ng,
+  bp:(ng!=null&&nm>0)?ng*1e6/(MW_PER_BP*nm):null,
+  text:`${fmt(volume_ul,1)} µL at ${fmt(nm,2)} nM`
+   +(ng!=null?` (= ${fmt(ng,3)} ng/µL at ${Math.round(ng*1e6/(MW_PER_BP*nm))} bp)`:"")}}
+
+/* ---------- turn a computePool result (+ an optional dilution) into a guide -- */
+function shape(stages,s1,P1,V1,d2,warnings){
+ const sumDna=s1.samples.reduce((a,s)=>a+s.round_sample_ul,0);
+ const buffer1=s1.summary.buffer_total_ul;
+ const vol1=sumDna+buffer1;
+ const poolNm=s1.samples.reduce((a,s)=>a+s.round_sample_ul*s.effective_molarity_nm,0)/vol1;
+ const poolNg=massKnown
+  ? s1.samples.reduce((a,s,i)=>a+s.round_sample_ul*ngul(prep[i]),0)/vol1 : null;
+ const first=stages===2?A:A;              /* stage 1 always lands in vessel A */
+ const steps=[],transfers=[];
+ s1.samples.forEach(s=>{
+  transfers.push({from:s.source_well,name:s.name,volume_ul:s.round_sample_ul,
+   nm:s.effective_molarity_nm,share_pct:s.share,fmol:s.actual_fmol,
+   pool_pct:s.pool_pct,tip:s.tip});
+  steps.push({stage:1,kind:"transfer",from:s.source_well,to:first,name:s.name,
+   volume_ul:s.round_sample_ul,
+   text:`From ${s.source_well} add ${fmt(s.round_sample_ul,1)} µL into ${first}`,
+   detail:`${s.name} · ${fmt(s.effective_molarity_nm,2)} nM · ${fmt(s.share,2)}% of the pool`})});
+ if(buffer1>1e-9)steps.push({stage:1,kind:"diluent",to:first,volume_ul:buffer1,
+  text:`Add ${fmt(buffer1,1)} µL ${dil} into ${first}`,
+  detail:`water, TE, EB or RSB — whichever your SOP uses. Brings ${first} to ${fmt(vol1,1)} µL`});
+ const poolV=vessel(first,vol1,poolNm,poolNg);
+ let out,inter=null,achieved=poolNm;
+ if(stages===1){
+  const spare=vol1-total;
+  steps.push({stage:1,kind:"mix",to:first,
+   text:`Mix ${first}, then label it`,
+   detail:`${first} now holds ${poolV.text}`});
+  out=Object.assign({},poolV,{is_end:true,
+   headline:`THIS IS THE END. Ready to load. Nothing further is taken from it.`,
+   next_text:null,
+   spare_ul:spare>round/2?spare:0,
+   spare_text:spare>round/2
+    ?`You asked for ${fmt(total,1)} µL. ${first} holds ${fmt(vol1,1)} µL at the same ${fmt(poolNm,2)} nM — load ${fmt(total,1)} µL of it and keep the other ${fmt(spare,1)} µL as retain.`
+    :null});
+ }else{
+  const take=d2.stock_ul,buf2=d2.diluent_ul,vol2=take+buf2;
+  achieved=vol2>0?take*poolNm/vol2:0;
+  const finalNg=poolNg==null?null:poolNg*take/vol2;
+  inter=Object.assign({},poolV,{is_end:false,
+   headline:`NOT THE END — ${first} is an intermediate.`,
+   next_text:`Next: put ${fmt(buf2,1)} µL of ${dil} in ${B}, then add ${fmt(take,1)} µL out of ${first} → ${fmt(vol2,1)} µL at ${fmt(achieved,2)} nM in ${B}.`});
+  steps.push({stage:1,kind:"mix",to:first,
+   text:`Mix ${first} — this is NOT the finished pool`,
+   detail:`${first} holds ${poolV.text}. ${fmt(take,1)} µL of it goes into ${B} next; the other ${fmt(vol1-take,1)} µL stays as retain.`});
+  if(buf2>1e-9)steps.push({stage:2,kind:"diluent",to:B,volume_ul:buf2,
+   text:`Put ${fmt(buf2,1)} µL ${dil} into ${B}`,
+   detail:`${dil} goes in first, so the pool is pipetted into liquid`});
+  steps.push({stage:2,kind:"dilute",from:first,to:B,volume_ul:take,
+   text:`Take ${fmt(take,1)} µL out of ${first} into ${B}`,
+   detail:`${fmt(poolNm,2)} nM → ${fmt(achieved,2)} nM · a ${fmt(poolNm/achieved,2)}× dilution`});
+  steps.push({stage:2,kind:"mix",to:B,
+   text:`Mix ${B}, then label it`,
+   detail:`${B} now holds ${fmt(vol2,1)} µL at ${fmt(achieved,2)} nM`});
+  const finalV=vessel(B,vol2,achieved,finalNg);
+  out=Object.assign({},finalV,{is_end:true,
+   headline:`THIS IS THE END. Ready to load. Nothing further is taken from it.`,
+   next_text:null,spare_ul:0,spare_text:null});
+ }
+ steps.push({stage:stages,kind:"output",to:out.label,
+  text:`OUTPUT → ${out.label}: ${out.text}`,
+  detail:out.headline+(out.spare_text?" "+out.spare_text:"")});
+ return Object.assign({ok:true,stages,warnings:warnings.slice(),
+  stage1:{nm:P1,requested_volume_ul:V1,volume_ul:vol1,sum_dna_ul:sumDna,buffer_ul:buffer1,
+   actual_nm:poolNm,ng_ul:poolNg,fmol:poolNm*vol1,transfers},
+  stage2:(stages===2?{from_pool_ul:d2.stock_ul,buffer_ul:d2.diluent_ul,
+   final_volume_ul:d2.stock_ul+d2.diluent_ul,dilution_factor:poolNm/achieved,
+   achieved_nm:achieved,stock_nm:poolNm}:null),
+  library_used_ul:sumDna,intermediate:inter,output:out,
+  achieved_nm:achieved,deviation_pct:target?(achieved-target)/target*100:0,steps},common);
+}
+
+/* every emitted volume has to be a transfer the tool can actually make */
+function checkVolumes(vols){
+ for(const v of vols){
+  if(v.ul>1e-9&&v.ul<minT-1e-9)return`${v.what} is ${fmt(v.ul,1)} µL, under the ${fmt(minT,2)} µL minimum transfer.`;
+  if(v.ul>maxT+1e-9)return`${v.what} is ${fmt(v.ul,1)} µL, over the ${fmt(maxT,0)} µL maximum transfer.`}
+ return null}
+function legalPool(r,tag){
+ return checkVolumes(r.samples.map(s=>({what:`${tag}the transfer from ${s.source_well} (${s.name})`,ul:s.round_sample_ul}))
+  .concat([{what:`${tag}the ${dil} top-up`,ul:r.summary.buffer_total_ul}]))}
+
+/* ---------------------------------------------------------------------------
+ * ONE STEP IS ALMOST ALWAYS POSSIBLE, and it is always the better plan: the
+ * 1 uL floor constrains the TRANSFER, not the dilution FACTOR, so a pool that
+ * needs sub-microlitre transfers at 50 uL needs perfectly ordinary ones at
+ * 200 uL. What limits a single step is the VESSEL. So build the pool at the
+ * target molarity in whatever volume the vessel allows, take out of it what was
+ * asked for, and split into two stages only when a full vessel will not do.
+ * Serial steps are a fallback, not a remedy - each carries its own rounding.
+ *
+ * Bigger is not blindly better, though: a transfer of 1.333 uL rounds to 1.3 and
+ * costs 2.5%, while the same pool built 30% smaller needs exactly 1.0 uL and
+ * costs nothing. So the volume is CHOSEN, by trying the candidates and keeping
+ * the one that lands closest to target - with the largest transfers as the
+ * tie-break, since rounding is only half the story and the pipette's own CV is
+ * worst at the floor. Every candidate is costed by computePool itself; no
+ * arithmetic is duplicated here.
+ * ------------------------------------------------------------------------- */
+function evalPool(P1,V1){
+ let r;try{r=poolAt(P1,V1)}catch(e){return null}
+ const v=r.samples.map(s=>s.round_sample_ul);
+ const buf=r.summary.buffer_total_ul;
+ if(buf<-1e-9)return null;
+ if(buf>1e-9&&buf<minT-1e-9)return null;
+ if(buf>maxT+1e-9)return null;
+ if(v.some(x=>x<minT-1e-9||x>maxT+1e-9))return null;
+ const sum=v.reduce((a,x)=>a+x,0),vol=sum+buf;
+ if(!(vol>0))return null;
+ const nm=r.samples.reduce((a,s)=>a+s.round_sample_ul*s.effective_molarity_nm,0)/vol;
+ return{r,P1,V1,vol,nm,smallest:Math.min(...v),sum};
+}
+function better(a,b){           /* closest to target first, biggest transfers after */
+ if(!b)return true;if(!a)return false;
+ if(a.dev<b.dev-1e-12)return true;
+ if(a.dev>b.dev+1e-12)return false;
+ return a.smallest>b.smallest+1e-12}
+function scan(lo,hi,make){
+ if(hi<lo-1e-9)return null;
+ let step=round,pts=Math.floor((hi-lo)/step)+1;
+ if(pts>3000){step=Math.ceil((hi-lo)/3000/round)*round;pts=Math.floor((hi-lo)/step)+1}
+ let best=null;
+ for(let i=0;i<pts;i++){const c=make(Math.round((lo+i*step)/round)*round);if(better(c,best))best=c}
+ for(const x of[lo,hi]){const c=make(Math.round(x/round)*round);if(better(c,best))best=c}
+ return best}
+
+/* --- one stage, in whatever volume the vessel allows ----------------------- */
+const Vlegal=Math.max(total,K/target);          /* smallest single-stage pool that works */
+if(Vlegal<=cap+1e-9){
+ const hi=Math.min(cap,Math.max(Vlegal,total,Kaim/target));
+ const one=scan(Vlegal,hi,V1=>{
+  if(V1<Vlegal-1e-9||V1>cap+1e-9)return null;
+  const e=evalPool(target,V1);if(!e)return null;
+  e.dev=Math.abs(e.nm-target);return e});
+ if(one){
+  const w=inputWarnings.concat(one.r.summary.warnings||[]);
+  const atAsked=Math.min(...prep.map(s=>frac(s)*target*total/s.molarity_nm));
+  if(one.V1>total+round/2)w.push(`Built in ${fmt(one.V1,1)} µL rather than the ${fmt(total,1)} µL you asked for: at ${fmt(total,1)} µL the smallest transfer would be ${fmt(atAsked,2)} µL, under the ${fmt(minT,2)} µL minimum. Scaling a pool up leaves every ratio untouched, so this is the same pool pipetted accurately — and it stays one step. It does use ${fmt(one.V1/total,1)}× as much library.`);
+  if(one.smallest<aim-1e-9)w.push(`The smallest transfer is ${fmt(one.smallest,1)} µL, carrying about ${fmt(100*(round/2)/one.smallest,1)}% from the ${fmt(round,2)} µL rounding alone. A vessel larger than ${fmt(cap,0)} µL would let it reach ${fmt(aim,1)} µL and about ${fmt(100*(round/2)/aim,1)}%.`);
+  return shape(1,one.r,target,one.V1,null,w);
+ }
+}
+
+/* --- two stages: only because a single pool will not fit the vessel --------- */
+const twoLo=Math.max(round,K/harm);
+const two=scan(twoLo,cap,V1=>{
+ if(V1>cap+1e-9)return null;
+ const Fmax=Math.min(harm*V1,            /* diluent >= 0 */
+                     target*total*V1/minT);  /* and stage 2 still pipettable */
+ let F=Math.min(Math.max(K,Kaim),Fmax);
+ if(F<K-1e-9)return null;
+ let P1=F/V1;
+ const nice=Math.ceil(P1/0.01-1e-9)*0.01;
+ if(nice*V1<=Fmax+1e-9)P1=nice;
+ if(!(P1>target*(1+1e-9)))return null;
+ const e=evalPool(P1,V1);if(!e)return null;
+ /* the pool that gets MADE is not the pool that was asked for - its transfers were
+  * rounded - so stage 2 is sized from the molarity it actually came out at */
+ const takeRaw=target*total/e.nm;
+ if(takeRaw<minT-1e-9)return null;
+ let d;try{d=computeStandaloneDilution({stock_conc:e.nm,target_conc:target,
+  final_volume_ul:total,min_transfer_ul:minT,max_well_cap_ul:total,
+  round_step_ul:round,unit:"nM"})}catch(err){return null}
+ if(d.steps.length>1)return null;
+ const st=d.steps[0];
+ if(st.stock_ul<minT-1e-9||st.stock_ul>maxT+1e-9)return null;
+ /* a "stage 2" that adds no diluent is not a stage, it is just moving the pool to
+  * another tube - that case belongs in the single-step branch */
+ if(st.diluent_ul<minT-1e-9||st.diluent_ul>maxT+1e-9)return null;
+ if(st.stock_ul>e.vol+1e-9)return null;
+ const vol2=st.stock_ul+st.diluent_ul;
+ e.st2=st;e.achieved=st.stock_ul*e.nm/vol2;e.dev=Math.abs(e.achieved-target);
+ e.smallest=Math.min(e.smallest,st.stock_ul);
+ return e});
+if(two){
+ const w=inputWarnings.concat(two.r.summary.warnings||[]);
+ w.push(`Two stages, because one pool at ${fmt(target)} nM would need ${fmt(Vlegal,0)} µL and the vessel holds ${fmt(cap,0)} µL. A vessel of ${fmt(Vlegal,0)} µL or more would do it in a single step and land closer to target — serial steps each carry their own ${fmt(round,2)} µL rounding.`);
+ if(two.st2.stock_ul>two.vol-1e-9)w.push(`Stage 2 takes the whole ${fmt(two.vol,1)} µL of ${A} — there is nothing left over.`);
+ return shape(2,two.r,two.P1,two.V1,two.st2,w);
+}
+
+/* --- nothing works: say which library is in the way and what fixes it ------ */
+const worst=prep.slice().sort((a,b)=>b.molarity_nm/frac(b)-a.molarity_nm/frac(a))[0];
+const idx=prep.indexOf(worst);
+const feasibleAt=x=>{
+ const nms=prep.map((s,i)=>i===idx?x:s.molarity_nm);
+ const h=1/prep.reduce((a,s,i)=>a+frac(s)/nms[i],0);
+ const k=Math.max(...prep.map((s,i)=>minT*nms[i]/frac(s)));
+ return target<=h+1e-9&&k<=Math.min(h*cap,target*total*cap/minT)+1e-9};
+let to=null;
+if(feasibleAt(target)){let lo=target,hi=worst.molarity_nm;
+ for(let i=0;i<60;i++){const mid=(lo+hi)/2;if(feasibleAt(mid))lo=mid;else hi=mid}
+ to=Math.floor(lo*100)/100}
+const needV=Math.ceil(K/Math.min(harm,target*total/minT));
+const sug=[];
+if(to!=null)sug.push(`Pre-dilute '${worst.name}' from ${fmt(worst.molarity_nm,2)} nM to ${fmt(to,2)} nM or below (about 1 part in ${fmt(worst.molarity_nm/to,1)}) on the Dilute tab, re-quantify, then plan again.`);
+else sug.push(`Pre-dilute '${worst.name}' (${fmt(worst.molarity_nm,2)} nM) on the Dilute tab and plan again — no single pre-dilution of it alone makes this endpoint reachable, so expect to dilute more than one library.`);
+if(needV>cap)sug.push(`Or pool into a larger vessel: about ${fmt(needV,0)} µL would hold enough of '${worst.name}' for a ${fmt(minT,2)} µL transfer. The vessel is currently set to ${fmt(cap,0)} µL.`);
+return fail("blocked",
+ `'${worst.name}' at ${fmt(worst.molarity_nm,2)} nM is too concentrated for a ${fmt(target)} nM / ${fmt(total,1)} µL endpoint with these shares, even pooling into the full ${fmt(cap,0)} µL vessel: it would need less than ${fmt(minT,2)} µL.`,
+ {blockers:[{name:worst.name,well:worst.source_well,nm:worst.molarity_nm,share_pct:worst.share,
+   kind:"too_concentrated",dilute_to_nm:to,factor:to?worst.molarity_nm/to:null}],
+  suggestions:sug});
+}
+
+return{PRESETS,WELLS,fmt,autoName,buildPoolPlan,readPoolPlan,PLAN_KIND,presetLoadingLabel,missingForQuick,missingForQuickPool,missingForCompute,prepareSamples,computeQuickPool,buildQuickPoolCsv,computePool,buildCsvs,buildDilutionWorklist,buildWorksheet,buildPredilutionCsv,computeStandaloneDilution,buildDilutionPlanCsv,computeDilutionList,buildDilutionListCsv,buildDilutionWorklists,buildNormalizationCsvs,LOAD_PRESETS,loadPresetById,computeLoad,buildInputsCsv,buildInputsTxt,readSamplesCsv,parseReads,roundTo,ngToNm,concUnit,oneOf,tipFor,readPlanPos,splitShares,planBackwards,chainDilution}
 })();
 if(typeof document!=="undefined")(function(){
 const $=id=>document.getElementById(id),STORE="epmotion_pool_state_v2";let poolContainer="plate";let dilView="tubes";let donePool=new Set(),doneDil=new Set();
@@ -909,7 +1584,7 @@ function showMessages(msgs){$("messages").innerHTML=msgs.map(m=>`<div class="msg
 
 function calculateMolarities(){let st=collectState(),miss=PoolCore.missingForQuick(st);if(miss.length){showMessages([{kind:"warn",text:"Still needed for molarity calculation: "+miss.join("; ")}]);$("results").innerHTML="";return}try{let samples=PoolCore.prepareSamples(st.samples);let dups=[];let seen=new Set();samples.forEach(s=>{let n=(s.name||"").toLowerCase();if(n&&seen.has(n))dups.push(s.name);seen.add(n)});if(dups.length)throw new Error("Duplicate sample name(s): "+dups.join(", "));showMessages([{kind:"good",text:"Molarities calculated from the Sample section only. Add create-pool parameters when you are ready to generate epMotion worklists."}]);renderMolarityResults(samples)}catch(e){showMessages([{kind:"bad",text:e.message}]);$("results").innerHTML=""}}
 function quickPool(){let st=collectState(),miss=PoolCore.missingForQuickPool(st);if(miss.length){showMessages([{kind:"warn",text:"Still needed for Quick Pool: "+miss.join("; ")}]);$("results").innerHTML="";return}try{let res=PoolCore.computeQuickPool(st.samples,st);showMessages([{kind:"good",text:"Quick pool table calculated. This is a manual pooling table only; it does not create epMotion worklists."}]);renderQuickPoolResults(st,res.samples,res.summary)}catch(e){showMessages([{kind:"bad",text:e.message}]);$("results").innerHTML=""}}
-function renderQuickPoolResults(st,samples,summary){let prefix=PoolCore.autoName(st,"quick_pool"),csv=PoolCore.buildQuickPoolCsv(samples,summary);const MODE_LABEL={per_sample:"Equimolar · fmol per sample",total:"Equimolar · total fmol split equally",nm:"Equimolar · target nM in a final volume",equal_vol:"Equal volume from each sample"};let h=`<h3>Quick pool table</h3><p class="hint">Manual pooling mode — transfer volumes only. No platform, preset, layout, rack, destination, or buffer settings are required.</p><p><span class="pill">${esc(MODE_LABEL[summary.mode]||summary.mode)}</span>${summary.volume_per_sample_ul!=null?`<span class="pill">${PoolCore.fmt(summary.volume_per_sample_ul,2)} µL/sample</span>`:`<span class="pill">Target ${PoolCore.fmt(summary.fmol_per_sample,3)} fmol/sample</span>`}<span class="pill">Total ${PoolCore.fmt(summary.total_fmol,3)} fmol</span><span class="pill">DNA volume ${PoolCore.fmt(summary.sum_transfer_ul,1)} µL</span><span class="pill">CV ${PoolCore.fmt(summary.cv_pct,3)}%</span><span class="pill">Min/Max ${PoolCore.fmt(summary.min_fmol,3)} / ${PoolCore.fmt(summary.max_fmol,3)} fmol</span></p>`;if(!summary.equimolar)h+=`<div class="msg warn">Equal-volume pooling takes the same volume from every sample, so each contributes a <b>different</b> number of molecules — the CV above reflects that and is expected. Use an equimolar mode if you need equal representation.</div>`;h+='<table><thead><tr><th>Well</th><th>Name</th><th>Molarity nM</th><th>${summary.equimolar?"Target fmol":"fmol in"}</th><th>Raw µL</th><th>Rounded µL</th><th>Actual fmol</th><th>Tip</th></tr></thead><tbody>';samples.forEach(s=>{h+=`<tr><td>${esc(s.source_well)}</td><td>${esc(s.name)}</td><td>${PoolCore.fmt(s.molarity_nm,3)}</td><td>${PoolCore.fmt(summary.equimolar?summary.fmol_per_sample:s.quick_fmol,3)}</td><td>${PoolCore.fmt(s.quick_raw_ul,3)}</td><td><b>${PoolCore.fmt(s.quick_rounded_ul,1)}</b></td><td>${PoolCore.fmt(s.quick_actual_fmol,3)}</td><td>${esc(s.quick_tip)}</td></tr>`});h+='</tbody></table>';h+=renderPlate(samples);h+=`<div class="bar no-print"><button class="btn secondary" id="dlQuickCsv">Download quick pool CSV</button><button class="btn" id="printBtn">Print / Save PDF</button><span class="hint">Prefix: <code>${esc(prefix)}</code></span></div>`;$("results").innerHTML=h;$("dlQuickCsv").addEventListener("click",()=>download(prefix+".csv",csv));$("printBtn").addEventListener("click",()=>window.print())}
+function renderQuickPoolResults(st,samples,summary){let prefix=PoolCore.autoName(st,"quick_pool"),csv=PoolCore.buildQuickPoolCsv(samples,summary);const MODE_LABEL={per_sample:"Equimolar · fmol per sample",total:"Equimolar · total fmol split equally",nm:"Equimolar · target nM in a final volume",equal_vol:"Equal volume from each sample"};let h=`<h3>Quick pool table</h3><p class="hint">Manual pooling mode — transfer volumes only. No platform, preset, layout, rack, destination, or buffer settings are required.</p><p><span class="pill">${esc(MODE_LABEL[summary.mode]||summary.mode)}</span>${summary.volume_per_sample_ul!=null?`<span class="pill">${PoolCore.fmt(summary.volume_per_sample_ul,2)} µL/sample</span>`:`<span class="pill">Target ${PoolCore.fmt(summary.fmol_per_sample,3)} fmol/sample</span>`}<span class="pill">Total ${PoolCore.fmt(summary.total_fmol,3)} fmol</span><span class="pill">DNA volume ${PoolCore.fmt(summary.sum_transfer_ul,1)} µL</span><span class="pill">CV ${PoolCore.fmt(summary.cv_pct,3)}%</span><span class="pill">Min/Max ${PoolCore.fmt(summary.min_fmol,3)} / ${PoolCore.fmt(summary.max_fmol,3)} fmol</span></p>`;if(!summary.equimolar)h+=`<div class="msg warn">Equal-volume pooling takes the same volume from every sample, so each contributes a <b>different</b> number of molecules — the CV above reflects that and is expected. Use an equimolar mode if you need equal representation.</div>`;h+='<table><thead><tr><th>Well</th><th>Name</th><th>Molarity nM</th><th>${summary.equimolar?"Target fmol":"fmol in"}</th><th>Raw µL</th><th>Rounded µL</th><th>Actual fmol</th><th>Tip</th></tr></thead><tbody>';samples.forEach(s=>{h+=`<tr><td>${esc(s.source_well)}</td><td>${esc(s.name)}</td><td>${PoolCore.fmt(s.molarity_nm,3)}</td><td>${PoolCore.fmt(summary.equimolar?summary.fmol_per_sample:s.quick_fmol,3)}</td><td>${PoolCore.fmt(s.quick_raw_ul,3)}</td><td><b>${PoolCore.fmt(s.quick_rounded_ul,1)}</b></td><td>${PoolCore.fmt(s.quick_actual_fmol,3)}</td><td>${esc(s.quick_tip)}</td></tr>`});h+='</tbody></table>';h+=renderPlate(samples);h+=`<div class="bar no-print"><button class="btn secondary" id="quickLabBtn" type="button">\u{1F9EA} Take to the lab</button><button class="btn secondary" id="dlQuickCsv">Download quick pool CSV</button><button class="btn" id="printBtn">Print / Save PDF</button><span class="hint">Prefix: <code>${esc(prefix)}</code></span></div>`;$("results").innerHTML=h;$("dlQuickCsv").addEventListener("click",()=>download(prefix+".csv",csv));$("printBtn").addEventListener("click",()=>window.print());$("quickLabBtn").addEventListener("click",()=>labOpen("Quick pool — "+(st.run_name||"untitled"),summary.n+" librar"+(summary.n===1?"y":"ies")+" · "+PoolCore.fmt(summary.total_fmol,2)+" fmol total",labStepsFromQuickPool(samples,summary),labFinaleFromQuickPool(samples,summary)))}
 function renderMolarityResults(samples){let h='<h3>Quick molarity check</h3><p class="hint">This uses only the Sample section. No pooling volumes are calculated here.</p>';h+='<table><thead><tr><th>Well</th><th>Name</th><th>Mode</th><th>Avg ng/µL</th><th>SD ng/µL</th><th>Size bp</th><th>Molarity nM</th></tr></thead><tbody>';samples.forEach(s=>{h+=`<tr><td>${esc(s.source_well)}</td><td>${esc(s.name)}</td><td>${esc(s.mode)}</td><td>${s.conc_avg==null?"":PoolCore.fmt(s.conc_avg,2)}</td><td>${s.conc_sd==null?"":PoolCore.fmt(s.conc_sd,2)}</td><td>${s.size||""}</td><td><b>${PoolCore.fmt(s.molarity_nm,3)}</b></td></tr>`});h+='</tbody></table>';h+=renderPlate(samples);h+='<p class="hint">To create a pool, fill the required Create Pool parameters and click Generate worklists.</p>';$("results").innerHTML=h}
 function generate(){let st=collectState(),miss=PoolCore.missingForCompute(st);if(miss.length){showMessages([{kind:"warn",text:"Still needed: "+miss.join("; ")}]);$("results").innerHTML="";return}try{let res=PoolCore.computePool(st.samples,st);let msgs=res.summary.warnings.map(w=>({kind:"warn",text:w}));if(res.summary.volume_bumped)msgs.unshift({kind:"good",text:`Final volume was auto-bumped from ${PoolCore.fmt(res.summary.total_volume_ul,1)} µL to ${PoolCore.fmt(res.summary.final_total_volume_ul,1)} µL to satisfy the minimum transfer volume.`});showMessages(msgs);renderResults(st,res.samples,res.summary)}catch(e){showMessages([{kind:"bad",text:e.message}]);$("results").innerHTML=""}}
 function shortName(name){name=String(name||"").trim();if(!name)return "";return name.length>8?name.slice(0,8):name}
@@ -952,10 +1627,93 @@ function addDilRow(s={}){let tb=$("dilBody"),i=tb.children.length,tr=document.cr
 let dilTimer=null;function dilLive(){clearTimeout(dilTimer);dilTimer=setTimeout(()=>{try{renderDilPreview();persist()}catch(e){}},120)}
 function renumberDil(){[...$("dilBody").children].forEach((tr,i)=>tr.querySelector(".idx").textContent=i+1)}
 function collectDilSamples(){let dt=val("dilTarget").trim(),dv=val("dilFinalVol").trim(),dmin=val("dilMinT").trim(),dmax=val("dilMaxCap").trim(),drnd=val("dilRoundStep").trim();return [...$("dilBody").children].map(tr=>({name:tr.querySelector(".d-name").value.trim(),well:tr.querySelector(".d-well").value.trim(),dwell:tr.querySelector(".d-dwell").value.trim(),stock:tr.querySelector(".d-stock").value.trim(),target:tr.querySelector(".d-target").value.trim()||dt,final_vol:tr.querySelector(".d-final").value.trim()||dv,min_transfer:tr.querySelector(".d-mint").value.trim()||dmin,max_cap:tr.querySelector(".d-maxcap").value.trim()||dmax,round_step:tr.querySelector(".d-round").value.trim()||drnd})).filter(s=>s.stock!=="")}
-function calcStandaloneDilution(){let samples=collectDilSamples();if(!samples.length){$("dilResults").innerHTML='<div class="msg warn">Add at least one sample with a stock concentration.</div>';return}let o={unit:val("dilUnit"),min_transfer_ul:val("dilMinT"),max_well_cap_ul:val("dilMaxCap"),round_step_ul:val("dilRoundStep")};let list=PoolCore.computeDilutionList(samples,o);renderDilutionList(list,val("dilUnit"))}
+function calcStandaloneDilution(){let samples=collectDilSamples();if(!samples.length){$("dilResults").innerHTML='<div class="msg warn">Add at least one sample with a stock concentration.</div>';return}let o={unit:val("dilUnit"),min_transfer_ul:val("dilMinT"),max_well_cap_ul:val("dilMaxCap"),round_step_ul:val("dilRoundStep")};let list=PoolCore.computeDilutionList(samples,o);renderDilutionList(list,val("dilUnit"),samples)}
 function miniTube(layers){let total=layers.reduce((a,l)=>a+(Number(l.vol)||0),0)||1;const yB=120,yT=42,H=yB-yT;let segs="",y=yB;layers.forEach(l=>{let hh=H*(Number(l.vol)||0)/total;let yTop=y-hh;segs+='<rect x="6" y="'+yTop.toFixed(1)+'" width="48" height="'+(hh+0.6).toFixed(1)+'" fill="'+l.color+'" fill-opacity="0.62"/>';segs+='<line x1="6" x2="54" y1="'+yTop.toFixed(1)+'" y2="'+yTop.toFixed(1)+'" stroke="#fff" stroke-opacity="0.6" stroke-width="0.8"/>';y=yTop});let id="mt"+(miniTube._n=(miniTube._n||0)+1);return '<svg viewBox="0 0 60 150" width="52" height="130" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="'+id+'"><path d="M15,24 L15,96 L27,118 Q30,122 33,118 L45,96 L45,24 Z"/></clipPath></defs><g clip-path="url(#'+id+')"><g class="liq">'+segs+'</g></g><path d="M12,21 L12,96 L27,122 Q30,127 33,122 L48,96 L48,21 Z" fill="none" stroke="#8ea2b6" stroke-width="1.4"/><rect x="11" y="6" width="38" height="11" rx="3" fill="#eef3f8" stroke="#8ea2b6" stroke-width="1.2"/><rect x="11" y="16" width="38" height="4.5" rx="1.5" fill="#eef3f8" stroke="#8ea2b6" stroke-width="1"/></svg>'}
 function wireDone(scope,progressId,set){let boxes=[...scope.querySelectorAll(".done-chk")];let upd=()=>{let d=boxes.filter(b=>b.checked).length;let p=$(progressId);if(p)p.textContent="✓ "+d+" / "+boxes.length+" done";};boxes.forEach(b=>b.addEventListener("change",()=>{let host=b.closest("[data-done]"),nm=host?host.getAttribute("data-name"):null;if(host)host.classList.toggle("is-done",b.checked);if(set&&nm!=null){if(b.checked)set.add(nm);else set.delete(nm);}persist();upd();}));upd()}
-function renderDilutionList(list,unit){let u=esc(unit),totalDil=0,nSerial=0,nErr=0;list.forEach(r=>{if(r.ok){if(r.steps.length>1)nSerial++;totalDil+=r.total_diluent_ul}else nErr++});let h=`<div class="msg ${nErr?'warn':'good'}">${list.length} sample(s) · total diluent ≈ ${PoolCore.fmt(totalDil,1)} µL${nSerial?` · ${nSerial} need serial dilution`:""}${nErr?` · ${nErr} with errors`:""}.</div>`;h+=`<table><thead><tr><th>Sample</th><th>In well</th><th>Out well</th><th>Stock ${u}</th><th>Target ${u}</th><th>Step</th><th>Factor</th><th>DNA µL</th><th>Diluent µL</th><th>Final µL</th></tr></thead><tbody>`;list.forEach(r=>{if(!r.ok){h+=`<tr><td>${esc(r.name)}</td><td>${esc(r.well||"")}</td><td>${esc(r.dest_well||r.well||"")}</td><td>${esc(String(r.stock??""))}</td><td>${esc(String(r.target??""))}</td><td colspan="5" class="danger">${esc(r.error)}</td></tr>`;return}r.steps.forEach((s,si)=>{h+="<tr>";if(si===0){h+=`<td rowspan="${r.steps.length}">${esc(r.name)}</td><td rowspan="${r.steps.length}">${esc(r.well||"")}</td><td rowspan="${r.steps.length}">${esc(r.dest_well||r.well||"")}</td><td rowspan="${r.steps.length}">${PoolCore.fmt(r.stock,2)}</td><td rowspan="${r.steps.length}">${PoolCore.fmt(r.target,2)}</td>`}h+=`<td>${s.total_steps>1?`${s.step} of ${s.total_steps}`:"1"}</td><td>${PoolCore.fmt(s.dilution_factor,2)}×</td><td><b>${PoolCore.fmt(s.stock_ul,1)}</b></td><td><b>${PoolCore.fmt(s.diluent_ul,1)}</b></td><td>${PoolCore.fmt(s.final_volume_ul,1)}</td></tr>`})});h+='</tbody></table>';h+='<div class="donebar"><h3 style="margin:0">Dilution tubes</h3><span class="progress-pill" id="dilProgress"></span></div><div class="dil-tubes">';list.forEach(r=>{if(!r.ok)return;let tubes="",vols="";r.steps.forEach(s=>{tubes+='<div style="text-align:center">'+miniTube([{name:"DNA",vol:s.stock_ul,color:"#2aa7a3"},{name:"buffer",vol:s.diluent_ul,color:"#b9d6f2"}])+(s.total_steps>1?'<div style="font-size:10px;color:#64748b;margin-top:2px">S'+s.step+'</div>':'')+'</div>';vols+=(s.total_steps>1?'S'+s.step+': ':'')+'DNA '+PoolCore.fmt(s.stock_ul,1)+' + buf '+PoolCore.fmt(s.diluent_ul,1)+' µL<br>';});h+='<div class="tube-card'+(doneDil.has(r.name)?' is-done':'')+'" data-done data-name="'+esc(r.name)+'"><div class="tname" title="'+esc(r.name)+'">'+esc(r.name)+'</div><div class="tube-tubes">'+tubes+'</div><div class="tube-vols">'+vols+'</div><label class="donelbl"><input type="checkbox" class="done-chk"'+(doneDil.has(r.name)?' checked':'')+'> Done</label></div>';});h+='</div>';h+='<div class="bar no-print"><button class="btn secondary" id="dilDownload">Download dilution list CSV</button><button class="btn primary" id="dilWorklists">Download epMotion worklists (DNA + Buffer)</button><span class="hint">Tick a tube when you have made it. For serial: do step 1, mix, then use it as the stock for step 2.</span></div><div id="dilWlNote"></div>';$("dilResults").innerHTML=h;$("dilDownload").addEventListener("click",()=>download("dilution_list.csv",PoolCore.buildDilutionListCsv(list,unit)));$("dilWorklists").addEventListener("click",()=>{let wl=PoolCore.buildDilutionWorklists(list,{source_rack:1,dest_rack:1,buffer_rack:1,buffer_pos:"1",tip_mode:val("tipMode")||"auto"});if(!wl.n){$("dilWlNote").innerHTML='<div class="msg bad">No single-step dilutions to export.'+(wl.warnings.length?' '+esc(wl.warnings.join(" ")):"")+'</div>';return}download("dilution_DNA.csv",wl.DNA);setTimeout(()=>download("dilution_Buffer.csv",wl.Buffer),250);let map=wl.mapping.map(m=>esc(m.name)+": "+esc(m.well)+" → "+esc(m.dest_well||m.well)).join(", ");$("dilWlNote").innerHTML='<div class="msg good">Exported '+wl.n+' single-step dilution(s) as <code>dilution_DNA.csv</code> (stock) + <code>dilution_Buffer.csv</code> (diluent), Rack 1 with buffer position "1". Wells (stock → diluted): '+map+'. Load DNA then Buffer into your pooling script as a <b>separate run</b>.</div>'+(wl.warnings.length?'<div class="msg warn">'+esc(wl.warnings.join(" "))+'</div>':"");});wireDone($("dilResults"),"dilProgress",doneDil)}
+/* The Dilute tab ends the same way every other guide does: where it is, what is in
+ * it, and whether that is the end - and a serial intermediate says so on both sides.
+ * This tab takes no fragment size, so it quotes the one unit it was given and says
+ * why it cannot give the other, rather than inventing a mean. */
+function dilChain(r){return PoolCore.chainDilution(r.stock,r.steps)}
+/* computeStandaloneDilution will hand back a serial plan whose later steps ask for less
+ * than the tool minimum - it warns, but it still emits the volumes. A guide that says
+ * "THIS IS THE END" must not be built on a transfer nobody can pipette, so any row with
+ * an unpipettable step is reported as NOT MADE, with the fix. It is the vessel lesson
+ * again: the step volume is too small, not the sample too strong. */
+function dilBadSteps(r,minT){
+ const out=[];
+ dilChain(r).forEach(c=>{
+  if(c.stock_ul<minT-1e-9)out.push(`step ${c.step} of ${c.total_steps} would take only ${PoolCore.fmt(c.stock_ul,2)} µL`);
+  else if(c.diluent_ul>1e-9&&c.diluent_ul<minT-1e-9)out.push(`step ${c.step} of ${c.total_steps} would add only ${PoolCore.fmt(c.diluent_ul,2)} µL of diluent`)});
+ return out}
+function dilMinFor(samples,i){
+ const v=Number((samples&&samples[i]&&samples[i].min_transfer)||0);
+ return v>0?v:(Number(val("dilMinT"))||1)}
+function dilFinaleHtml(list,unit,samples){
+ const u=esc(unit),f=PoolCore.fmt;
+ let h=`<div class="leaves"><h4>What this run leaves you</h4><div class="leaves-rows">`;
+ list.forEach(r=>{
+  const where=esc((r.dest_well||r.well||"").trim()||"the tube you diluted into");
+  const minT=dilMinFor(samples,list.indexOf(r));
+  const bad=r.ok?dilBadSteps(r,minT):[];
+  if(!r.ok||bad.length){h+=`<div class="leaves-row bad"><div class="lr-where">tube <b>${where}</b></div>`
+   +`<div class="lr-what">sample <b>${esc(r.name)}</b> — <b>NOTHING WAS MADE</b></div>`
+   +`<div class="lr-end no">${r.ok
+     ?esc(bad.join("; "))+` — under the ${PoolCore.fmt(minT,2)} µL minimum transfer. Raise the final volume, or raise the max well/tube capacity so the intermediate can be made in a bigger vessel: the step volume is too small, not the sample too strong.`
+     :esc(r.error)}</div></div>`;return}
+  const ch=dilChain(r),last=ch[ch.length-1];
+  h+=`<div class="leaves-row"><div class="lr-where">tube <b>${where}</b></div>`;
+  ch.slice(0,-1).forEach((c,i)=>{const nx=ch[i+1];
+   h+=`<div class="lr-inter"><b>Step ${c.step} of ${c.total_steps} is NOT the end.</b> `
+    +`It leaves ${f(c.volume_ul,1)} µL at ${f(c.conc_after,3)} ${u} in <b>${where}</b>. `
+    +`Next: put ${f(nx.diluent_ul,1)} µL of diluent in a fresh tube, then add `
+    +`${f(nx.stock_ul,1)} µL of that → ${f(nx.volume_ul,1)} µL at ${f(nx.conc_after,3)} ${u}.</div>`});
+  h+=`<div class="lr-what">${f(last.volume_ul,1)} µL at <b>${f(last.conc_after,3)} ${u}</b>`
+   +` — sample <b>${esc(r.name)}</b>, diluted from ${f(r.stock,3)} ${u}`
+   +(r.well?` in ${esc(r.well)}`:"")
+   +` (${f(r.stock/(last.conc_after||1),2)}× in ${ch.length} step${ch.length>1?"s":""})</div>`
+   +`<div class="lr-end ok">THIS IS THE END. Nothing further is taken from it.</div></div>`});
+ h+=`</div><p class="hint" style="margin:10px 0 0">Concentrations are in <b>${u}</b>, the unit chosen above. This tab takes no fragment size, so it cannot also quote ${u==="nM"?"ng/µL":"nM"} — a made-up mean size would be invisible here and wrong by up to twentyfold between PhiX and a library pool.</p></div>`;
+ return h}
+function labStepsFromDilution(list,unit,samples){
+ const steps=[];
+ list.forEach(r=>{
+  if(!r.ok||dilBadSteps(r,dilMinFor(samples,list.indexOf(r))).length)return;
+  const where=(r.dest_well||r.well||"").trim()||"the dilution tube";
+  const head=`${r.name} → ${where}`;
+  dilChain(r).forEach(c=>{
+   const tag=c.total_steps>1?` (step ${c.step} of ${c.total_steps})`:"";
+   const src=c.step===1?(r.well?`${r.name} from ${r.well}`:r.name):`the step ${c.step-1} tube`;
+   if(c.diluent_ul>1e-9)steps.push({stage:r.name,stage_label:head,
+    text:`Put ${PoolCore.fmt(c.diluent_ul,1)} µL diluent into ${where}${tag}`,
+    detail:`diluent goes in first, so the sample is pipetted into liquid`});
+   steps.push({stage:r.name,stage_label:head,
+    text:`Add ${PoolCore.fmt(c.stock_ul,1)} µL of ${src} into ${where}`,
+    detail:`${PoolCore.fmt(c.conc_before,3)} ${unit} → ${PoolCore.fmt(c.conc_after,3)} ${unit} · ${PoolCore.fmt(c.dilution_factor,2)}×`});
+   steps.push({stage:r.name,stage_label:head,
+    text:c.step===c.total_steps?`Mix ${where}, then label it`:`Mix ${where} — NOT the end, it is the stock for step ${c.step+1}`,
+    detail:`${PoolCore.fmt(c.volume_ul,1)} µL at ${PoolCore.fmt(c.conc_after,3)} ${unit}`})})});
+ return steps}
+function labFinaleFromDilution(list,unit,samples){
+ const ok=list.filter(r=>r.ok&&!dilBadSteps(r,dilMinFor(samples,list.indexOf(r))).length);
+ if(!ok.length)return null;
+ if(ok.length===1){const r=ok[0],ch=dilChain(r),l=ch[ch.length-1];
+  return{where:"tube "+(r.dest_well||r.well||"— the dilution tube"),
+   what:PoolCore.fmt(l.volume_ul,1)+" \u00B5L at "+PoolCore.fmt(l.conc_after,3)+" "+unit,
+   end:"THIS IS THE END. Nothing further is taken from it.",
+   sub:"sample "+r.name+", diluted from "+PoolCore.fmt(r.stock,3)+" "+unit
+    +(r.well?" in "+r.well:"")+" \u00B7 "+ch.length+" step"+(ch.length>1?"s":"")}}
+ return{where:"tubes "+ok.map(r=>(r.dest_well||r.well||"?")).join(", "),
+  what:ok.length+" tubes, each at its own target \u2014 "
+   +ok.map(r=>{const l=dilChain(r).pop();
+     return r.name+" in "+(r.dest_well||r.well||"?")+": "+PoolCore.fmt(l.volume_ul,1)
+      +" \u00B5L at "+PoolCore.fmt(l.conc_after,3)+" "+unit}).join("; "),
+  end:"THIS IS THE END. Every tube is at its target. Nothing further is taken from them.",
+  sub:(list.length-ok.length)?(list.length-ok.length)+" sample(s) could NOT be made \u2014 see the warnings":""}}
+function renderDilutionList(list,unit,samples){let u=esc(unit),totalDil=0,nSerial=0,nErr=0;list.forEach(r=>{if(r.ok){if(r.steps.length>1)nSerial++;totalDil+=r.total_diluent_ul}else nErr++});let h=`<div class="msg ${nErr?'warn':'good'}">${list.length} sample(s) · total diluent ≈ ${PoolCore.fmt(totalDil,1)} µL${nSerial?` · ${nSerial} need serial dilution`:""}${nErr?` · ${nErr} with errors`:""}.</div>`;h+=`<table><thead><tr><th>Sample</th><th>In well</th><th>Out well</th><th>Stock ${u}</th><th>Target ${u}</th><th>Step</th><th>Factor</th><th>DNA µL</th><th>Diluent µL</th><th>Final µL</th></tr></thead><tbody>`;list.forEach(r=>{if(!r.ok){h+=`<tr><td>${esc(r.name)}</td><td>${esc(r.well||"")}</td><td>${esc(r.dest_well||r.well||"")}</td><td>${esc(String(r.stock??""))}</td><td>${esc(String(r.target??""))}</td><td colspan="5" class="danger">${esc(r.error)}</td></tr>`;return}r.steps.forEach((s,si)=>{h+="<tr>";if(si===0){h+=`<td rowspan="${r.steps.length}">${esc(r.name)}</td><td rowspan="${r.steps.length}">${esc(r.well||"")}</td><td rowspan="${r.steps.length}">${esc(r.dest_well||r.well||"")}</td><td rowspan="${r.steps.length}">${PoolCore.fmt(r.stock,2)}</td><td rowspan="${r.steps.length}">${PoolCore.fmt(r.target,2)}</td>`}h+=`<td>${s.total_steps>1?`${s.step} of ${s.total_steps}`:"1"}</td><td>${PoolCore.fmt(s.dilution_factor,2)}×</td><td><b>${PoolCore.fmt(s.stock_ul,1)}</b></td><td><b>${PoolCore.fmt(s.diluent_ul,1)}</b></td><td>${PoolCore.fmt(s.final_volume_ul,1)}</td></tr>`})});h+='</tbody></table>';h+='<div class="donebar"><h3 style="margin:0">Dilution tubes</h3><span class="progress-pill" id="dilProgress"></span></div><div class="dil-tubes">';list.forEach(r=>{if(!r.ok)return;let tubes="",vols="";r.steps.forEach(s=>{tubes+='<div style="text-align:center">'+miniTube([{name:"DNA",vol:s.stock_ul,color:"#2aa7a3"},{name:"buffer",vol:s.diluent_ul,color:"#b9d6f2"}])+(s.total_steps>1?'<div style="font-size:10px;color:#64748b;margin-top:2px">S'+s.step+'</div>':'')+'</div>';vols+=(s.total_steps>1?'S'+s.step+': ':'')+'DNA '+PoolCore.fmt(s.stock_ul,1)+' + buf '+PoolCore.fmt(s.diluent_ul,1)+' µL<br>';});h+='<div class="tube-card'+(doneDil.has(r.name)?' is-done':'')+'" data-done data-name="'+esc(r.name)+'"><div class="tname" title="'+esc(r.name)+'">'+esc(r.name)+'</div><div class="tube-tubes">'+tubes+'</div><div class="tube-vols">'+vols+'</div><label class="donelbl"><input type="checkbox" class="done-chk"'+(doneDil.has(r.name)?' checked':'')+'> Done</label></div>';});h+='</div>';h+=dilFinaleHtml(list,unit,samples);h+='<div class="bar no-print"><button class="btn secondary" id="dilLabBtn" type="button">\u{1F9EA} Take to the lab</button><button class="btn secondary" id="dilDownload">Download dilution list CSV</button><button class="btn primary" id="dilWorklists">Download epMotion worklists (DNA + Buffer)</button><span class="hint">Tick a tube when you have made it. For serial: do step 1, mix, then use it as the stock for step 2.</span></div><div id="dilWlNote"></div>';$("dilResults").innerHTML=h;$("dilDownload").addEventListener("click",()=>download("dilution_list.csv",PoolCore.buildDilutionListCsv(list,unit)));$("dilWorklists").addEventListener("click",()=>{let wl=PoolCore.buildDilutionWorklists(list,{source_rack:1,dest_rack:1,buffer_rack:1,buffer_pos:"1",tip_mode:val("tipMode")||"auto"});if(!wl.n){$("dilWlNote").innerHTML='<div class="msg bad">No single-step dilutions to export.'+(wl.warnings.length?' '+esc(wl.warnings.join(" ")):"")+'</div>';return}download("dilution_DNA.csv",wl.DNA);setTimeout(()=>download("dilution_Buffer.csv",wl.Buffer),250);let map=wl.mapping.map(m=>esc(m.name)+": "+esc(m.well)+" → "+esc(m.dest_well||m.well)).join(", ");$("dilWlNote").innerHTML='<div class="msg good">Exported '+wl.n+' single-step dilution(s) as <code>dilution_DNA.csv</code> (stock) + <code>dilution_Buffer.csv</code> (diluent), Rack 1 with buffer position "1". Wells (stock → diluted): '+map+'. Load DNA then Buffer into your pooling script as a <b>separate run</b>.</div>'+(wl.warnings.length?'<div class="msg warn">'+esc(wl.warnings.join(" "))+'</div>':"");});$("dilLabBtn").addEventListener("click",()=>labOpen("Dilutions \u2014 "+list.filter(r=>r.ok).length+" tube(s)",
+ "target "+(val("dilTarget")||"per row")+" "+unit+" \u00B7 "+unit+" throughout",
+ labStepsFromDilution(list,unit,samples),labFinaleFromDilution(list,unit,samples)));
+wireDone($("dilResults"),"dilProgress",doneDil)}
 function renderResults(st,samples,summary){let prefix=PoolCore.autoName(st,"pool"),files={},csvs=PoolCore.buildCsvs(samples,summary,st);files[`${prefix}_DNA.csv`]=csvs.DNA;files[`${prefix}_Buffer.csv`]=csvs.Buffer;files[`${prefix}_pooling_worksheet.csv`]=PoolCore.buildWorksheet(samples,summary,st);files[`${prefix}_inputs.csv`]=PoolCore.buildInputsCsv(st);files[`${prefix}_pool.poolplan.json`]=JSON.stringify(PoolCore.buildPoolPlan(samples,summary,st),null,1);if(summary.predilutions.length){files[`${prefix}_predilution_plan.csv`]=PoolCore.buildPredilutionCsv(summary.predilutions);files[`${prefix}_Dilution.csv`]=PoolCore.buildDilutionWorklist(summary.predilutions,st);}
 let ph=`<h2>PoolMate — Equimolar Pooling Worklist</h2><div class="meta"><b>Run:</b> ${esc(st.run_name||prefix)} &nbsp;·&nbsp; <b>Operator:</b> ${esc(st.operator||"-")} &nbsp;·&nbsp; <b>Kit lot:</b> ${esc(st.kit_lot||"-")}<br><b>Generated:</b> ${esc(new Date().toLocaleString())} &nbsp;·&nbsp; <b>Platform:</b> ${esc(PoolCore.presetLoadingLabel(st)||"-")} &nbsp;·&nbsp; <b>Layout:</b> ${esc(summary.layout)}<br><b>Target:</b> ${PoolCore.fmt(summary.target_nm)} nM / ${PoolCore.fmt(summary.total_fmol,2)} fmol total in ${PoolCore.fmt(summary.final_total_volume_ul,1)} µL &nbsp;·&nbsp; <b>Per sample target:</b> ${PoolCore.fmt(summary.fmol_per_sample,2)} fmol &nbsp;·&nbsp; <b>Samples:</b> ${summary.n}<br><b>Post-rounding CV:</b> ${PoolCore.fmt(summary.post_rounding.cv_pct,3)}% &nbsp;·&nbsp; <b>Min/Max fmol:</b> ${PoolCore.fmt(summary.post_rounding.min_fmol,3)} / ${PoolCore.fmt(summary.post_rounding.max_fmol,3)}</div>`;$("printHeader").innerHTML=ph;
 let h=ph.replace("<h2>","<h3>").replace("</h2>","</h3>");h+=`<p><span class="pill">Post-rounding CV ${PoolCore.fmt(summary.post_rounding.cv_pct,3)}%</span><span class="pill">Spread ${PoolCore.fmt(summary.post_rounding.spread_pct,3)}%</span><span class="pill">Buffer ${PoolCore.fmt(summary.buffer_total_ul,1)} µL</span></p>`;
@@ -964,8 +1722,8 @@ samples.forEach(s=>{h+=`<tr data-done data-name="${esc(s.name)}"${donePool.has(s
 h+='</tbody></table>';
 if(summary.predilutions.length){h+='<h3>Pre-dilution plan</h3><table id="predilTable"><thead><tr><th>Sample</th><th>Source well</th><th>Dest rack</th><th>Dest well</th><th>Step</th><th>Dilution factor</th><th>Stock µL</th><th>Diluent µL</th><th>Final µL</th><th>New nM</th></tr></thead><tbody>';summary.predilutions.forEach((p,i)=>h+=`<tr data-idx="${i}"><td>${esc(p.name)}</td><td>${esc(p.source_well)}</td><td><input class="p-rack" type="number" min="1" value="${esc(p.dest_rack)}" style="width:50px"></td><td><input class="p-well" value="${esc(p.dest_well)}" style="width:60px"></td><td><span class="pill">${p.total_steps>1?`Step ${p.step} of ${p.total_steps}`:"1"}</span></td><td>${PoolCore.fmt(p.dilution_factor,3)}×</td><td>${PoolCore.fmt(p.stock_ul,1)}</td><td>${PoolCore.fmt(p.diluent_ul,1)}</td><td>${PoolCore.fmt(p.final_volume_ul,1)}</td><td>${PoolCore.fmt(p.new_molarity_nm,3)}</td></tr>`);h+='</tbody></table>'}
 h+=renderPlate(samples);
-h+=`<div class="bar no-print">${summary.predilutions.length?'<button class="btn primary" id="updatePredilBtn" style="background:#005c99;border-color:#004d80">Update Custom Wells</button> ':''}<button class="btn primary" id="dlAll">Download all files</button><button class="btn" id="printBtn">Print / Save PDF</button><span class="hint">Prefix: <code>${esc(prefix)}</code></span></div><div class="downloads">`;Object.keys(files).forEach(fn=>h+=`<a href="#" data-fn="${esc(fn)}">${esc(fn)}</a>`);h+='</div><p class="hint">'+(summary.predilutions.length?'Run order on the epMotion: <strong>Dilution.csv</strong> first (the method mixes each well), then <strong>DNA.csv</strong>, then <strong>Buffer.csv</strong>. Pooling draws from the diluted wells.':'Load <strong>DNA.csv</strong> then <strong>Buffer.csv</strong> into the epMotion run.')+' Or take <strong>'+esc(prefix)+'_pool.poolplan.json</strong> to the <strong>epMotion Protocol Builder</strong> (Pool tab &rarr; Import plan): it writes a ready-to-run <code>.export52</code> with the dilutions, the pooling and the mixing in one protocol, so there are no worklist files to load at the instrument.</p>';$("results").innerHTML=h;
-if($("updatePredilBtn"))$("updatePredilBtn").addEventListener("click",()=>{[...$("predilTable").querySelectorAll("tbody tr")].forEach(tr=>{let idx=Number(tr.getAttribute("data-idx")),p=summary.predilutions[idx];p.dest_rack=Number(tr.querySelector(".p-rack").value);p.dest_well=tr.querySelector(".p-well").value.trim();if(p.step<p.total_steps){summary.predilutions[idx+1].source_well=p.dest_well}else{let s=samples.find(x=>x.name===p.name);if(s){s.final_dilution_rack=p.dest_rack;s.final_dilution_well=p.dest_well}}});renderResults(st,samples,summary)});$("dlAll").addEventListener("click",()=>{let i=0;Object.entries(files).forEach(([fn,txt])=>setTimeout(()=>download(fn,txt),(i++)*250))});$("printBtn").addEventListener("click",()=>window.print());$("results").querySelectorAll(".downloads a").forEach(a=>a.addEventListener("click",ev=>{ev.preventDefault();let fn=a.getAttribute("data-fn");download(fn,files[fn])}));wireDone($("results"),"poolProgress",donePool)}
+h+=`<div class="bar no-print">${summary.predilutions.length?'<button class="btn primary" id="updatePredilBtn" style="background:#005c99;border-color:#004d80">Update Custom Wells</button> ':''}<button class="btn primary" id="dlAll">Download all files</button><button class="btn secondary" id="poolLabBtn" type="button">\u{1F9EA} Take to the lab</button><button class="btn" id="printBtn">Print / Save PDF</button><span class="hint">Prefix: <code>${esc(prefix)}</code></span></div><div class="downloads">`;Object.keys(files).forEach(fn=>h+=`<a href="#" data-fn="${esc(fn)}">${esc(fn)}</a>`);h+='</div><p class="hint">'+(summary.predilutions.length?'Run order on the epMotion: <strong>Dilution.csv</strong> first (the method mixes each well), then <strong>DNA.csv</strong>, then <strong>Buffer.csv</strong>. Pooling draws from the diluted wells.':'Load <strong>DNA.csv</strong> then <strong>Buffer.csv</strong> into the epMotion run.')+' Or take <strong>'+esc(prefix)+'_pool.poolplan.json</strong> to the <strong>epMotion Protocol Builder</strong> (Pool tab &rarr; Import plan): it writes a ready-to-run <code>.export52</code> with the dilutions, the pooling and the mixing in one protocol, so there are no worklist files to load at the instrument.</p>';$("results").innerHTML=h;
+if($("updatePredilBtn"))$("updatePredilBtn").addEventListener("click",()=>{[...$("predilTable").querySelectorAll("tbody tr")].forEach(tr=>{let idx=Number(tr.getAttribute("data-idx")),p=summary.predilutions[idx];p.dest_rack=Number(tr.querySelector(".p-rack").value);p.dest_well=tr.querySelector(".p-well").value.trim();if(p.step<p.total_steps){summary.predilutions[idx+1].source_well=p.dest_well}else{let s=samples.find(x=>x.name===p.name);if(s){s.final_dilution_rack=p.dest_rack;s.final_dilution_well=p.dest_well}}});renderResults(st,samples,summary)});$("dlAll").addEventListener("click",()=>{let i=0;Object.entries(files).forEach(([fn,txt])=>setTimeout(()=>download(fn,txt),(i++)*250))});$("printBtn").addEventListener("click",()=>window.print());$("results").querySelectorAll(".downloads a").forEach(a=>a.addEventListener("click",ev=>{ev.preventDefault();let fn=a.getAttribute("data-fn");download(fn,files[fn])}));$("poolLabBtn").addEventListener("click",()=>labOpen((st.run_name||"Pool")+" — "+PoolCore.fmt(summary.target_nm,2)+" nM in "+PoolCore.fmt(summary.final_total_volume_ul,1)+" \u00B5L",summary.n+" librar"+(summary.n===1?"y":"ies")+" \u00B7 "+(summary.layout==="one-tube"?"one tube":"plate \u2192 plate")+(summary.predilutions.length?" \u00B7 "+summary.predilutions.length+" pre-dilution step(s) first":""),labStepsFromPool(st,samples,summary),labFinaleFromPool(st,samples,summary)));wireDone($("results"),"poolProgress",donePool)}
 
 const DETAILED_GUIDE_PDF_B64 = "JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUiAvRjMgNyAwIFIKPj4KZW5kb2JqCjIgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YxIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKMyAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYS1Cb2xkIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMiAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjQgMCBvYmoKPDwKL0NvbnRlbnRzIDEyIDAgUiAvTWVkaWFCb3ggWyAwIDAgNTk1LjI3NTYgODQxLjg4OTggXSAvUGFyZW50IDExIDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9Db250ZW50cyAxMyAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCAxMSAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKNiAwIG9iago8PAovQ29udGVudHMgMTQgMCBSIC9NZWRpYUJveCBbIDAgMCA1OTUuMjc1NiA4NDEuODg5OCBdIC9QYXJlbnQgMTEgMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJIF0KPj4gL1JvdGF0ZSAwIC9UcmFucyA8PAoKPj4gCiAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtT2JsaXF1ZSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjMgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iago4IDAgb2JqCjw8Ci9Db250ZW50cyAxNSAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCAxMSAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKOSAwIG9iago8PAovUGFnZU1vZGUgL1VzZU5vbmUgL1BhZ2VzIDExIDAgUiAvVHlwZSAvQ2F0YWxvZwo+PgplbmRvYmoKMTAgMCBvYmoKPDwKL0F1dGhvciAoUG9vbE1hdGUpIC9DcmVhdGlvbkRhdGUgKEQ6MjAyNjA4MTcxMzQ1MzYrMDQnMDAnKSAvQ3JlYXRvciAoXCh1bnNwZWNpZmllZFwpKSAvS2V5d29yZHMgKCkgL01vZERhdGUgKEQ6MjAyNjA4MTcxMzQ1MzYrMDQnMDAnKSAvUHJvZHVjZXIgKFJlcG9ydExhYiBQREYgTGlicmFyeSAtIFwob3BlbnNvdXJjZVwpKSAKICAvU3ViamVjdCAoXCh1bnNwZWNpZmllZFwpKSAvVGl0bGUgKFBvb2xNYXRlIC0gRGV0YWlsZWQgVXNlciBHdWlkZSkgL1RyYXBwZWQgL0ZhbHNlCj4+CmVuZG9iagoxMSAwIG9iago8PAovQ291bnQgNCAvS2lkcyBbIDQgMCBSIDUgMCBSIDYgMCBSIDggMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iagoxMiAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCAzMDAwCj4+CnN0cmVhbQpHYXUwRj5CPzpUJnE5U1lrWFQyL0B0cEpncWYkPDE5dCMnbEcmQkAxZyskMEArWiw/YSIlMFMjZEo8STVITmskYEAqJmEnWHVJPjNSLXM0QlZ1LGRcKSFMYjRqUjQycUdWYixVRzc5aT5vK2ByUFpYRWI1aFRkZGc/VzhnNjltRSsqNGtGTE8yYSU3IiNDZU43WyRlYUhhK0oyJjA8ZjI4Z1guImVuLy5PWVZERVIyX2BXW3EtUiMzZ15ZaiY7UyJgSUZsYDJROStuaTVkb0ZsJ14oN1Q/PEwjT1QkQU1HZ0xIM05uaUAvXk9qRD0+X0NicVNoRFBKLW9QI00rNF0xRU42PWBBJmliQihlbz4qSmBWJEVFXmgoWSU5QjhSLE0xXSFTZ19JV0kjQyQvPFh1RmMyYmEtQGkuIy0iYG1EXzIuZFdMY140TzhlSl9cOWtHOk5ELmQ6aFQtKTRBW1BeYnMpKG4zUFpKUCdPTictYklCRV0zLz1xNC89TikiQW86M1I7KT1MLmM1c1olWU5bOz8yNC1mcml0XGFWbCdPIV5GTiNDRVRyTidKOy4qJFtGcGk2dEVQRUwmXjhtNlE0cStCbW1HMzE1bmhRMVxdb2RVODtYc247UidlUyMvO05NSk5HWV1iTnNhJyVpKi4rVVtmQlFoZWEkJVJIPF9YPFEuRGkiPSpHclhxKjpSZEsjI1tFUWM9YHMlIzk3NjpiZ2ZTTUE5NzQsSGY1LTlIXFlBa1QvREFlZVcoQj1DMjY/QCMiRiRYazFTVSdHOVNpSlRDKW51NWlPaVJ1QFlULUdbPyFPLWwiQ0RDWGElcFBqWjxjKGRhR1pFRyxOb2krI0xJMS5tOCV1YUNsK2A2ZEpMP1lLKy9Pb0p0UkVjKSNlPT9MczZDODRKUXNjcUVeNmMmbl1QalFIUmNcMCUkOkglXWBxaDFfMSs1SCRGQVhjdF44MT1UOT4ySTptRzFPXypTQmFNdF9lVCxwWjBPMWlYUjdAXmRoNlo0NSxNVVsyTVFOZjo4WWdvRCJhIVgiYjJST1tpZCUqW1gzLTVbTFxsZzk8PFBUSD9cbGEkJzBhUGAsaixmKjZFKGtRV2FaNSJYaFYoOHBWUFMmRDNvJFpDNUBuOywjIUBBWjxMN1hgL2ZqTyVtVEVIQFRpP3Q1YTAhUE9RUUIpPjBkLSdXYC8/PWMoZSxbckRacj1gMSlNTUY6KTJsQl91NCtAcyRUJT9UJlRiIidMXk5qV0k5SFw1JGhMaUBUX1w2W01cXWRaSkE7Pzs7YzlJKmZhP0wxcmhjQW1ydU5cNjJoLm5pRCRqZEBFYk9gclQmKkIjKV5Jc0xAXGwzcVBSbmVobkwnPlg1S1EzQlNVb2llWVlFY101KkA/JiFhXDkqaXEnUTYlc00qaVlXPjArSGg3JiJtLlU3P1czNmQ9cjIwJisuUmxCXDtKbEJQP1JxQF50TkpQU19vKHUlJSomMCZ0JGg/OCExMGtyclxEZVNEa106MVFlWEplTmg5MDMjM0dDJF9IOnFdViFQTjdhSXFYQkIqXk8/RF1pPmByWF46STNOUFNRK2QiaVZrY2RmRzFEWG8xTmE+R2JXLkk2KjMvbzszU0pKJ2EkXVQqOWJXQXFgWy0zYjxmNmVlOXRkLzFSITxKKTNbMy9NI3RhTChdNlFKIV5RNSpFJU1PPzwxZiIqc2AkODZnKDFfTTVQVkVHOklyJHNjJF9CT1ZbR044dEFhbiMlLy84PikpalYzLEduTFJDWHU3aT5UJFRRW3AiJSIyUChBVCxNLzV1MSNMMFZkTjl0P1RUVXFIS1lyKyZQb2QnK0RlZUYub0tdPVArLCpoSD5IXTpdTXFdbyx0aCRpVEVjVTFzbmw+WkRLTG40XDw7Vi0kOlIzQGpOPHFWXCRRalZHUlFiXDNsWUJZRF0sR0Jvb1FeQy5FJjUyZmhcZmgyK10yImk4J0wkUD5CNz5gNj9eNCtSJTApSElYTyhAaEJibDRARD5kYyMubHNYaGFtajkwK0o2YmJVL0gqPWg9Lk0/LFpTQVskZmovalU6c0BQOURkMTQ6KzJ0al9dLSM9K2toXkYzaUpFSl9uXzpKQGE9XDlvW2EqUUByOklOTTVATVdcY21fRyFpSlEqcFNYanMzbWwsVWo7aytoMkMtP3RZWDU2LUZVMkI4RUEkMTQ2NjYyXl49KVVGaWxBXVUvVjs4OCdVLzQmZTZ0Qz8/aHFrYkYoTVlrXGkxVysiJUxxcE9MSFZWaEBGMzozJGw5LEleMktwWTR0RF5iZW80YVE9N2RjIWc7PFVHTXBsMDkhNXVIU2ptLVJxLG8uNlhiZDQkb1tLZjRfQGRWR2FqUFJMN2xjWEo1WFpnPDhSUy5kSmImQCEqViZZSHByKVtSSSFMPSVTJG1bQEBrIy9KTnIjJS4lZitYWERZNGBDOT47Ll5nRDBLXDpkdGZMPT1lZihLWks6SlhaNkQsVGRyTl5qajVLcy9HaSZOOl1MLTBbMSlZQiJITlU/RDlxKDoodS1najFxOTVQTWptM2dEQicsYDAvTkZLN0w2KkBxcCJbdDxkS091XEYpLXJQMHRDOkx1QD5vS2kvKTQ6LmI6dCs0c0hISEAzIjdWT1VFNiQnUyw8XSdtMkM6UzshbyZ0XWRjcSRsPjEuLjhDYGtSVUlOQF02OFoiayQ6L1cuWWojXDlFUDZdJk1qIyJrQTVNb1hqVy1fZl5GUjtsaksjZFp1U0VWZ1BRUykiI1w5NFInMV5ELjxKSF9tImZjLW1PR1hRdChgaEhPUlIoOTpHW20iMy8tMVg5Lm4hNEtPRT9dKD8tTCdUaTBHRT5eXDhqOE1XMVgvRCY5MSpMNmpLZEI0QWxMcTZZKmk/Rk5MPl5sOkoybTZ1YENnIlUqZmBCdVhMdUIlNG5POW84KTpqcj4xR2M6LWhBblpnO28vKGdpaksmND9wZVkoLUNQLExHaXBXJ2wwZzFPVzAwQCk8XDtYJXQ2ZGIlcytWRjpRMEg2bDRaODhWSmlOaTNuVmNkZlRHa1kvWCJIV3BEbilKO0BXPmBJOikwVipPTlkza2FTays2byZGXGBfOjU9VjhuQjleTVduI0BjXktNX2g5VE04P1Y/S0BnYDJaKDg9V0NyVWFsXGhZc105PGM/cm8rdDRLXDhxW3BFblFaT01SIV8kZCwvSU5COFsxcEQoJitPTzZaTlI4OVo2TVE9LidNNTRfY3ImZDUtP1pfLllaIm10U1JkRSVvUnJmJ04zOztQOThiNmx0dFsoYUJDZiU6Vk9OMGRXXSpiKTpsIlRpPUAyNCtaOGEiMDZzMFlpYG9iKGVwIyZpZDZPJGA9ZSpOUzVbbGknJisoPSksXVgyT2ExQTJCaSlsOVNwTEMlTiRPbXVjRGxodHJWKm4nOTV0Q3VZR2NcNl9iLWZFLT8rKHUtaDlNRDRJZ0ZoN1QvcmBoWTspMjx0LykpWCJCJSNQQnB1Z10pSiIhQ0UpRy5hMzg2VmJWNjwxVkpvTDFhQltBZFAlLUFrb1UvJTgsVzo6ZzZLZWorXi9DWU46ZV9IWWJjb1M9USsoamViNVZDM2QtWThjQzI3amFHP0ZhZkNzQ3JMMjUpOSckKUtkTio+XjMxW2YyOzVjJEBIYUU0KG5nTERaQFVxJUJHOF46VTNwbERbK2Y9QjQ6Vz5kXkhESWYrOzlTOzkyal5TIltsNy1rbzFGSGhWJi1WUy5YX0YiclU+O21GR1VRWGtULT00Mjoib11mP2VPcGpHTVV1KD0vQ3RuQGw1LSVZOy9tNEEpQ01EXWhSJSluOllvUWhQPXU7PU9ucG86UC5UM0ApUmZaSkpRPkJNRlpaKTVFPlY+MGcmWW1oV2thYFxpWjQ3L1hrYnIjOTAiQTRKXGFVUV9MOyRLNU1TSitoaWZwaE1zJHQ/RTBCYigqXS4oPlFEWS1fZSc0UFM8cS4uXnJXZD1hSnRgfj5lbmRzdHJlYW0KZW5kb2JqCjEzIDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDI3MDAKPj4Kc3RyZWFtCkdhdTBFPkJBUS0mcTlTWWZYSyJfOV8wbi1dVV8jUlZdRFssQ1VLXWhpdGs3PCxoPTZXT0okMVpmNjglaDliTSJlMlU/VmElcnBAQ2hTJ01OIlhhNE5sTC1KL0dYJHVMOkRSJWpiaCQ3NUwoIVRXcGMtJWBHI0BvOGUuRVVKZVNdVl9sJUNyMzU1cXM7MFA3Y1RxJyJmPFJVQi1ySGJTSG9HJWNIZSlRKVdANElAS01xJ25mMVI3UmxpWWEkc29yYzxNNCpZT2ReTG8mKjxQMXQiYzcsZzhGQDBtRlVeNGM9PjBgUjlSRzFYL0JfZmo4V186aV9DXz0jUEIlQ147UE5wa1hqaTs0Oi0/JDRVLEM3YGolYjspMiEiM1V0JTBSdFwuYDZYc2txU3JzZ1NDc0pRSmU4M2lBJUN0SD5kOWpYMzdbTjNBXEZgbSJAJm4kL1QhQiNMdWxpIzVkVCdXMy1OJUxjKVMxbDldXCJAblEzRCwrMUw3ZzFwdDpsT1FEdDxeZFdoTCk+RkkpMTtQK1k/QFQ5LmUiMG00cm5rVFJaV1FgXFgqM2xGM1BPSSpjPjZJOnJ0P15KPDpdc189UE5FVWYrIT0vYFciL0AxNnIvIzlmM0k1a2FGR1hTT2knO2pNdTFNUF9iXmdRazMuZCg7aCVUTFROXy4haiw6JE1dQ2ZEIiF1ai9pQ0RBVC9yTHFcciouOyZwX2hePihJYiVpLXMyWU9dSiorR2llKTAhVCtXVlVjPmEkMjJkQV1HKTU3Z0lYaFxIZlYuY3IjJlhVVFcpKTgiL1hbO0tMOlEqP25qUUBAIVlSOmc2KjpzJ05AMkZzJ2kjUEhNQCouN0BeXkJqblZgXms0XkQkRTEqIzVjSDtEWjMmLkpnVSY+LV5UQD9aTkBrTnA+UUJEUXFEVCFoOmpPTkBtOUlMPkQsdVk6TVpSKU1zXjFxSUReRCE9XXNeXF9lZGsyLig8LDZtPlhSOCpQYVA/UkhvUFwnbFNKVCs7PmZLZ0kwaV9HWzBiTnUiU1FqUGErRz9Mby87MmwoI2peZzJlPjFEQTVxMDInTidcPVxrVVJtM1YhTUh1LDdbYDBAW0dvdHVoa21GL1pSRGtkUm0sUC9EYkokT0MiYjZRZDBFVFFnWm8hQl1acExRNmtVODgocjtJQTgoImJDSlJeQmsmVC8jLERKM1UiO2VaR11kOzE2JFhTUW5uUT1mbEJucFxIdFBSLzoxT09XKHA+L0I9aUM8Zl51NylWTVA8ZXU1T2ZaamlSUytfQm9aXm90PE9cT2lcJF5DRE5ZSFZ1cjoyLkZjbVJFXlFGJWVKRFdhZDxmZGFJJENeNiIlO0Y4aS5kJEZkdTZNNFBOOCpGWy0wXVM6OzkhX1cnYyRpZzVtNyhuKykrNzRebGk4OEUkTU9NdD1rOjAzdWk0ImtFWGxfZHRzM1UjW05BYDY8Tzg/RVAxZUciOm1Ib2psJl1na19sV0tzVzBIOTFBI0VqSExUaSRzTUlCUCFsUGhQPGdpPWdiXT05ZVs0bTwiU2xTYzFTZDtIYWlhOWRoPCpnKHBtcilpcnU+MUlKWyswLCsjPFM0ISlHXzk9dDYxTkdFLkJScDolIlIqYEZBLEBDcjNIcFNMSUMpS08iU0U4KGNoYTJ1Um4oOkI0UlsqR3NFUjtGXUBZKipSbVtsYCVVMyNcZWc5N2xlRCg1V0xLKkhNZDtbMFxJZjMlZkA3XztZR1pHOC8qQm9jXTpQaykxbU9hcEFBPVIkJChyIktycFttYF4mSnRiO1o/OjM2U2JUOjY8cigwMHVyN0FiQilWazJJK18mOmJSJig+X15qL3RmaSg9P0hpcyIxYDtqPW5IOj9WcyNWWj84SzZZM3UlWyxYbmRCZmcwUFE+TkNuLlAzKSNpczpEXF1COTk6SlFULGtlOSwkSm09biRDLlsxTyZcZW9LQE9VUElCPChrXUtSLCJeX0xsZlNIK1plX0hZOiwhQ1EvdVAuV2E9WmtKdFQnKDQ5SiVYcTNaIlczOypdWTtOLkNYYSY6O2s3c1E4Y0lAOkY2Q0grQ2dTJmMpW0tbTEI3M0s5ZiZuZSJQTCtBXE4kTmJ1TTRKLi4kQj0ySD9oakovYHJiJ2VUTjVQM0xXNjQvXC1UYUQwS2pvIkIiQDtRP3I1KVlSWiFNI01tODxePDQ0Zk9hRSxhJHVOLzdaam81LSM8Z01fXFFNM0ZEOzYucTsuOlZAKEVcVU0wbW0vMXVkKDktJid0O2ozTUxyWUJubi88SiQ7ZDsiQTw4LSMwPGg1Y15dJC9FIyNHN107OiZrNm0wKyU7ZWJqcz9KXDEjYj8uOl90O2BTbWpmWSJpPUhoRStDVGMnSWRhIkhZL2JhL3M5RjROWHEiaTtBR3VhXFxGcikzPlZIa2VcaTkiW1Q8cz1Ic1hxK05vam8hTmQjbTY5dDJuYGhIXi5saTVYKGxabzFlTkk7Q19bRXJyZyJpLVZhLiJlXHFQPFk2IWUwLXNMIyVJcCJNYHROLGRUTkM7WWduKTIyKnNTRk0ucSdQQm0nQ05iSj9ATk9pQEtbNmd0X2pSLk9fPy5hU0FgcFgoZCZzMmxsTjlaUFojSUtwUUEuL0BIYSg6IlxXPCtsak1hW21QQD1lQFIkV1k3UkpKJVtJcW81XlU/LEhcTm0oQ0NjP2QhYVxzRi1sKThmPDA9UnUyY0AlTFQtcTtXYFwxLT9LZDtZUytxcU1dIm5ndCU8XW5Nb2VwJG4pQ2pITyRral40ZVItOzY5Zm9kXXQ4dHBTOVFyTks1Mzd0RjAzJWldXC9db1trSFMwaVBVN29jTGBjTGloWDYkbG9lcy5xSGtHai9gOlhNZnNwXDRRNmxWNXRNT1hxXCNHXV5vW1w0MU9kJyItYGRdT2FWaiZHYV9mKzZZPWNnOl4wbjA3IWVKRiVbbTBfRl1XcUZqO2xPPm5bdXE/JV1qcUFHbTxsI011YjwyY2VXdUU5Zys1YEVSaT5UKGFjdW07XiljbltUXlVAP1RpPEEnUWVYa3VibjtVa0RpKmZAZ3NAJjlFVE5sQllLIjZEQip1LmJhL24iazouUj4/bl9dXWk2SmIuPkpNcmcvTyhrOHE+PiZPKUltPChmbFFkaXVCbzhzN08xXSdlbWRdb3UnR29MO2g+NjBwNC1oKitMMDE3bighdWptOF00WWI1aiNgTU46ImBfSlB1XkA3bEldTWFNRyJQb1lOQz1oM2VVZk8qVDpXZ0VPanFoU2YqOjk8aUNEVTYlaGNgXy5FK1pxUjFCNic7OGomIkUyWjBXbWhYPmw7M3ItZDohMShOTHJdW2w5RShdVzQkLWclWDpkRjxoaDJgPDJIWEczMiVAbkVAYXBgWEQ3TitxMzJkZicqQTooQSg1X3BhWW9ScUFlJWRPTi0zJ2hWbmp1XilUay5nKHE8RiJGPDknM2EzQEg3Y18xbickWSwyNU5pblVKIWYiN0l1Z15caXRYa0lrXiRtKUwyQUpCbFVKSWRLQWoxXydEZTJbQUFpU28uTENHJ19aSW1MNE85bFJfXFhlRTNOMDtTUzErYFAzX0RXZjZ+PmVuZHN0cmVhbQplbmRvYmoKMTQgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMzA3NAo+PgpzdHJlYW0KR2F1YFVnTiklPCZxMExVb0xsNEZYOTwhT0xVR3RnYkRIdDotITwuOls8WVUhZWRyW11ZUSwpYSRZZiNyXjQhVishIW5aV01LMmgsaltAUFBIVlNkV21WK0AvbksxW29VQz8naSFpJDg3UWomWmswWlMtP0VXczNPP04nRG8pJHN0ITFxXV5DRSErUSEvTUs8YmFaTTgpTW4qLiJgTEleSkFwO2lfXVsuISdmVCdBcWY2OllkXzkmZ0RrciNYSVNBQ3IiUUs9VWBMdTJqWFciUFtAbzsjUj47XjdGIix1MlgmZz86Q2ZeOzhsQzNqdWReWk9QKTlyQzs1K1xIJzdOaVg5KU9NKWA2Nik3Sl1fXVhmI1lJamZUJlplUFBOSi9MV2EjJm88VjZHVnNOPHNJLipfXDhJKmdPVCZVb0RRSURIUmdXXFJzSWY8RDJZTnFZZEhOJj5IcDxbLzFqRzslLmQuV0U6PmknIzJVUyg5c0VsYlVDUytpYDc6QCptamwmImIsXnBdWjJqclIjYWY8RFtOP0xYYC4nRmIiV0xVXj5aP2JaMjpaSHNXSUlwJ2lQSFpzUlFXXC1BIih0T1A0Tjw+bGIpUkxMTkwmZGJmTjE6LGRWM0pNXHNOJStkND8uUCVvJUZlTyY/aCI2KFQuWCRsKUg8YW8ydS9EJk4tZVBJYEBTRStiSCxFRzYhJ2pUIVZvKEVQQDFoaF0yOG1zJTlISzZANTEvMDZnSzNPUzc4OHEsZ2JOaGNwSy1WJSlkZ2BEQ0ZJPExvI10hU0AxJCNXbFdUYSVeLTsuMzlJJHRCRWtUWzpRR3VZWypQLC0jUGIsVzZFb0JORF5NQz1sPSZiJW9bVHBzQEFeazhAIi9QTytHMFUkMyNmOy81OmddK1M4TzRJUEsjUWgvbEJuPyY4Jyc9PEwkWSwrI3JlXlopSFkhPl9NJnAxMVR1ZlZIUGdLK1VmN2dFQywxalgsXzpQc3REYz8kO2BpXDk1bUA6VzI8Kl9KWDQxXixcbV4/dUQ1LW1KSWdWPWcmUyY8LjljND8lTEhwO2BHR2g7NCRmXyhbMiQtYFpdKm5kbDQyPmxQPjxmYiEoWj1dVCI/IUYiVHIuNjJqMztKQ1VbOlg3VkB1WGJRWnIpV1c8K2xKKF9KI0s1TTpQX3FvVyshQlhoWmxJbTYjLlxYQEoyV2glRkZYPic4MHM2UEEpOmMqcj08Qk4zNWNyZFxtWWhxJjQqbTQvRDw9dFxQdWoxQk5EXCkpKS4wKzMhWkM/TWJEcFJfbUNDN2FiKyNSPXMlY1VvLl5YZylmUmItanBIMUs8KWU6Njhmby5yRz0saWxAP21XTjpQbW9XWl5gT2JKZz9paGAlNDNpcylcUUg1U1krR3BxaWAoZiEvZzsqT1ZYUy4wTmA3Y2RuUzomJj01YW9uc2xvQmQ3aiQqNGQiKDYoU1FucEY/Rzh0MWsjcjwhXEUtRiZmQS1STmVEK0JhQmxnIXAyM0QpaSlAbWNAbCVINVYnZ2FhP0klXUJsbmIqKTUnaEJuJCoqVElQJj44TjhNXCpMZypHVlFmKzM1MGFRbzlLWmRGaEdxLyNWXD4tRiQ5bGcsRG9tQEI1UnIvcmAsOi9eM2I4OCQ+aTMyQ15CZXJQVDVtSDUuI1tAWkBfIzJLJ2tFIUpkWEFpQTBrWCtNYiRhI2U+YCEralE+SGIwbyhGczpAYUk8RGFxSlc4VzpDcCE3WU9MSnMtZFMvWSNpTC1STkpuIkdtMVk0MERNc0FdaUNpPk1bMkZua3MiKHBdI2ozTEsqRi1vSiUickpiNyJiXSZYZT5YSzctS11NIkhwM2EpTlU4c0tBJUclLSwkKEYkI0U0Q3FmbG0yQlhTaHItL1lvNU0qdCVPZFBNOC0kOCo8TzwyKygoRV1WU1xxYSgxLTFnWF5SPWNScjxIUztHSEp0TnAiO2pzQltkPnBRLGIzSyF0T0NSOjRnNXNubE1hbFF1OmpZaDA9PUlTZUNFaCNCZVJuTU1hUG4zPTtAZ0VmIiU5N0gnSy9PMjpwJGpxL2dGIUVTXSQmc0xlMDRYMiV1cS9sPydpZmMuaSI3VGdHZDVaQlBoYlpZVVIuN0owIjJxZCxnQUxPKCpBIT00WnJjNzZsc0hTYyJTMDhablB0P1ZcMlFBOkotRXVPKCJeUTBxdUwuLlRCIioqNTJnIW1BTnU3KjBkWj1GPydqL2tERVdiWyNkZXRjNXE3LDk4SkFodW9CWHRBY2JWQ1ZWcW0sa0dIOmVLIlhFPTVOL2kocTdtczxmbEkiWlkmNlFjclNGIkhWUXRiOmoyViloZixKSTReTUpKWSooSzY6TVA1LC9LOEIsWCJOaUQvaDxcL1khPUs6azJVai1fWktbcEZNN2UkdXRiMDcoNWdQOGFRYDQ0Qi1LOi8jYzZEbGIoNjVpcG1yVVY1UWtWUmAwUEBNYGwtSSpyZm8lXzZMQTNROCg4bTtRZnFOXzlwbGQ6W1MyLEQ/PkdsLyJiOFYoUUQlQmY/OF05RmQ5bT1GdS1qaS9CcHBAa1VwaFZGYkRLSWQlR1ska0JYLmpjX18kW3Fhc08+Qj5mSTlmJmVxNWtJLTpsTEgiUEVLQmU+Qi91MzZObzkrQ0pZYl9RbEdnQDxdN1dAKVs1KjMyVzBtXERRUGsvRV5NJDUzSGA8aT4rQmVgaFYrYC84JWgtTDQzalFwUF9zWEYtRSJeV1Y9LmonNThjLkg+KE1TbTBDYlFhbyMrODM/UWdWXUFLbTEoXVUrQTZqayxIQT5bUilgPl1ETSVdU1ZJXGZmIj0lWWc3MiNHW1hUc1k9VzJEVWElZHA1OENyYlRqMGxqbDUoOEVVVWhqJUdcZW1vV28+R05kLysiXmVKWm4+LEVcajwvZ2BLU2w0O3RVLTtqT2dqXSNOSGwuJUEuYSJzUGU+dVUsZGgtTW9ZREZXYSdyWkYsMithWyRKVi5NWl5iJ2o0U2VeNGxtZzBTXSJHQkNhalVcajs5RFYtImQ3KlRuMmInKEhBQzNEdUQsRVsoPDJpUDJ1KzJoYk1BMyM4Y0NwbF5pNWEmQDRibi09VUpEJGcuQDclVkI0PFZBRUUsN084WUAnSGEzKE1eXmxXdSRhSS9dTmg9ZU86STdxNWpLJCklKVhXWmBtNjomMi9MIV1fUks3Q2lOMVhSTTNMRnJzKXNAQCMtYispbDcoOHIvXGFOJiJtP1hiQlNJa2Z0Ml5aWGs6MSk8KDByLSZOPWxXQU5OTHIsXFhoTk9WcytNPkc7ZWNLOmQjWC5qZlpUOUdsNG9eQCgiLFhcU2ksamdUNzstJS4+R102JUdpMHQ2ITkrNiczWTUrcT9NT3UxYCMoNF4xPDtDUnRwOSE5LTUoUGdzUDhYKURBPS42Rz1BSCZvV3BCV1xsTUY+bzprQFcocEJyRUM7TW9vV19dI19hLVg9LGkwSzIrc1tDaltBM3BxLV9KQ2pSZjcpYDQ/J3QkYS43cSE9Mz5pU2ttO2lXN01uKGwmL2ooXCdrRVNCVSNEVj9RUENMIyZwMDUyN1BiYExNPDdvPFplcm0pI1Q+NztYS0RmLlN0NlA3YWRmYFokKlVCTUJQUTc1Q2hhKFRIb0shNFw1JER1SHE6WkM3Pll1RTozOUxRX2QpJS0kI08zVE04LjU/NyE5O3NCc2EhXjBzTTRlK3BGZkVyKTw6JDdzO0Y+aD1iK2NgWCxlYidiKFVcOkJbNExhcFVyOk5JRGZAK1pwcyxXYWgmS2crYmpwZC8+KmdHRTVLL0QlRkteLCs5KGpRX1hWQUpiX0UjRTtYRmkoaS5nYzhtTWFsVTRLbSUkNWBZTEkvOTxHPGhkMD5dPUZULT9aNTBeKideL1s8ciRELFVfRDRkJk4yPlRUQ01ANUdqRFpiTEgsMGVMLUZuUy9kNkV1XEY2IyMoUFdLdWJQcUhPRE5LMFBsQ0kmMmFdO2dnPktpPXAsZTYkKDs5XCJsdUhXMW8hbVZVWmVUby5bTWdTITdqIlMzLlxoYSMxP0IwZjM9SlhmSVQoOlVmZSZScC5mUWdbJFNCQ3BpY3RJcio4SDomfj5lbmRzdHJlYW0KZW5kb2JqCjE1IDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDI2NTYKPj4Kc3RyZWFtCkdhdG09PWBgPWUmcThIOWthL0VKXUhpPTFZVV42bSZvQllqNk89VlYmJC9ZPEpZQGwqUVNBUz5iLTBeal8qTG5OLGhlLzM5YlduaFZuYDYtUidtI1ZyXDtvSFFpX1k7X1loZ15faEArVSRzVSZIcSRETFFTcGBcOTdYUSpbMXEuYjYzUEtBNy0+NSNcKV9QZnFCZkt1MWpYaSY8UmJcdWNFcyIzUF5wNWlSRScrQWsuODZvODRTZDJITERhcCkvQiQ8PVNEQyRDUFZMQGdnSzg/b1syLnJzIWlNa1NEMTJ1PF5MP3FtYDppcGAvQnRQRG4mYUdRUUBuIXRuSmVMVC9vZi51MzFmR05eP1pdOTNZI3I6ajg1XF9cPUkmUigyMS8+Z1FxQHQoRUcmJGFkP0coS1RNc2puZDFCIWNaKWspMzchK2QmXlwpS2xrVnBSQVtxcktBTDMqb2olcmUwXzgxa2VBZjg6VypRVTBrcT5jNzs2QyMrUnFBPll1VVRZUTxOYjpqVm5CbEdXIi42YWklT0FuSC9nVG9rKmBlRjNGZihlR11FX1RGOVBlcVs4THUsJDhRPzsnV3N1YSkodElRRWZkczdFREgqbl5DcyJrV29wWTVsT3BJLlItPVAqYzNPIz0/LzopdCxrOD9Zaic5PkUnPFxRR3BUK0dtU3I0byg+QldwLSMkNmxaVDRwQDxtQV1dcnEkNHNqWCx1RyIoKDJsdTYpN09OXURRMGZpSzozN2NGZ146bCFdJ3BtVmVCWylhIlZeJl5fOE5YTEs2Ni1aSnQ9UTdMKlRMSSFaODg8IScyJDdVXDByOURGWzouOC9aTXEhJmkwTmBJaCg7U2slPm4mVVQiOGwyNFRHV01caU44VVRVVElkJVQlXGAxbnJ0Z0BOQ0NwMUNOITVvMyYvJ0RHITUuRDI8dWBDdT4pbWBNLkJfLD1VLHUsbDcwQWdMQTtmT3VcMmFmIWtMZnFKcWdTUmRbSkRbYmRrLTJdbjhcYnQiWVhBTys5VSVBT211Kzk/RC43JHBDV0wsb1kyXmk2JU4/OjFMUGlfK2Z0b0BFSi0tMUJDREskZSwxQF9XZV8lWmlJU1csOGdgayNDMD0jZkNfQ3BHLztaMElfUDB1RTBzKzpUbz5fPEVJMEE8ZDw+Jl5nX0c/P2BQZkBGLWBHKFVPSVBTdDZUNFIkbmBUOmxBNSFrV0wralZGXTAjQFYjL20wJjpkJFFsQCUsXCclLEAmKj4kRTMlYy8oOFcpOWp0TWpfXyZmPzohPjc6OkxeYi0qaGVBdC9nXk1YKVo1MWlQYT5aVC9rUz0uLD1jUDMsMm9iXzkvUD06ZFI0T0xcaVFKQzJXNVstYGxfTDxrUCc3IlY3WzwlR0ZUSE5wY1RZMV9qJTpwSGFSVzpYRllJIzgxTUk7NWReUVVtcTBoYVcpbEJJMlcwVzVbJG5KVHJiWUdwL0w9SnBNJjk/UzhSa1FTMWUlXl5kJihNLydfY3JqJnFoJDNPW0gzMUhHVmlHUzNVMnNGQElTQ0smKm5FVnRRaSUlQCgjI1cyK1w6MXEpUjA3b0lQMF87WlZIMGgpTCJYLHEkVU1uNS4yJHBka0UjaUQwV0lwYjV1Mlk7U24hITc9JHEvdTYjYk5hSy1iWD0hPSVvIj0/TzgmSFJAIk4uOlZsLl4iOTlyZ1IxMSlUaTV0bTpsY3VsOiNmSi5xcFsjb21YIU0xXGA9WmpuQ09rM14zK2NVUUNGYkphP1t1MUZ1MjRKPWZOKyIxQVVAcS8rRTBGP0xcXWtOSEVhSms1SUZGaG5UUDBKOC89WkVCcWNOWGhKSWFRI1BmIi9OaE9KOzJCMCVzKS02T0FfXWV1WkVdXSptQ2g+SF0zSUlpLE8/L3JRa1s+YmpuPFVZXztELT5UJzxpO2EvXlUhSE1ILik6KzFrQ0cqXisxRjRYVG8paiF1JzJGX08nSmxjZ25vVj5nM1UsRGNEUkM7S1JyaG8vJmpXKCJlKT9WWTxHdU4/YnVZSDBDJTMoUixxN2o/YSVKM1AkVk5XRXMlUGxBckI4LkolWzc/TzVRMSJucjhcNTxkTyRGXHQxM006KEcxLjMyayxFSyNWVlQuIiJqMSJcdGQpQXAnUzssMkJDKWEpIy9yIyFNYWNVMExXZlcyR01UXC8uciwsZj1wLzxWIikqYC8pSDwudWVUOmM0bUg+bm1vLzw/U3UuUGo9OT9iVnFLKlEvZFZDLWFvUGdkcE8tYiUkc3RXQC1zQTg8UGZHcFBVNE1PYWFKaEE+bzxyLy8rWTVoRF9BMTloIid0Ji0oKyZoNWAuQHRLRXJIX0staF0kbE11bmtJQ1dAc2JlTC41Kz0vTEVodTAhWVJRVSMvIXBGKjVOUUJCKFBqVWs7M1FRViNxQFpLITRkbVskcVZTNTJFIlw0JFBsPzVIaUhAXE0rMWRIdVJsQlZRNjVMKz82TjtUcERRLWo9X0pqWXMsKVxvT2gkLTUzTGM+JklXYjBZOVZuazBUb0lGN25hTz9pRiVXc0g8RmwvMkJkZ2gwYDlqLjlPIk5ka0JwWzlvX0dCPkJdMWRCP0hecjsyU19VP1ZZaHVBJVhaP0JNalBqWVJzSDslXz9MQGtJcUlkZ1AwOiRiVCJBdHVxYm0xNjM1aChWbTByQllodEwvYEhQKyZqb0lAQjtrREEsK09gVzlVXUpVbjY9LFg+PjJqcHNdZVBiLTNoI1QnSlxbZFZDQHNQMi9MK2pEV0BNW25QKmZwJSVqK05BaiM+SlpNSnFSJ1UsNm5YNnNJREhsK0FUITB1OU8vZUclIk0zbVFKST5XUykxR0suTXEnKWJTWkIzO2w1VWphNjkhTiJWYEw5J3JzRy4nOCVcIU00aVskQmAtJDMtL2BNOVRjKzRiJy1KIjE+STVZME9oX25KM2szZklCbjhCJTdAJEJVQkk7IyUjYiNnVjpLPGFdbW46WlMoJnNIUEE7W2MmZystXjMyVVxDU2FAQiw3XElCPCFLLVliTkxcR2Q6NlhmZXVRPCNiTkpZNydDRTVmPjshQ05FJVU5OWR1OnJIKUdUZGNEaUFjbF9OZ2NxcCghO0ElKzFAdE5ZYmNJckk0Pz5TUlItcEZEcEU0bklwRDUpPy1AUi9eVS4tO0dtQGQoQ1AvNGgiMzY+KzVVNE8pU0E3aD9mYjRTalElXnJAbWxCJmIxNzJecWlIKG9uKCg/SD5DRS0+NVwuNiFgbmo1KC44KVdCSmY9bEZZbC0yYk4vKT0jRmtxXTJbTiI8YyM2WkBnQ11UXFtJOVZGSDhPYVoyTEg/ZDRDTFtMMmE3QTxlOnJFT0NFQFIxI0luZFdMPDQqUCItPWIsSklTZCwmOU8lby42Vz0oVVpfM0BAOldyKEUtUT4pOmpzIjIlU0RjNU9GRVdtXjJFZC5PKCJiZzRvRCJRO0ovLSppXCtbbWtWRGpsPyczKldiIldTS3VNWkVbWDNdUzklTVIubDVnKFJHcEpAOTxJJj1QMztYZUIrPVA+fj5lbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCAxNgowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwNjEgMDAwMDAgbiAKMDAwMDAwMDExMiAwMDAwMCBuIAowMDAwMDAwMjE5IDAwMDAwIG4gCjAwMDAwMDAzMzEgMDAwMDAgbiAKMDAwMDAwMDUzNiAwMDAwMCBuIAowMDAwMDAwNzQxIDAwMDAwIG4gCjAwMDAwMDA5NDYgMDAwMDAgbiAKMDAwMDAwMTA2MSAwMDAwMCBuIAowMDAwMDAxMjY2IDAwMDAwIG4gCjAwMDAwMDEzMzUgMDAwMDAgbiAKMDAwMDAwMTYyOCAwMDAwMCBuIAowMDAwMDAxNzA2IDAwMDAwIG4gCjAwMDAwMDQ3OTggMDAwMDAgbiAKMDAwMDAwNzU5MCAwMDAwMCBuIAowMDAwMDEwNzU2IDAwMDAwIG4gCnRyYWlsZXIKPDwKL0lEIApbPDE0YzhlYzE3YTkwMzFkYzNkNzBhMTQyOTQ5MzcwMDQzPjwxNGM4ZWMxN2E5MDMxZGMzZDcwYTE0Mjk0OTM3MDA0Mz5dCiUgUmVwb3J0TGFiIGdlbmVyYXRlZCBQREYgZG9jdW1lbnQgLS0gZGlnZXN0IChvcGVuc291cmNlKQoKL0luZm8gMTAgMCBSCi9Sb290IDkgMCBSCi9TaXplIDE2Cj4+CnN0YXJ0eHJlZgoxMzUwNAolJUVPRgo=";
 function downloadDetailedGuidePdf(){let bin=atob(DETAILED_GUIDE_PDF_B64),bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);let blob=new Blob([bytes],{type:"application/pdf"});let url=URL.createObjectURL(blob);let a=document.createElement("a");a.href=url;a.download="PoolMate_Detailed_User_Guide.pdf";document.body.appendChild(a);a.click();setTimeout(()=>{a.remove();URL.revokeObjectURL(url)},300)}
@@ -1098,6 +1856,454 @@ $("openGuide").addEventListener("click",()=>{let g=$("guidePanel");g.hidden=fals
 $("closeGuide").addEventListener("click",()=>{$("guidePanel").hidden=true});
 $("printGuide").addEventListener("click",downloadDetailedGuidePdf);
 toggleQuickPoolMode();
+
+/* ===== take to the lab ======================================================
+ * The same plan, as something you can stand in front of with gloves on: one row
+ * per step, tap to tick, big type, and your place kept in localStorage so a
+ * reload (or a phone locking itself) does not lose which tube you already did.
+ * Every storage call is wrapped - it throws in a private window - and the panel
+ * renders perfectly well with nothing stored at all. */
+const LAB_STORE="poolmate_lab_v1";
+let lab={title:"",sub:"",steps:[],done:new Set(),sig:"",open:false,finale:null};
+function labSig(steps){let s=steps.map(x=>String(x.text||"")+"|"+String(x.detail||"")).join("\n"),h=0;
+ for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;
+ return steps.length+":"+(h>>>0).toString(36)}
+function labRead(){try{return JSON.parse(localStorage.getItem(LAB_STORE)||"null")}catch(e){return null}}
+function labSave(){try{localStorage.setItem(LAB_STORE,JSON.stringify({sig:lab.sig,title:lab.title,
+ sub:lab.sub,steps:lab.steps,done:[...lab.done],open:lab.open,finale:lab.finale,ts:Date.now()}))}catch(e){}}
+function labBold(t){return esc(String(t||""))
+ .replace(/^(From|Take)\s+(\S+)/,(m,a,b)=>a+" <b>"+b+"</b>")
+ .replace(/(\d[\d.]*\s*(?:µL|nM))/g,"<b>$1</b>")}
+function labOpen(title,sub,steps,finale){
+ if(!steps||!steps.length)return;
+ const sig=labSig(steps);let done=new Set();
+ if(lab.sig===sig)done=lab.done;
+ else{const snap=labRead();if(snap&&snap.sig===sig&&Array.isArray(snap.done))done=new Set(snap.done.map(Number))}
+ lab={title:title||"Bench checklist",sub:sub||"",steps,done,sig,open:true,finale:finale||null};
+ $("labPanel").hidden=false;document.body.style.overflow="hidden";
+ labRender();labSave();$("labClose").focus()}
+function labHide(){lab.open=false;$("labPanel").hidden=true;document.body.style.overflow="";labSave()}
+function labRender(){
+ const n=lab.steps.length,d=lab.done.size;
+ $("labTitle").textContent=lab.title;
+ $("labSub").textContent=lab.sub||"";
+ $("labCount").textContent=d+" of "+n+" done";
+ $("labBarFill").style.width=n?(d/n*100).toFixed(1)+"%":"0";
+ let firstOpen=-1;for(let i=0;i<n;i++)if(!lab.done.has(i)){firstOpen=i;break}
+ let h="",stage=null;
+ if(n&&firstOpen<0)h+=`<div class="lab-done-banner">✓ All ${n} steps done — pool finished.</div>`;
+ lab.steps.forEach((s,i)=>{
+  if(s.stage!=null&&s.stage!==stage){stage=s.stage;
+   h+=`<div class="lab-stage-head">${esc(s.stage_label||("Stage "+stage))}</div>`}
+  const cls=lab.done.has(i)?"done":(i===firstOpen?"current":(i===firstOpen+1?"next":""));
+  const tag=cls==="current"?"do now":(cls==="next"?"next":(cls==="done"?"done":""));
+  h+=`<button class="lab-step ${cls}" type="button" data-i="${i}" aria-pressed="${lab.done.has(i)}">`
+   +`<span class="box" aria-hidden="true">✓</span>`
+   +`<span class="body"><span class="txt">${labBold(s.text)}</span>`
+   +(s.detail?`<span class="sub">${esc(s.detail)}</span>`:"")+`</span>`
+   +(tag?`<span class="tagline">${tag}</span>`:"")+`</button>`});
+ /* the guide always ENDS by saying where it is, what is in it, and whether that is
+  * the end - never left for the operator to work out */
+ const F=lab.finale;
+ if(F)h+=`<div class="lab-finale"><h4>What this run leaves you</h4><ol>`
+  +`<li><b>Where</b>${esc(F.where)}</li>`
+  +`<li><b>What</b>${esc(F.what)}</li>`
+  +`<li><b>Is that the end?</b>${esc(F.end)}`
+  +(F.sub?`<span class="sub">${esc(F.sub)}</span>`:"")+`</li></ol></div>`;
+ $("labStepList").innerHTML=h;
+ $("labStepList").querySelectorAll(".lab-step").forEach(b=>b.addEventListener("click",()=>{
+  const i=Number(b.dataset.i);
+  if(lab.done.has(i))lab.done.delete(i);else lab.done.add(i);
+  labRender();labSave();
+  const el=$("labStepList").querySelector(".lab-step.current");
+  if(el&&el.scrollIntoView)el.scrollIntoView({block:"nearest"})}))}
+$("labClose").addEventListener("click",labHide);
+$("labReset").addEventListener("click",()=>{if(!lab.steps.length)return;
+ if(!confirm("Untick every step and start this checklist again?"))return;
+ lab.done.clear();labRender();labSave()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&lab.open)labHide()});
+/* a checklist left open survives the reload, which is the whole point of it */
+(function(){const snap=labRead();
+ if(!snap||!snap.open||!Array.isArray(snap.steps)||!snap.steps.length)return;
+ lab={title:snap.title||"Bench checklist",sub:snap.sub||"",steps:snap.steps,
+  done:new Set(Array.isArray(snap.done)?snap.done.map(Number):[]),
+  sig:snap.sig||labSig(snap.steps),open:true,finale:snap.finale||null};
+ $("labPanel").hidden=false;document.body.style.overflow="hidden";labRender()})();
+
+/* Every guide has to say what is in the vessel in BOTH units, so nobody has to convert
+ * at the bench. ng/uL needs a fragment size; where one is missing, say so rather than
+ * quietly dropping the mass. */
+function sampleNgUl(s){
+ if(s.conc_avg!=null&&isFinite(s.conc_avg))return s.conc_avg;
+ const nm=s.effective_molarity_nm!=null?s.effective_molarity_nm:s.molarity_nm;
+ return (s.size>0&&nm>0)?nm*660*s.size/1e6:null}
+function concText(nm,ng){
+ return PoolCore.fmt(nm,2)+" nM"
+  +(ng!=null?" (= "+PoolCore.fmt(ng,3)+" ng/\u00B5L at "+Math.round(ng*1e6/(660*nm))+" bp)":"")}
+function poolNgUl(samples,vols,vol){
+ let t=0;for(let i=0;i<samples.length;i++){const c=sampleNgUl(samples[i]);
+  if(c==null)return null;t+=vols[i]*c}
+ return vol>0?t/vol:null}
+/* a forward pooling plan as a bench checklist too - same tube-by-tube shape */
+function labStepsFromPool(st,samples,summary){
+ const steps=[],pw=(st.pool_well||"the pool tube");
+ (summary.predilutions||[]).forEach(p=>steps.push({stage:0,
+  stage_label:"First — pre-dilute the libraries that need it",
+  text:`Into ${p.dest_well} put ${PoolCore.fmt(p.diluent_ul,1)} µL buffer, then ${PoolCore.fmt(p.stock_ul,1)} µL of ${p.name} from ${p.source_well}`,
+  detail:`${p.total_steps>1?"step "+p.step+" of "+p.total_steps+" · ":""}${PoolCore.fmt(p.dilution_factor,2)}× → ${PoolCore.fmt(p.new_molarity_nm,2)} nM · mix`}));
+ if(summary.layout==="one-tube"){
+  const head="Pool into "+pw;
+  samples.forEach(s=>steps.push({stage:1,stage_label:head,
+   text:`From ${s.prediluted?s.final_dilution_well:s.source_well} add ${PoolCore.fmt(s.round_sample_ul_excess||s.round_sample_ul,1)} µL`,
+   detail:`${s.name} · ${PoolCore.fmt(s.effective_molarity_nm,2)} nM · ${PoolCore.fmt(s.actual_fmol,2)} fmol`}));
+  if(summary.buffer_total_ul>0)steps.push({stage:1,stage_label:head,
+   text:`Add ${PoolCore.fmt(summary.buffer_total_ul,1)} µL buffer`,
+   detail:`brings the pool to ${PoolCore.fmt(summary.final_total_volume_ul,1)} µL`});
+  steps.push({stage:1,stage_label:head,text:"Mix the pool, then label it",
+   detail:`${PoolCore.fmt(summary.final_total_volume_ul,1)} µL at ${PoolCore.fmt(summary.target_nm,2)} nM`});
+ }else{
+  const head="Normalize into the output plate";
+  samples.forEach(s=>{const w=s.dest_well||s.source_well;
+   steps.push({stage:1,stage_label:head,
+    text:`Into ${w} put ${PoolCore.fmt(s.round_buffer_ul,1)} µL buffer, then ${PoolCore.fmt(s.round_sample_ul,1)} µL from ${s.prediluted?s.final_dilution_well:s.source_well}`,
+    detail:`${s.name} · ${PoolCore.fmt(s.effective_molarity_nm,2)} nM → ${PoolCore.fmt(summary.target_nm,2)} nM in ${PoolCore.fmt(summary.well_volume_ul,1)} µL · mix`})});
+ }
+ return steps}
+function labFinaleFromPool(st,samples,summary){
+ const vols=samples.map(x=>x.round_sample_ul);
+ if(summary.layout==="one-tube"){
+  const vol=summary.final_total_volume_ul;
+  const ng=poolNgUl(samples,vols,vol);
+  const w=(st.pool_well||"the pool tube");
+  return{where:"tube "+w,what:PoolCore.fmt(vol,1)+" \u00B5L at "+concText(summary.target_nm,ng),
+   end:"THIS IS THE END. Ready to load. Nothing further is taken from it.",
+   sub:summary.n+" libraries pooled \u00B7 "+PoolCore.fmt(summary.total_fmol,1)+" fmol total"}}
+ const per=summary.well_volume_ul;
+ return{where:"the output plate ("+samples.map(x=>x.dest_well||x.source_well).join(", ")+")",
+  what:summary.n+" wells, each "+PoolCore.fmt(per,1)+" \u00B5L at "+PoolCore.fmt(summary.target_nm,2)+" nM",
+  end:"THIS IS THE END. Every well is at its target concentration. Nothing further is taken from them.",
+  sub:"one library per well, normalised \u2014 not pooled"}}
+function labFinaleFromQuickPool(samples,summary){
+ const vols=samples.map(x=>x.quick_rounded_ul);
+ const vol=summary.sum_transfer_ul;
+ const fmol=samples.reduce((a,x)=>a+x.quick_actual_fmol,0);
+ const ng=poolNgUl(samples,vols,vol);
+ return{where:"your pool tube",
+  what:PoolCore.fmt(vol,1)+" \u00B5L at "+concText(vol>0?fmol/vol:0,ng),
+  end:"NOT THE END \u2014 this is neat pooled library, at whatever concentration the mix came to. Next: dilute it to your loading concentration on the Dilute tab, or plan the whole thing from the endpoint on the Plan backwards tab.",
+  sub:PoolCore.fmt(fmol,2)+" fmol of library in "+PoolCore.fmt(vol,1)+" \u00B5L \u2014 no diluent was added"}}
+function labStepsFromQuickPool(samples,summary){
+ const head="Quick pool — transfer volumes only";
+ const steps=samples.map(s=>({stage:1,stage_label:head,
+  text:`From ${s.source_well} add ${PoolCore.fmt(s.quick_rounded_ul,1)} µL`,
+  detail:`${s.name} · ${PoolCore.fmt(s.molarity_nm,2)} nM · ${PoolCore.fmt(s.quick_actual_fmol,2)} fmol`}));
+ steps.push({stage:1,stage_label:head,text:"Mix the pool, then label it",
+  detail:`${PoolCore.fmt(summary.sum_transfer_ul,1)} µL of library · ${PoolCore.fmt(summary.total_fmol,2)} fmol total`});
+ return steps}
+
+/* ===== plan backwards from the endpoint ===================================== */
+const BW_STORE="poolmate_bw_v1";
+let bwLocked=[],bwPlan=null;
+function bwRows(){return [...$("bwBody").children]}
+function bwIsMass(){return val("bwUnit")!=="molar"}
+function bwMsg(msgs){$("bwMessages").innerHTML=(msgs||[]).map(m=>`<div class="msg ${m.kind}">${esc(m.text)}</div>`).join("")}
+function bwToggleUnit(){const mass=bwIsMass();
+ $("bwConcHead").innerHTML=(mass?"Conc ng/µL":"Conc nM")+'<span class="req">*</span>';
+ /* bp is required in mass mode and optional in nM mode, where it is still what lets the
+  * guide quote the pool in ng/uL as well as nM */
+ $("bwSizeHead").innerHTML="Size bp"+(mass?'<span class="req">*</span>':' <span class="hint" style="font-weight:600">(for ng/µL)</span>')}
+function bwRenumber(){bwRows().forEach((tr,i)=>{tr.querySelector(".idx").textContent=i+1;
+ const nm=tr.querySelector(".bw-name");if(nm)nm.placeholder="library "+(i+1)})}
+function bwAddRow(s){
+ s=s||{};const tb=$("bwBody"),i=tb.children.length,tr=document.createElement("tr");
+ tr.innerHTML=`<td class="idx"></td>`
+  +`<td><input class="bw-well" value="${esc(s.well!=null?s.well:"T"+(i+1))}" placeholder="T1 / A1"></td>`
+  +`<td><input class="bw-name" value="${esc(s.name||"")}" placeholder="library ${i+1}"></td>`
+  +`<td class="num"><input class="bw-conc" type="number" step="any" min="0" value="${esc(s.conc??"")}" placeholder="conc"></td>`
+  +`<td class="num"><input class="bw-size" type="number" step="any" min="0" value="${esc(s.size??"")}" placeholder="bp"></td>`
+  +`<td class="num"><div class="bw-share-wrap"><input class="bw-share" type="number" step="any" min="0" max="100" inputmode="decimal"><button class="bw-lock" type="button" data-locked="0">🔓</button></div></td>`
+  +`<td><button class="btn sm bw-rm" type="button">✕</button></td>`;
+ tb.appendChild(tr);
+ bwLocked.splice(i,0,s.share_pct==null?null:Number(s.share_pct));
+ tr.querySelector(".bw-rm").addEventListener("click",()=>{
+  const k=bwRows().indexOf(tr);tr.remove();bwLocked.splice(k,1);bwRenumber();bwSyncShares();bwPersist()});
+ tr.querySelector(".bw-share").addEventListener("input",ev=>{
+  const k=bwRows().indexOf(tr),raw=String(ev.target.value).trim();
+  bwLocked[k]=raw===""?null:Number(raw);
+  bwSyncShares({keep:k});bwPersist()});
+ tr.querySelector(".bw-lock").addEventListener("click",()=>{
+  const k=bwRows().indexOf(tr);bwLocked[k]=null;bwSyncShares();bwPersist()});
+ tr.querySelectorAll(".bw-well,.bw-name,.bw-conc,.bw-size").forEach(inp=>
+  inp.addEventListener("input",bwPersist));
+ bwRenumber();bwSyncShares();bwToggleUnit()}
+/* shares always total 100: a typed value is locked, the rest is split between the
+ * unlocked rows and the last of those takes the exact remainder (PoolCore.splitShares) */
+function bwSyncShares(o){
+ o=o||{};const rows=bwRows();
+ if(bwLocked.length!==rows.length)bwLocked=rows.map((_,i)=>bwLocked[i]===undefined?null:bwLocked[i]);
+ const r=PoolCore.splitShares(bwLocked);
+ const broken=r.over||r.negative||(r.all_locked&&Math.abs(r.total-100)>0.05);
+ rows.forEach((tr,i)=>{
+  const inp=tr.querySelector(".bw-share"),btn=tr.querySelector(".bw-lock"),locked=bwLocked[i]!=null;
+  const last=r.auto.length>1&&r.auto[r.auto.length-1]===i;
+  if(i!==o.keep)inp.value=PoolCore.fmt(r.shares[i],2);
+  inp.classList.toggle("auto",!locked);
+  inp.classList.toggle("over",broken);
+  btn.dataset.locked=locked?"1":"0";
+  btn.textContent=locked?"🔒":"🔓";
+  btn.disabled=!locked;
+  btn.title=locked?"locked — press to release this row back to auto":"auto — type a value to lock it";
+  inp.title=locked?"locked at "+PoolCore.fmt(r.shares[i],2)+"% — clear it, or press 🔒, to release"
+   :(last?"auto — the remainder, so the column totals 100%":"auto — type a value to lock it")});
+ bwShareBar(r,broken);
+ return r}
+function bwShareBar(r,broken){
+ const el=$("bwShareBar"),n=bwRows().length;if(!el)return;
+ if(!n){el.innerHTML='<span class="pill">No libraries yet — press <b>+ Add sample</b>.</span>';return}
+ let h=`<span class="pill">${n} librar${n===1?"y":"ies"}</span>`
+  +`<span class="pill">locked ${PoolCore.fmt(r.locked_sum,2)}%</span>`;
+ if(r.auto.length)h+=`<span class="pill">${PoolCore.fmt(r.remaining,2)}% split between ${r.auto.length} auto row${r.auto.length===1?"":"s"}</span>`;
+ if(r.over||r.negative)h+=`<span class="msg bad" style="margin:0;display:inline-block;padding:7px 11px">Locked rows already total ${PoolCore.fmt(r.locked_sum,2)}% — that is over 100%. Lower a locked value, or press 🔒 to release one.</span>`;
+ else if(r.all_locked&&Math.abs(r.total-100)>0.05)h+=`<span class="msg bad" style="margin:0;display:inline-block;padding:7px 11px">Every row is locked and they total ${PoolCore.fmt(r.total,2)}%, not 100%. Press 🔒 on a row and it will take the remainder.</span>`;
+ else h+=`<span class="pill" style="background:var(--good-soft);border-color:#bde8cf;color:var(--good)">totals 100%</span>`;
+ el.innerHTML=h}
+function bwCollect(){
+ const r=bwSyncShares(),mass=bwIsMass();
+ const samples=bwRows().map((tr,i)=>{const c=tr.querySelector(".bw-conc").value.trim();return{
+  source_well:tr.querySelector(".bw-well").value.trim(),
+  name:tr.querySelector(".bw-name").value.trim(),
+  mode:mass?"mass":"molar",
+  conc_reads:mass?c:"",
+  /* bp is passed in BOTH modes: required for the molarity in mass mode, and in nM mode
+   * it is what lets the guide quote the pool in ng/uL as well */
+  size:numOrNull(tr.querySelector(".bw-size").value),
+  direct_nm:mass?null:numOrNull(c),
+  share_pct:r.shares[i]}});
+ return{samples,shares:r}}
+function bwOpts(){return{target_nm:numOrNull(val("bwTargetNm")),total_volume_ul:numOrNull(val("bwTotalVol")),
+ min_transfer_ul:numOrNull(val("bwMinT"))||1,round_step_ul:numOrNull(val("bwRound"))||0.1,
+ pool_vessel_ul:numOrNull(val("bwVessel"))||200,aim_transfer_ul:numOrNull(val("bwAim"))||2,
+ vessel_label:val("bwVesselA"),final_vessel_label:val("bwVesselB")}}
+function bwPersist(){try{localStorage.setItem(BW_STORE,JSON.stringify({
+ target_nm:val("bwTargetNm"),total_vol:val("bwTotalVol"),unit:val("bwUnit"),
+ min_t:val("bwMinT"),round:val("bwRound"),vessel:val("bwVessel"),aim:val("bwAim"),
+ va:val("bwVesselA"),vb:val("bwVesselB"),
+ rows:bwRows().map((tr,i)=>({well:tr.querySelector(".bw-well").value,name:tr.querySelector(".bw-name").value,
+  conc:tr.querySelector(".bw-conc").value,size:tr.querySelector(".bw-size").value,
+  share_pct:bwLocked[i]}))}))}catch(e){}}
+function bwRestore(){
+ let snap=null;try{snap=JSON.parse(localStorage.getItem(BW_STORE)||"null")}catch(e){}
+ if(!snap||!Array.isArray(snap.rows)||!snap.rows.length)return false;
+ $("bwTargetNm").value=snap.target_nm??4;$("bwTotalVol").value=snap.total_vol??50;
+ $("bwUnit").value=snap.unit==="molar"?"molar":"mass";
+ $("bwMinT").value=snap.min_t??1;$("bwRound").value=snap.round??0.1;
+ $("bwVessel").value=snap.vessel??200;$("bwAim").value=snap.aim??2;
+ $("bwVesselA").value=snap.va||"T7";$("bwVesselB").value=snap.vb||"T8";
+ $("bwBody").innerHTML="";bwLocked=[];
+ snap.rows.forEach(r=>bwAddRow(r));
+ bwToggleUnit();return true}
+
+function bwPlanIt(){
+ const{samples,shares}=bwCollect(),opt=bwOpts();
+ bwPlan=null;$("bwLabBtn").disabled=true;
+ if(!samples.length){bwMsg([{kind:"warn",text:"Add at least one library."}]);$("bwResults").innerHTML="";return}
+ if(shares.over||shares.negative||Math.abs(shares.total-100)>0.05){
+  bwMsg([{kind:"bad",text:"The Share column does not total 100% — fix it before planning."}]);
+  $("bwResults").innerHTML="";return}
+ let plan;
+ try{plan=PoolCore.planBackwards(samples,opt)}
+ catch(e){bwMsg([{kind:"bad",text:e.message}]);$("bwResults").innerHTML="";return}
+ bwPlan=plan;bwRender(plan);bwPersist()}
+
+function bwStageLabels(plan){return{
+ 1:plan.stages===2
+   ?"Stage 1 — build the intermediate pool in "+plan.vessel_label+" at "+PoolCore.fmt(plan.stage1.actual_nm,2)+" nM"
+   :"Build the pool in "+plan.vessel_label,
+ 2:"Stage 2 — dilute "+plan.vessel_label+" into "+plan.final_vessel_label+" at "+PoolCore.fmt(plan.target_nm,2)+" nM"}}
+function bwLabSteps(plan){const L=bwStageLabels(plan);
+ return plan.steps.filter(s=>s.kind!=="output")
+  .map(s=>({text:s.text,detail:s.detail,stage:s.stage,stage_label:L[s.stage]}))}
+function bwFinale(plan){const o=plan.output,f=PoolCore.fmt;
+ /* where an intermediate feeds another vessel, both sides say so: the step that makes
+  * it says what it is, and the end block says where its contents came from */
+ const from=plan.intermediate
+  ? `Made in ${plan.final_vessel_label} from ${f(plan.stage2.buffer_ul,1)} µL of ${plan.diluent_label} plus ${f(plan.stage2.from_pool_ul,1)} µL out of ${plan.intermediate.label} (${plan.intermediate.text}).`
+  : `${plan.n} librar${plan.n===1?"y":"ies"} pooled in one step · ${f(plan.library_used_ul,1)} µL of library in total.`;
+ return{where:"tube "+o.label,what:o.text,end:o.headline,
+  sub:(o.spare_text?o.spare_text+" ":"")+from}}
+
+/* ---- the vessel, drawn, so there is no doubt what goes where --------------- */
+function vesselSvg(fillFrac,tone){
+ const f=Math.max(0.06,Math.min(1,fillFrac||0.6));
+ const top=10,bot=74,h=bot-top,y=bot-h*f;
+ return `<svg class="vtube ${tone}" viewBox="0 0 40 86" width="40" height="86" aria-hidden="true">`
+  +`<path class="vbody" d="M6 4 h28 v52 a14 14 0 0 1 -28 0 z"/>`
+  +`<clipPath id="vc${tone}${Math.round(f*1000)}"><path d="M8 6 h24 v50 a12 12 0 0 1 -24 0 z"/></clipPath>`
+  +`<rect class="vfill" x="6" y="${y}" width="28" height="${bot-y+4}" clip-path="url(#vc${tone}${Math.round(f*1000)})"/>`
+  +`<path class="vlip" d="M4 4 h32"/></svg>`}
+function vesselCard(v,tone,capUl){
+ const frac=capUl>0?v.volume_ul/capUl:0.6;
+ const mass=v.ng_ul!=null?`= ${PoolCore.fmt(v.ng_ul,3)} ng/µL at ${Math.round(v.bp)} bp`:"ng/µL needs a fragment size";
+ return `<div class="vessel-card ${tone}">${vesselSvg(frac,tone)}`
+  +`<div class="vmeta"><div class="vlabel">${esc(v.label)}</div>`
+  +`<div class="vvol">${PoolCore.fmt(v.volume_ul,1)} µL at ${PoolCore.fmt(v.nm,2)} nM</div>`
+  +`<div class="vmass">${esc(mass)}</div></div></div>`}
+
+/* ---- "WHAT THIS RUN LEAVES YOU": where, what, and is that the end ---------- */
+function bwFinaleHtml(plan){
+ const o=plan.output,i=plan.intermediate;
+ let h=`<div class="leaves"><h4>WHAT THIS RUN LEAVES YOU</h4><ol class="leaves-list">`
+  +`<li><b>WHERE</b><span>tube <b>${esc(o.label)}</b></span></li>`
+  +`<li><b>WHAT</b><span>${esc(o.text)}</span></li>`
+  +`<li><b>IS THAT THE END?</b><span class="is-end">${esc(o.headline)}</span>`
+  +(o.spare_text?`<span class="sub">${esc(o.spare_text)}</span>`:"")+`</li></ol>`;
+ h+=`<div class="vessel-row">`;
+ if(i){h+=vesselCard(i,"inter",plan.pool_vessel_ul)
+  +`<div class="vessel-arrow"><span>→</span><small>${PoolCore.fmt(plan.stage2.from_pool_ul,1)} µL</small></div>`}
+ h+=vesselCard(o,"end",i?plan.total_volume_ul:plan.pool_vessel_ul)+`</div>`;
+ if(i)h+=`<div class="msg warn" style="margin:10px 0 0"><b>${esc(i.label)} is NOT the finished pool.</b> ${esc(i.next_text)}</div>`;
+ h+=`</div>`;
+ return h}
+
+function bwRender(plan){
+ const f=PoolCore.fmt;
+ if(!plan.ok){
+  let h=`<h3>No plan — this endpoint is not reachable</h3><div class="msg bad">${esc(plan.message)}</div>`;
+  if((plan.blockers||[]).length){
+   h+='<table><thead><tr><th>Library in the way</th><th>Tube</th><th>Measured nM</th><th>Share %</th><th>Pre-dilute it to</th></tr></thead><tbody>';
+   plan.blockers.forEach(b=>{h+=`<tr><td><b>${esc(b.name)}</b></td><td>${esc(b.well||"-")}</td>`
+    +`<td>${f(b.nm,2)}</td><td>${b.share_pct==null?"-":f(b.share_pct,2)}</td>`
+    +`<td>${b.dilute_to_nm==null?"—":"<b>"+f(b.dilute_to_nm,2)+" nM</b> or below &nbsp;<span class=\"pill\">about 1 part in "+f(b.factor,1)+"</span>"}</td></tr>`});
+   h+='</tbody></table>'}
+  if((plan.suggestions||[]).length)
+   h+='<h3>What fixes it</h3><ul class="bench-list">'+plan.suggestions.map((x,i)=>
+    `<li><span class="n">${i+1}</span><span class="t">${esc(x)}</span></li>`).join("")+'</ul>';
+  h+=`<p class="hint">A library far more concentrated than the target is the one failure mode the instrument cannot catch for you, so PoolMate refuses rather than quietly pipetting less than ${f(plan.min_transfer_ul,2)} µL. Dilute it on the <b>Dilute</b> tab, re-quantify, then plan again.</p>`;
+  $("bwResults").innerHTML=h;
+  bwMsg([{kind:"warn",text:"No plan: "+plan.message}]);
+  return}
+
+ const s1=plan.stage1,s2=plan.stage2,L=bwStageLabels(plan);
+ let h=`<h3>${plan.stages===2?"Two stages: pool, then dilute":"One step: pool straight to the endpoint"}</h3>`;
+ h+=`<p><span class="pill">Endpoint ${f(plan.target_nm,2)} nM in ${f(plan.total_volume_ul,1)} µL</span>`
+  +`<span class="pill">${f(plan.fmol_total,1)} fmol</span>`
+  +`<span class="pill">${plan.n} librar${plan.n===1?"y":"ies"}</span>`
+  +`<span class="pill">Pool built in ${f(s1.volume_ul,1)} µL</span>`
+  +`<span class="pill">Library used ${f(plan.library_used_ul,1)} µL</span>`
+  +`<span class="pill">Smallest transfer ${f(Math.min.apply(null,s1.transfers.map(t=>t.volume_ul)),1)} µL</span>`
+  +`<span class="pill" style="background:var(--good-soft);border-color:#bde8cf;color:var(--good)">Lands at ${f(plan.achieved_nm,3)} nM (${plan.deviation_pct>=0?"+":""}${f(plan.deviation_pct,2)}%)</span></p>`;
+ (plan.warnings||[]).forEach(w=>h+=`<div class="msg warn">${esc(w)}</div>`);
+
+ h+='<table><thead><tr><th>From</th><th>Library</th><th>Share %</th><th>Measured nM</th>'
+  +'<th>fmol into the pool</th><th>Transfer µL</th><th>Tip</th></tr></thead><tbody>';
+ s1.transfers.forEach(t=>{
+  h+=`<tr><td><b>${esc(t.from)}</b></td><td>${esc(t.name)}</td><td>${f(t.share_pct,2)}</td>`
+   +`<td>${f(t.nm,2)}</td><td>${f(t.fmol,2)}</td><td><b>${f(t.volume_ul,1)}</b></td>`
+   +`<td>${esc(t.tip)}</td></tr>`});
+ h+=`</tbody></table><p class="hint">`
+  +(plan.stages===2
+   ?`A single pool at ${f(plan.target_nm,2)} nM would need more than the ${f(plan.pool_vessel_ul,0)} µL the vessel holds, so this is two stages. Give it a bigger vessel and it becomes one.`
+   :`One step. The 1 µL floor constrains the <b>transfer</b>, not the dilution <b>factor</b> — scaling the pool up leaves every ratio untouched — so the vessel, not the pipette, is what decides whether a single step is possible.`)
+  +`</p>`;
+
+ h+=`<div class="stage"><h4>${esc(L[1])}</h4><p class="stage-sub">`
+  +`${f(s1.sum_dna_ul,1)} µL of library + ${f(s1.buffer_ul,1)} µL ${esc(plan.diluent_label)} = ${f(s1.volume_ul,1)} µL at ${f(s1.actual_nm,2)} nM in ${esc(plan.vessel_label)}.</p><ul class="bench-list">`;
+ let k=0;
+ plan.steps.filter(s=>s.stage===1&&s.kind!=="output").forEach(s=>{k++;
+  h+=`<li><span class="n">${k}</span><span class="t">${labBold(s.text)}`
+   +(s.detail?`<span class="d">${esc(s.detail)}</span>`:"")+`</span></li>`});
+ h+='</ul></div>';
+ if(s2){
+  h+=`<div class="stage two"><h4>${esc(L[2])}</h4><p class="stage-sub">`
+   +`${f(s2.dilution_factor,2)}× dilution of ${esc(plan.vessel_label)} into ${esc(plan.final_vessel_label)}.</p><ul class="bench-list">`;
+  plan.steps.filter(s=>s.stage===2&&s.kind!=="output").forEach(s=>{k++;
+   h+=`<li><span class="n">${k}</span><span class="t">${labBold(s.text)}`
+    +(s.detail?`<span class="d">${esc(s.detail)}</span>`:"")+`</span></li>`});
+  const sens=1-s2.from_pool_ul/s2.final_volume_ul;
+  h+=`</ul><p class="hint">Stage 2 is reported separately on purpose. A pool is a <b>weak</b> instrument for catching one bad transfer — a 10% volume error moves the pool's concentration by only about 2% — whereas a dilution is a <b>strong</b> one: here v/V = ${f(s2.from_pool_ul/s2.final_volume_ul,2)}, so the same 10% error shows up as about ${f(sens*10,1)}% (sensitivity 1 − v/V = ${f(sens,2)}). Quantify the finished pool and it is really stage 2 you are checking.</p></div>`}
+
+ h+=bwFinaleHtml(plan);
+ h+=`<div class="bar no-print"><button class="btn secondary" id="bwLabBtn2" type="button">🧪 Take to the lab</button>`
+  +`<button class="btn" id="bwDlCsv" type="button">Download plan CSV</button>`
+  +`<button class="btn" id="bwPrintBtn2" type="button">Print / Save PDF</button></div>`;
+ $("bwResults").innerHTML=h;
+ $("bwLabBtn").disabled=false;
+ $("bwLabBtn2").addEventListener("click",bwToLab);
+ $("bwPrintBtn2").addEventListener("click",()=>window.print());
+ $("bwDlCsv").addEventListener("click",()=>download("pool_backwards_"+PoolCore.fmt(plan.target_nm,2)+"nM.csv",bwCsv(plan)));
+ bwMsg([{kind:"good",text:plan.stages===2
+  ?`Two stages: ${plan.vessel_label} at ${f(s1.actual_nm,2)} nM, then ${plan.final_vessel_label} at ${f(plan.achieved_nm,3)} nM.`
+  :`One step — ${plan.vessel_label} ends up with ${f(s1.volume_ul,1)} µL at ${f(plan.achieved_nm,3)} nM.`}])}
+function bwCsv(plan){
+ const f=PoolCore.fmt,q=x=>{x=String(x==null?"":x);return /[",\r\n]/.test(x)?'"'+x.replace(/"/g,'""')+'"':x};
+ const row=a=>a.map(q).join(",");const L=[];
+ L.push(row(["# PoolMate — pool planned backwards from the endpoint"]));
+ L.push(row(["target_nM",f(plan.target_nm,3)]));
+ L.push(row(["target_volume_uL",f(plan.total_volume_ul,1)]));
+ L.push(row(["target_fmol_total",f(plan.fmol_total,3)]));
+ L.push(row(["stages",plan.stages]));
+ L.push(row(["achieved_nM",f(plan.achieved_nm,4)]));
+ L.push(row(["pool_vessel_capacity_uL",f(plan.pool_vessel_ul,1)]));
+ L.push(row(["pool_vessel_label",plan.vessel_label]));
+ if(plan.stages===2)L.push(row(["final_vessel_label",plan.final_vessel_label]));
+ L.push(row(["library_used_uL",f(plan.library_used_ul,1)]));
+ L.push("");
+ L.push(row(["tube","library","share_pct","measured_nM","fmol_wanted","transfer_uL","fmol_in_pool","tip"]));
+ plan.stage1.transfers.forEach((t,i)=>L.push(row([t.from,t.name,f(t.share_pct,3),f(t.nm,3),
+  f((plan.samples[i]||{}).fmol,3),f(t.volume_ul,1),f(t.fmol,3),t.tip])));
+ L.push("");
+ L.push(row(["# stage 1"]));
+ L.push(row(["pool_nM_requested",f(plan.stage1.nm,3)]));
+ L.push(row(["pool_nM_after_rounding",f(plan.stage1.actual_nm,4)]));
+ L.push(row(["library_uL_total",f(plan.stage1.sum_dna_ul,1)]));
+ L.push(row(["buffer_uL",f(plan.stage1.buffer_ul,1)]));
+ L.push(row(["pool_volume_uL",f(plan.stage1.volume_ul,1)]));
+ if(plan.stage2){L.push("");L.push(row(["# stage 2"]));
+  L.push(row(["from_pool_uL",f(plan.stage2.from_pool_ul,1)]));
+  L.push(row(["buffer_uL",f(plan.stage2.buffer_ul,1)]));
+  L.push(row(["final_volume_uL",f(plan.stage2.final_volume_ul,1)]));
+  L.push(row(["dilution_factor",f(plan.stage2.dilution_factor,3)]));
+  L.push(row(["achieved_nM",f(plan.stage2.achieved_nm,4)]))}
+ L.push("");L.push(row(["# WHAT THIS RUN LEAVES YOU"]));
+ L.push(row(["where","tube "+plan.output.label]));
+ L.push(row(["what",plan.output.text]));
+ L.push(row(["is_that_the_end",plan.output.headline]));
+ if(plan.output.spare_text)L.push(row(["note",plan.output.spare_text]));
+ if(plan.intermediate){L.push(row(["intermediate","tube "+plan.intermediate.label+": "+plan.intermediate.text]));
+  L.push(row(["intermediate_next",plan.intermediate.next_text]))}
+ L.push("");L.push(row(["# bench steps"]));
+ plan.steps.forEach((s,i)=>L.push(row(["step "+(i+1),"stage "+s.stage,s.text,s.detail||""])));
+ (plan.warnings||[]).forEach(w=>L.push(row(["# warning",w])));
+ return L.join("\r\n")+"\r\n"}
+
+function bwToLab(){
+ if(!bwPlan||!bwPlan.ok){bwMsg([{kind:"warn",text:"Plan the pool first."}]);return}
+ labOpen(`${PoolCore.fmt(bwPlan.target_nm,2)} nM in ${PoolCore.fmt(bwPlan.total_volume_ul,1)} µL`,
+  `${bwPlan.n} librar${bwPlan.n===1?"y":"ies"} · ${bwPlan.stages===2?"pool "+bwPlan.vessel_label+" then dilute into "+bwPlan.final_vessel_label:"one step into "+bwPlan.vessel_label} · lands at ${PoolCore.fmt(bwPlan.achieved_nm,3)} nM`,
+  bwLabSteps(bwPlan),bwFinale(bwPlan))}
+
+function bwEvenSplit(){bwLocked=bwRows().map(()=>null);bwSyncShares();bwPersist()}
+function clearBwOnly(){
+ $("bwBody").innerHTML="";bwLocked=[];bwPlan=null;
+ $("bwTargetNm").value=4;$("bwTotalVol").value=50;$("bwUnit").value="mass";
+ $("bwMinT").value=1;$("bwRound").value=0.1;$("bwVessel").value=200;$("bwAim").value=2;
+ $("bwVesselA").value="T7";$("bwVesselB").value="T8";
+ $("bwResults").innerHTML="";$("bwMessages").innerHTML="";$("bwLabBtn").disabled=true;
+ bwAddRow();bwAddRow();bwAddRow();bwToggleUnit();
+ try{localStorage.removeItem(BW_STORE)}catch(e){}}
+
+$("bwAddRow").addEventListener("click",()=>{bwAddRow();bwPersist()});
+$("bwEvenSplit").addEventListener("click",bwEvenSplit);
+$("bwPlanBtn").addEventListener("click",bwPlanIt);
+$("bwLabBtn").addEventListener("click",bwToLab);
+$("bwPrintBtn").addEventListener("click",()=>window.print());
+$("clrBw").addEventListener("click",clearBwOnly);
+$("bwUnit").addEventListener("change",()=>{bwToggleUnit();bwPersist()});
+["bwTargetNm","bwTotalVol","bwMinT","bwRound","bwVessel","bwAim","bwVesselA","bwVesselB"].forEach(id=>
+ $(id).addEventListener("input",bwPersist));
+if(!bwRestore()){bwAddRow();bwAddRow();bwAddRow()}
+bwToggleUnit();
+
 // --- Fresh start every open, with explicit Save + a recovery safety net ---
 let dirty=false;
 function setDirty(v){dirty=!!v}
@@ -1138,5 +2344,6 @@ startFresh();
   setTimeout(resizeAll, 100);
 })();
 </script>
+
 </body>
 </html>
