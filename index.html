@@ -398,6 +398,31 @@ input.bw-share.over{color:var(--bad);background:var(--bad-soft);border-color:#f3
 .bench-list .t b{font-variant-numeric:tabular-nums}
 .bench-list .d{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
 
+
+/* --- instrument files out of the backwards tab ------------------------------ */
+.bw-deck{border:1px solid var(--line);border-radius:12px;background:#fbfcfe;padding:10px 13px}
+.bw-deck summary{cursor:pointer;font-size:13.5px}
+.routes{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin:12px 0 0}
+.route{border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px 16px;box-shadow:0 5px 16px rgba(15,23,42,.05)}
+.route.best{border-left:5px solid var(--good);background:linear-gradient(180deg,#f6fdf9,#fff)}
+.route.alt{border-left:5px solid var(--warn)}
+.route h5{margin:0 0 2px;font-size:14.5px}
+.route .tag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+ border-radius:999px;padding:2px 8px;margin-bottom:7px}
+.route.best .tag{background:var(--good-soft);color:var(--good)}
+.route.alt .tag{background:var(--warn-soft);color:var(--warn)}
+.route p{margin:0 0 9px;font-size:13px;color:var(--muted)}
+.route ol{margin:0 0 10px;padding-left:20px;font-size:13.5px}
+.route ol li{margin:4px 0}
+.route ol li b{font-variant-numeric:tabular-nums}
+.route .files{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.deck-table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 0}
+.deck-table th,.deck-table td{text-align:left;padding:5px 8px;border-bottom:1px dashed #e6ecf4}
+.deck-table th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.deck-table td b{font-variant-numeric:tabular-nums}
+.where-now{border:1px solid #bfdbfe;background:#eff6ff;border-radius:10px;padding:9px 12px;font-size:13px;margin:10px 0 0}
+.where-now b{color:#1d4ed8}
+
 /* --- take to the lab -------------------------------------------------------- */
 .lab-panel[hidden]{display:none!important}
 .lab-panel{position:fixed;inset:0;z-index:9000;background:#f3f7fb;color:#18212f;display:flex;flex-direction:column;overflow:hidden;font-size:17px}
@@ -758,6 +783,17 @@ input.bw-share.over{color:var(--bad);background:var(--bad-soft);border-color:#f3
   <div><label>Pool vessel label</label><input id="bwVesselA" value="T7"><span class="inline-help">The tube or well the pool is built in. Used by name in every step.</span></div>
   <div><label>Final vessel label</label><input id="bwVesselB" value="T8"><span class="inline-help">Only used when a second stage is needed.</span></div>
 </div>
+<details class="bw-deck" style="margin-top:6px">
+  <summary><b>The deck</b> — only needed for the instrument files</summary>
+  <p class="inline-help" style="margin:8px 0 10px">Which rack is which, so the protocol and the worklists address the right positions. The bench guide above does not use any of it. Vessel labels have to be a tube position (<code>T7</code>, or <code>7</code>, 1&ndash;24) or a plate well (<code>A1</code>&ndash;<code>H12</code>) for an instrument file to be written.</p>
+  <div class="row">
+    <div><label>Rack the libraries are on</label><input id="bwSampleRack" type="number" step="1" min="1" value="1"><span class="inline-help">Rack number as epBlue will see it.</span></div>
+    <div><label>Rack the pool tubes are on</label><input id="bwPoolRack" type="number" step="1" min="1" value="2"><span class="inline-help">Holds the pool vessel, and the final vessel when there are two stages.</span></div>
+    <div><label>Diluent rack</label><input id="bwBufferRack" type="number" step="1" min="1" value="1"></div>
+    <div><label>Diluent position</label><input id="bwBufferPos" value="1"><span class="inline-help">Where the robot draws diluent from. Give it plenty.</span></div>
+    <div><label>Mix the finished vessels</label><input id="bwMix" type="number" step="1" min="0" value="10"><span class="inline-help">Pipetting cycles. The protocol mixes the pool before the dilution draws from it — a worklist cannot.</span></div>
+  </div>
+</details>
 <div class="row" style="margin-top:4px">
   <div style="flex:0 0 auto;align-self:flex-end"><button class="btn" id="bwAddRow" type="button">+ Add sample</button></div>
   <div style="flex:0 0 auto;align-self:flex-end"><button class="btn sm" id="bwEvenSplit" type="button">Even split</button></div>
@@ -772,7 +808,7 @@ input.bw-share.over{color:var(--bad);background:var(--bad-soft);border-color:#f3
   <button class="btn primary" id="bwPlanBtn" type="button">Plan the pool</button>
   <button class="btn secondary" id="bwLabBtn" type="button" disabled>🧪 Take to the lab</button>
   <button class="btn" id="bwPrintBtn" type="button">Print / Save PDF</button>
-  <span class="hint">Bench guide only — no epMotion files. The volumes come from the same <code>PoolCore</code> the other tabs use.</span>
+  <span class="hint">Gives you a bench guide <b>and</b> the instrument files — a protocol for the epMotion, or DNA + diluent worklists. The volumes come from the same <code>PoolCore</code> the other tabs use.</span>
 </div>
 <div id="bwMessages"></div>
 <div id="bwResults"></div>
@@ -1559,7 +1595,154 @@ return fail("blocked",
   suggestions:sug});
 }
 
-return{PRESETS,WELLS,fmt,autoName,buildPoolPlan,readPoolPlan,PLAN_KIND,presetLoadingLabel,missingForQuick,missingForQuickPool,missingForCompute,prepareSamples,computeQuickPool,buildQuickPoolCsv,computePool,buildCsvs,buildDilutionWorklist,buildWorksheet,buildPredilutionCsv,computeStandaloneDilution,buildDilutionPlanCsv,computeDilutionList,buildDilutionListCsv,buildDilutionWorklists,buildNormalizationCsvs,LOAD_PRESETS,loadPresetById,computeLoad,buildInputsCsv,buildInputsTxt,readSamplesCsv,parseReads,roundTo,ngToNm,concUnit,oneOf,tipFor,readPlanPos,splitShares,planBackwards,chainDilution}
+/* ---- the backwards plan as something the robot can run ----------------------
+ *
+ * Up to here the backwards tab produces a bench guide: a person reads it and pipettes.
+ * These two turn the same plan into instrument files, and they are deliberately
+ * different KINDS of file:
+ *
+ *   buildBackwardsPlan       a .poolplan.json for the epMotion Protocol Builder, which
+ *                            writes one .export52 containing the pooling, the dilution
+ *                            AND the mixing between them. Nothing is uploaded at the
+ *                            instrument and nothing is typed in.
+ *
+ *   buildBackwardsWorklists  DNA.csv + Buffer.csv for epBlue's own worklist import,
+ *                            which builds the run from the rows. epBlue cannot mix
+ *                            between two imported lists, so a two-stage plan comes out
+ *                            as TWO pairs with a mixing step by hand in between - which
+ *                            is why the plan file above is the better route and is
+ *                            offered first.
+ *
+ * What is handed to the builder is each stage's TARGET, never its volumes. The builder
+ * recomputes every transfer from the concentrations, so a plan cannot smuggle in a
+ * volume the deck could not make - and the dilution is sized from the pool molarity the
+ * builder itself arrives at, which is the pool that will really exist.
+ */
+function bwVesselPos(label,whose){
+ const t=String(label==null?"":label).trim().toUpperCase();
+ if(/^[A-H](?:[1-9]|1[0-2])$/.test(t))return{kind:"well",well:t,pos:null,text:t};
+ const m=/^T?\s*(\d{1,2})$/.exec(t);
+ if(m){const n=parseInt(m[1],10);
+  if(n>=1&&n<=24)return{kind:"tube",well:null,pos:String(n),text:"tube "+n}}
+ /* A vessel nobody can place is refused rather than defaulted to tube 1. The label is
+  * free text on the form, and a typo that silently became "tube 1" would send the pool
+  * to whatever is in position 1 - the one error no concentration readout ever reveals. */
+ throw new Error(`${whose} is labelled "${label}" — for an instrument file it has to be a tube position (T7, or 7, 1-24) or a plate well (A1-H12).`);
+}
+function buildBackwardsPlan(plan,o){
+ o=o||{};
+ if(!plan||!plan.ok)throw new Error("There is no plan to write yet — press “Plan the pool” first.");
+ const s1=plan.stage1;
+ /* How much the operator has to LOAD, which is not the same as how much they have.
+  * The builder writes this into the <Worktable>, so epBlue's own volume check compares
+  * the draw against it: leave it at 0 and every transfer is flagged as coming out of an
+  * empty tube. It is the transfer plus whatever stays behind, and the plan says so in
+  * as many words - nothing here is a measurement, and a row where the operator DID give
+  * a volume keeps theirs. */
+ const dead=o.leave_behind_ul==null?2:Number(o.leave_behind_ul);
+ const needs=i=>{const t=(plan.stage1.transfers[i]||{}).volume_ul||0;
+  return Math.round((t+dead)*10)/10};
+ const A=bwVesselPos(plan.vessel_label,"The pool vessel");
+ const pos=v=>v.kind==="well"?{kind:"well",well:v.well}:{kind:"tube",pos:Number(v.pos)};
+ const srcs=plan.samples.map((x,i)=>bwVesselPos(x.well,`Library “${x.name||("row "+(i+1))}”`));
+ if(srcs.length&&!srcs.every(v=>v.kind===srcs[0].kind))
+  throw new Error("Some libraries are in tubes and some in plate wells. One instrument file addresses one rack, so put them all in tubes or all in the plate.");
+ const seen={};srcs.forEach((v,i)=>{const k=v.text;
+  if(seen[k])throw new Error(`${v.text} holds both “${seen[k]}” and “${plan.samples[i].name}”.`);
+  seen[k]=plan.samples[i].name});
+ /* The endpoint is carried ONLY when there is a second stage. A one-step plan already
+  * ends at the loading concentration - its pool vessel IS the product, in whatever
+  * volume the planner had to build it in - so there is nothing to dilute and no second
+  * vessel to declare. Sending an endpoint anyway would have the builder put an unused
+  * empty tube on the deck setup for the operator to wonder about. */
+ let load=null;
+ if(plan.stages===2){
+  const B=bwVesselPos(plan.final_vessel_label,"The final vessel");
+  if(B.text===A.text)throw new Error(`The pool vessel and the final vessel are both ${A.text}. The dilution needs a vessel of its own.`);
+  if(seen[B.text])throw new Error(`${B.text} holds the library “${seen[B.text]}”, so the dilution cannot go there.`);
+  load={nm:plan.target_nm,volume_ul:plan.total_volume_ul,into:pos(B)};
+ }
+ if(seen[A.text])throw new Error(`${A.text} holds the library “${seen[A.text]}”, so the pool cannot go there.`);
+ return{kind:PLAN_KIND,v:1,app:"PoolMate — plan backwards",created:new Date().toISOString(),
+  name:o.name||("POOL_"+fmt(plan.target_nm,2).replace(".","p")+"nM_"+plan.n+"lib"),
+  instrument:o.instrument||"5073t",platform:o.platform||null,
+  source:srcs.length&&srcs[0].kind==="well"?"plate":"tubes",
+  destination:pos(A),
+  target:{mode:"nm",nm:s1.nm,volume_ul:s1.volume_ul,top_up:true},
+  load,
+  /* low_volume "flag" matters: the planner has ALREADY chosen the pool volume so that
+   * every transfer clears the minimum. If the builder were left on "bump" it could scale
+   * the pool again and the volume the operator was told to expect would not be the one
+   * the file makes. */
+  settings:{min_transfer_ul:plan.min_transfer_ul,round_ul:plan.round_step_ul,
+   leave_behind_ul:o.leave_behind_ul==null?2:Number(o.leave_behind_ul),
+   low_volume:"flag",normalise:false,mix_cycles:o.mix_cycles==null?10:Number(o.mix_cycles),
+   samples_made_by_run:false,dilution_run:"same"},
+  buffer:{name:o.buffer_name||"Elution buffer",
+   total_ul:s1.buffer_ul+(plan.stage2?plan.stage2.buffer_ul:0),into_pool_ul:s1.buffer_ul},
+  samples:plan.samples.map((x,i)=>({name:x.name,from:pos(srcs[i]),draw_from:pos(srcs[i]),
+   conc:x.mode==="molar"?{unit:"nM",value:x.nm,size_bp:x.size||null}
+                        :{unit:"ng/ul",value:x.ng_ul,size_bp:x.size},
+   nm:x.nm,effective_nm:x.nm,
+   available_ul:(x.available_ul>0?Number(x.available_ul):needs(i)),share:x.share_pct,
+   volume_ul:(plan.stage1.transfers[i]||{}).volume_ul,fmol:x.fmol,
+   percent_of_pool:(plan.stage1.transfers[i]||{}).pool_pct,dilute:null})),
+  summary:{samples:plan.n,pool_volume_ul:s1.volume_ul,pool_nm:s1.actual_nm,
+   pool_fmol:s1.fmol,sample_volume_ul:s1.sum_dna_ul,
+   load_volume_ul:plan.total_volume_ul,load_nm:plan.target_nm,
+   achieved_nm:plan.achieved_nm,stages:plan.stages,
+   you_load:plan.output.label,you_load_text:plan.output.text},
+  messages:{errors:[],warnings:(plan.warnings||[]).slice(),
+   notes:["Stage targets, not volumes: the builder recomputes every transfer from these concentrations.",
+    "available_ul is the MINIMUM to put in each tube (transfer + "+fmt(dead,1)+" µL left behind), not a measured volume. If you have less of a library than that, the run cannot take its share.",
+    "What you load: "+plan.output.label+" — "+plan.output.text]}};
+}
+
+/* DNA.csv + Buffer.csv, per stage. Volumes here ARE literal - a worklist has no
+ * concentrations in it, so epBlue cannot and will not re-derive anything. */
+function buildBackwardsWorklists(plan,o){
+ o=o||{};
+ if(!plan||!plan.ok)throw new Error("There is no plan to write yet — press “Plan the pool” first.");
+ const srcRack=Number(o.sample_rack)||1,poolRack=Number(o.pool_rack)||1;
+ const bufRack=Number(o.buffer_rack)||srcRack,bufPos=String(o.buffer_pos==null?"1":o.buffer_pos).trim()||"1";
+ const tip=o.tip_mode||"auto";
+ const A=bwVesselPos(plan.vessel_label,"The pool vessel");
+ const st={source_rack:srcRack,dest_rack:poolRack,buffer_rack:bufRack,buffer_pos:bufPos,tip_mode:tip};
+ const where=v=>v.kind==="well"?v.well:v.pos;
+ const dna1=[],buf1=[];
+ plan.stage1.transfers.forEach((t,i)=>{
+  const v=bwVesselPos(t.from,`Library “${t.name}”`);
+  dna1.push({srcRack,src:where(v),destRack:poolRack,dest:where(A),vol:t.volume_ul,
+   tool:t.tip||tipFor(t.volume_ul,tip),name:t.name})});
+ if(plan.stage1.buffer_ul>0)buf1.push({srcRack:bufRack,src:bufPos,destRack:poolRack,dest:where(A),
+  vol:plan.stage1.buffer_ul,tool:tipFor(plan.stage1.buffer_ul,tip),name:"diluent"});
+ const out={stages:plan.stages,pool:A.text,
+  stage1:{DNA:buildWorklist(dna1,st),Buffer:buildWorklist(buf1,st),n:dna1.length,
+   buffer_ul:plan.stage1.buffer_ul,into:A.text},
+  stage2:null,warnings:[]};
+ if(plan.stages===2){
+  const B=bwVesselPos(plan.final_vessel_label,"The final vessel");
+  const s2=plan.stage2;
+  out.stage2={into:B.text,from:A.text,
+   DNA:buildWorklist([{srcRack:poolRack,src:where(A),destRack:poolRack,dest:where(B),
+    vol:s2.from_pool_ul,tool:tipFor(s2.from_pool_ul,tip),name:"pool"}],st),
+   Buffer:buildWorklist(s2.buffer_ul>0?[{srcRack:bufRack,src:bufPos,destRack:poolRack,
+    dest:where(B),vol:s2.buffer_ul,tool:tipFor(s2.buffer_ul,tip),name:"diluent"}]:[],st),
+   n:1,buffer_ul:s2.buffer_ul};
+  /* The one thing a worklist cannot do. epBlue imports a list and runs it; there is no
+   * mixing command in the rows and no way to put one between two imported lists. Stage 2
+   * draws from the pool stage 1 just made, and the top of an unmixed tube is not the
+   * pool - so this is a step the operator has to perform, and it is stated rather than
+   * hoped for. The .export52 route does it in the file. */
+  out.warnings.push(`Two runs, not one: import the stage 1 pair, run it, then MIX ${A.text} by hand (pipette up and down 10 times, or vortex and spin), and only then import the stage 2 pair. epBlue cannot mix between two imported worklists. The protocol file does this for you in a single run.`);
+ }
+ if(plan.stage1.buffer_ul>0&&plan.stage1.buffer_ul<plan.min_transfer_ul)
+  out.warnings.push(`The stage 1 diluent top-up is ${fmt(plan.stage1.buffer_ul,2)} µL, under the ${fmt(plan.min_transfer_ul,2)} µL minimum — add it by hand.`);
+ return out;
+}
+
+return{PRESETS,WELLS,fmt,autoName,buildPoolPlan,readPoolPlan,PLAN_KIND,presetLoadingLabel,missingForQuick,missingForQuickPool,missingForCompute,prepareSamples,computeQuickPool,buildQuickPoolCsv,computePool,buildCsvs,buildDilutionWorklist,buildWorksheet,buildPredilutionCsv,computeStandaloneDilution,buildDilutionPlanCsv,computeDilutionList,buildDilutionListCsv,buildDilutionWorklists,buildNormalizationCsvs,LOAD_PRESETS,loadPresetById,computeLoad,buildInputsCsv,buildInputsTxt,readSamplesCsv,parseReads,roundTo,ngToNm,concUnit,oneOf,tipFor,readPlanPos,splitShares,planBackwards,chainDilution,
+ bwVesselPos,buildBackwardsPlan,buildBackwardsWorklists}
 })();
 if(typeof document!=="undefined")(function(){
 const $=id=>document.getElementById(id),STORE="epmotion_pool_state_v2";let poolContainer="plate";let dilView="tubes";let donePool=new Set(),doneDil=new Set();
@@ -2223,10 +2406,12 @@ function bwRender(plan){
   h+=`</ul><p class="hint">Stage 2 is reported separately on purpose. A pool is a <b>weak</b> instrument for catching one bad transfer — a 10% volume error moves the pool's concentration by only about 2% — whereas a dilution is a <b>strong</b> one: here v/V = ${f(s2.from_pool_ul/s2.final_volume_ul,2)}, so the same 10% error shows up as about ${f(sens*10,1)}% (sensitivity 1 − v/V = ${f(sens,2)}). Quantify the finished pool and it is really stage 2 you are checking.</p></div>`}
 
  h+=bwFinaleHtml(plan);
+ h+=bwRobotHtml(plan);
  h+=`<div class="bar no-print"><button class="btn secondary" id="bwLabBtn2" type="button">🧪 Take to the lab</button>`
   +`<button class="btn" id="bwDlCsv" type="button">Download plan CSV</button>`
   +`<button class="btn" id="bwPrintBtn2" type="button">Print / Save PDF</button></div>`;
  $("bwResults").innerHTML=h;
+ bwWireRobot(plan);
  $("bwLabBtn").disabled=false;
  $("bwLabBtn2").addEventListener("click",bwToLab);
  $("bwPrintBtn2").addEventListener("click",()=>window.print());
@@ -2234,6 +2419,119 @@ function bwRender(plan){
  bwMsg([{kind:"good",text:plan.stages===2
   ?`Two stages: ${plan.vessel_label} at ${f(s1.actual_nm,2)} nM, then ${plan.final_vessel_label} at ${f(plan.achieved_nm,3)} nM.`
   :`One step — ${plan.vessel_label} ends up with ${f(s1.volume_ul,1)} µL at ${f(plan.achieved_nm,3)} nM.`}])}
+/* ---- the instrument files -----------------------------------------------------
+ * Two routes, and they are not equivalent, so the page says which is which rather
+ * than offering a row of buttons and letting the operator pick blind:
+ *
+ *   the protocol   one .export52 with the pooling, the mixing and the dilution in it.
+ *                  Load it, follow the prompts it shows, press start. Nothing uploaded.
+ *   the worklists  DNA + diluent CSVs for epBlue's own import, which builds the run out
+ *                  of the rows. A worklist has no mixing in it and epBlue cannot put one
+ *                  between two imported lists, so a two-stage plan is two runs with a
+ *                  mix by hand in the middle.
+ *
+ * An .export52 cannot read a CSV at run time - there is no list-driven transfer in the
+ * command set this toolkit has verified on the instrument - so these are alternatives,
+ * not a pair. Saying so is the point: "load the protocol AND upload the CSVs" is the
+ * natural guess and it is wrong.
+ */
+function bwDeckOpts(){return{
+ sample_rack:Number(val("bwSampleRack"))||1,
+ pool_rack:Number(val("bwPoolRack"))||2,
+ buffer_rack:Number(val("bwBufferRack"))||1,
+ buffer_pos:(val("bwBufferPos")||"1").trim()||"1",
+ mix_cycles:Math.max(0,Number(val("bwMix"))||0),
+ tip_mode:"auto"}}
+function bwName(plan){
+ return "POOL_"+PoolCore.fmt(plan.target_nm,2).replace(".","p")+"nM_"
+  +PoolCore.fmt(plan.total_volume_ul,0)+"uL_"+plan.n+"lib"}
+function bwDeckRows(plan,d){
+ const f=PoolCore.fmt,rows=[];
+ plan.stage1.transfers.forEach((t,i)=>{
+  const dead=2,need=Math.round((t.volume_ul+dead)*10)/10;
+  rows.push([d.sample_rack,t.from,"<b>"+esc(t.name)+"</b>",
+   "at least <b>"+f(need,1)+"</b> µL","the run draws "+f(t.volume_ul,1)+" µL"])});
+ rows.push([d.buffer_rack,esc(d.buffer_pos),"<b>"+esc(plan.diluent_label)+"</b>",
+  "at least <b>"+f((plan.stage1.buffer_ul+(plan.stage2?plan.stage2.buffer_ul:0))*1.5+50,0)+"</b> µL",
+  "the run draws "+f(plan.stage1.buffer_ul+(plan.stage2?plan.stage2.buffer_ul:0),1)+" µL — give it plenty"]);
+ rows.push([d.pool_rack,esc(plan.vessel_label),"<b>the pool vessel</b>","<b>EMPTY</b>",
+  plan.stages===2?"the run fills it to "+f(plan.stage1.volume_ul,1)+" µL, then draws from it":"the run fills it to "+f(plan.stage1.volume_ul,1)+" µL — this is what you load"]);
+ if(plan.stages===2)rows.push([d.pool_rack,esc(plan.final_vessel_label),"<b>the final vessel</b>","<b>EMPTY</b>",
+  "the run fills it to "+f(plan.total_volume_ul,1)+" µL at "+f(plan.achieved_nm,2)+" nM — <b>this is what you load</b>"]);
+ return rows.map(r=>"<tr><td>"+r[0]+"</td><td><b>"+r[1]+"</b></td><td>"+r[2]+"</td><td>"+r[3]+"</td><td class=\"hint\" style=\"font-size:12.5px\">"+r[4]+"</td></tr>").join("")}
+function bwRobotHtml(plan){
+ const f=PoolCore.fmt,d=bwDeckOpts(),two=plan.stages===2;
+ let why="";
+ try{PoolCore.buildBackwardsPlan(plan,bwDeckOpts())}
+ catch(e){why=e.message}
+ if(why)return `<h3 style="margin-top:22px">Run it on the epMotion</h3>`
+  +`<div class="msg warn">No instrument file can be written yet: ${esc(why)}</div>`
+  +`<p class="hint">Fix the labels or the deck fields in the <b>Endpoint</b> box above and press <b>Plan the pool</b> again. The bench guide above is unaffected — it needs no positions.</p>`;
+ const n=bwName(plan);
+ return `<h3 style="margin-top:22px">Run it on the epMotion</h3>
+<p class="hint">Two ways, and they are <b>alternatives</b> — you do not do both. A protocol file carries its own volumes, so there is nothing to upload at the instrument; worklists are what epBlue builds a run from when you import them.</p>
+<div class="routes">
+  <div class="route best">
+    <span class="tag">Recommended</span>
+    <h5>One protocol file — nothing to upload</h5>
+    <p>${two?`Both stages, <b>and the mixing between them</b>, in a single run.`:`The whole pool in a single run.`}
+    The volumes are inside the file.</p>
+    <ol>
+      <li>Download <b>${esc(n)}.poolplan.json</b>.</li>
+      <li>Open the <b>epMotion Protocol Builder</b> → <b>Pool</b> tab → <b>Import a plan</b>, and pick that file.</li>
+      <li>Press <b>Download .export52</b> there.</li>
+      <li>At the instrument: epBlue → <b>import the .export52</b>, then <b>open it</b> so epBlue runs its own volume check.</li>
+      <li>Set the deck as below, press <b>start</b>, and follow the prompts the protocol shows you.</li>
+    </ol>
+    <div class="files"><button class="btn primary" id="bwDlPlan" type="button">Download the protocol plan</button></div>
+  </div>
+  <div class="route alt">
+    <span class="tag">${two?"Two runs":"Alternative"}</span>
+    <h5>DNA + diluent worklists</h5>
+    <p>For epBlue's own worklist import. <b>There is no protocol to load with these</b> — the rows <i>are</i> the method; epBlue builds the run from them. An <code>.export52</code> cannot read a CSV at run time.</p>
+    <ol>
+      <li>epBlue → new run for the <b>5073t</b> → <b>Import</b> (named "Import worklist" or "Import CSV" depending on your version).</li>
+      <li>Import <b>${esc(n)}${two?"_stage1":""}_DNA.csv</b> <b>first</b>, then <b>${esc(n)}${two?"_stage1":""}_Buffer.csv</b>. That order matters — the diluent rows go in last.</li>
+      <li>Map the racks when it asks: <b>Rack ${d.sample_rack}</b> = the libraries, <b>Rack ${d.pool_rack}</b> = the pool tubes, <b>Rack ${d.buffer_rack}</b> = the diluent. Set the labware types.</li>
+      <li>Check the <b>Tool</b> column (TS 50 / TS 300) points at the tip box you have loaded.</li>
+      <li>Save, let epBlue run its check, then start.</li>
+      ${two?`<li><b>When it finishes, mix ${esc(plan.vessel_label)} yourself</b> — pipette up and down ${d.mix_cycles||10}× or vortex and spin. Then import <b>${esc(n)}_stage2_DNA.csv</b> and <b>${esc(n)}_stage2_Buffer.csv</b> and run again.</li>`:""}
+    </ol>
+    <div class="files"><button class="btn" id="bwDlWl" type="button">Download the worklists</button></div>
+  </div>
+</div>
+<div id="bwFileNote"></div>
+<h4 style="margin:20px 0 2px">The deck — what goes where before you start</h4>
+<p class="hint">Rack numbers come from the <b>The deck</b> box in <b>Endpoint</b> above. The same setup serves either route.</p>
+<table class="deck-table"><thead><tr><th>Rack</th><th>Position</th><th>What</th><th>Put in</th><th>Why</th></tr></thead>
+<tbody>${bwDeckRows(plan,d)}</tbody></table>
+<p class="hint" style="margin-top:8px">Plus a <b>50 µL tip box</b> (and a 300 µL box if any transfer above is over 50 µL), the waste bin in place and empty, and caps <b>off</b> every tube the robot touches.
+${plan.stages===2?`<b>${esc(plan.final_vessel_label)}</b> is the one you load — not ${esc(plan.vessel_label)}, which is the stronger, neat pool.`:`<b>${esc(plan.vessel_label)}</b> is the one you load.`}</p>`}
+function bwWireRobot(plan){
+ const btnP=$("bwDlPlan"),btnW=$("bwDlWl");
+ if(!btnP&&!btnW)return;
+ const n=bwName(plan),note=t=>{if($("bwFileNote"))$("bwFileNote").innerHTML=t};
+ if(btnP)btnP.addEventListener("click",()=>{
+  let pj;try{pj=PoolCore.buildBackwardsPlan(plan,Object.assign({name:n},bwDeckOpts()))}
+  catch(e){note('<div class="msg bad">'+esc(e.message)+'</div>');return}
+  download(n+".poolplan.json",JSON.stringify(pj,null,2));
+  note('<div class="msg good">Wrote <code>'+esc(n)+'.poolplan.json</code>. Take it to the <b>epMotion Protocol Builder</b> → <b>Pool</b> tab → <b>Import a plan</b>; it writes the <code>.export52</code> with '
+   +(plan.stages===2?'the pool, the mix and the loading dilution':'the pool and the mix')
+   +' in one run. <b>Nothing is uploaded at the instrument</b> — the volumes are in the file.</div>')});
+ if(btnW)btnW.addEventListener("click",()=>{
+  let wl;try{wl=PoolCore.buildBackwardsWorklists(plan,bwDeckOpts())}
+  catch(e){note('<div class="msg bad">'+esc(e.message)+'</div>');return}
+  const pre=n+(wl.stage2?"_stage1":"");
+  const files=[[pre+"_DNA.csv",wl.stage1.DNA],[pre+"_Buffer.csv",wl.stage1.Buffer]];
+  if(wl.stage2)files.push([n+"_stage2_DNA.csv",wl.stage2.DNA],[n+"_stage2_Buffer.csv",wl.stage2.Buffer]);
+  files.forEach((fl,i)=>setTimeout(()=>download(fl[0],fl[1]),i*250));
+  note('<div class="msg good"><b>'+files.length+' file'+(files.length>1?'s':'')+'</b>: '
+   +files.map(fl=>'<code>'+esc(fl[0])+'</code>').join(', ')
+   +'. In epBlue, <b>Import</b> the DNA file first and the Buffer file second'
+   +(wl.stage2?', run it, mix '+esc(wl.stage1.into)+' by hand, then import the stage 2 pair and run again':'')
+   +'. There is no protocol file to load with these.</div>'
+   +(wl.warnings.length?'<div class="msg warn">'+wl.warnings.map(esc).join('<br>')+'</div>':''))})}
+
 function bwCsv(plan){
  const f=PoolCore.fmt,q=x=>{x=String(x==null?"":x);return /[",\r\n]/.test(x)?'"'+x.replace(/"/g,'""')+'"':x};
  const row=a=>a.map(q).join(",");const L=[];
