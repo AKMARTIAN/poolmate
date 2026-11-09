@@ -800,7 +800,7 @@ input.bw-share.over{color:var(--bad);background:var(--bad-soft);border-color:#f3
   <div style="flex:1 1 320px"><span class="inline-help"><b>Share</b> is each library's percentage of the pool and the column always totals 100. A value you type is <b>locked</b> (🔒); the rest is shared out between the unlocked rows and shown greyed. Press 🔒 to release a row.</span></div>
 </div>
 <div class="table-wrap bw-table"><table id="bwTable">
-<thead><tr><th style="width:34px">#</th><th style="width:110px">Tube / well<span class="req">*</span></th><th>Name</th><th style="width:150px" id="bwConcHead">Conc ng/µL<span class="req">*</span></th><th style="width:100px" id="bwSizeHead">Size bp<span class="req">*</span></th><th style="width:118px">Share %<span class="req">*</span></th><th style="width:50px"></th></tr></thead>
+<thead><tr><th style="width:34px">#</th><th style="width:110px">Tube / well<span class="req">*</span></th><th>Name</th><th style="width:150px" id="bwConcHead">Conc ng/µL<span class="req">*</span></th><th style="width:100px" id="bwSizeHead">Size bp<span class="req">*</span></th><th style="width:116px">Volume you have µL</th><th style="width:118px">Share %<span class="req">*</span></th><th style="width:50px"></th></tr></thead>
 <tbody id="bwBody"></tbody>
 </table></div>
 <div class="bw-sharebar" id="bwShareBar"></div>
@@ -944,7 +944,8 @@ const ROWS="ABCDEFGH",WELLS=[];for(let c=1;c<=12;c++)for(const r of ROWS)WELLS.p
 const MW_PER_BP=660.0;
 const PRESETS={illumina:{label:"Illumina",default:"pool_4nM",options:{pool_4nM:{target_nm:4,volume_ul:50,loading:"4 nM pooling stock",note:"Illumina standard: pool/normalize libraries to a 4 nM stock for denature and dilute. Confirm final loading concentration against the current kit and instrument SOP."},pool_2nM:{target_nm:2,volume_ul:50,loading:"2 nM pooling stock",note:"2 nM stock, useful when yield is limited."},iseq_1nM:{target_nm:1,volume_ul:50,loading:"1 nM iSeq stock",note:"iSeq 100 denatures onboard. Confirm against your SOP."}}},ont:{label:"Oxford Nanopore",default:"simplex_50fmol",options:{simplex_50fmol:{target_nm:Math.round(50/12*1000)/1000,volume_ul:12,loading:"50 fmol in 12 µL",note:"ONT fmol-style loading preset. Confirm against current kit and flow cell SOP."},duplex_20fmol:{target_nm:Math.round(20/12*1000)/1000,volume_ul:12,loading:"20 fmol in 12 µL",note:"Lower fmol preset for duplex-style loading. Confirm against current SOP."}}}};
 const isBlank=v=>v===null||v===undefined||v==="";
-function roundTo(v,step){step=Number(step)||0.1;return Math.round(v/step)*step}
+function roundTo(v,step){step=Number(step)||0.1;
+ return Math.round(Math.round(v/step)*step*1e6)/1e6}
 function fmt(v,d=2){if(isBlank(v)||Number.isNaN(Number(v)))return"";let s=Number(v).toFixed(d);return s.indexOf(".")>=0?s.replace(/\.?0+$/,""):s}
 function ngToNm(conc,size){return conc*1e6/(MW_PER_BP*size)}
 /* A concentration unit decides a conversion, so an unrecognised token must never be
@@ -1360,7 +1361,22 @@ const massKnown=prep.every(s=>ngul(s)!=null);
  *   Kaim  the pool content at which the smallest transfer reaches the aimed-for size */
 const harm=1/prep.reduce((a,s)=>a+frac(s)/s.molarity_nm,0);
 const K   =Math.max(...prep.map(s=>minT*s.molarity_nm/frac(s)));
-const Kaim=Math.max(...prep.map(s=>aim *s.molarity_nm/frac(s)));
+let  Kaim =Math.max(...prep.map(s=>aim *s.molarity_nm/frac(s)));
+/* Kavail: the pool content at which the FIRST library runs out. A transfer is
+ * frac(s) * F / nm, so a library holding `usable` uL caps the whole pool at
+ * usable * nm / frac(s) fmol - and the smallest of those caps is the real ceiling.
+ * Rows with no volume entered are not counted, because "not measured" is not "empty";
+ * they are named in a warning instead, so an unchecked row is visible rather than
+ * assumed adequate. Without this the planner would happily aim at a pool that asks a
+ * 18 uL tube for 20.5 uL, and the first anyone heard of it was at the bench. */
+const dead=o.leave_behind_ul==null?2:Number(o.leave_behind_ul);
+const measured=prep.filter(s=>Number(s.available_ul)>0);
+const Kavail=measured.length
+ ? Math.min(...measured.map(s=>Math.max(0,Number(s.available_ul)-dead)*s.molarity_nm/frac(s)))
+ : Infinity;
+const unmeasured=prep.filter(s=>!(Number(s.available_ul)>0)).map(s=>s.name);
+/* reachable uL per library, by name, for the per-candidate test in evalPool */
+const byName={};measured.forEach(s=>{byName[s.name]=Math.max(0,Number(s.available_ul)-dead)});
 const base={pool_goal:"nm",layout:"one-tube",min_transfer_ul:minT,round_step_ul:round,
  excess_pct:0,low_vol_mode:"warn",tip_mode:"auto"};
 const poolAt=(nmv,vol)=>computePool(rows,Object.assign({},base,{target_nm:nmv,total_volume_ul:vol}));
@@ -1370,9 +1386,29 @@ const common={target_nm:target,total_volume_ul:total,fmol_total,n:prep.length,
  vessel_label:A,final_vessel_label:B,mass_known:massKnown,
  max_pool_nm:harm,shares_total:Math.round(shareTotal*1e6)/1e6,
  samples:prep.map(s=>({name:s.name,well:s.source_well,nm:s.molarity_nm,share_pct:s.share,
-  fmol:frac(s)*fmol_total,ng_ul:ngul(s),mode:s.mode,size:s.size||null}))};
+  fmol:frac(s)*fmol_total,ng_ul:ngul(s),mode:s.mode,size:s.size||null,
+  available_ul:Number(s.available_ul)>0?Number(s.available_ul):null}))};
+if(unmeasured.length)inputWarnings.push(
+ `No volume entered for ${unmeasured.length===prep.length?"any library":"'"+unmeasured.join("', '")+"'"}, so the plan cannot tell whether there is enough. Fill the "Volume you have" column and it will check.`);
 const fail=(reason,message,extra)=>Object.assign({ok:false,stages:0,reason,message,
  blockers:[],suggestions:[],warnings:inputWarnings.slice(),steps:[],output:null},extra||{},common);
+
+/* --- no plan exists: a library cannot give even its minimum share --------------
+ * Checked before anything is scanned, because every candidate would fail the same way
+ * and a failed search tells the analyst to widen a vessel that was never the problem. */
+if(Kavail<K-1e-9){
+ const worst=measured.map(s=>({s,cap:Math.max(0,Number(s.available_ul)-dead)*s.molarity_nm/frac(s)}))
+  .sort((a,b)=>a.cap-b.cap)[0];
+ return fail("not_enough_library",
+  `There is not enough of '${worst.s.name}' to pool at all. Its ${fmt(Math.max(0,Number(worst.s.available_ul)-dead),1)} reachable µL `
+  +`(of ${fmt(Number(worst.s.available_ul),1)} µL, ${fmt(dead,1)} µL stays behind) cap the pool at ${fmt(worst.cap,1)} fmol, `
+  +`and a ${fmt(minT,2)} µL minimum transfer from every library needs ${fmt(K,1)} fmol.`,
+  {blockers:[{name:worst.s.name,well:worst.s.source_well,nm:worst.s.molarity_nm,kind:"not_enough_library"}],
+   suggestions:[`Lower '${worst.s.name}' to a ${fmt(100*Math.max(0,Number(worst.s.available_ul)-dead)*worst.s.molarity_nm/K,2)}% share or less, top the tube up, or take the row out of the pool.`]});
+}
+/* Never aim past what the libraries hold. The aim buys accuracy with library, so where
+ * the two conflict the library wins and the smaller transfer is reported honestly. */
+if(Kaim>Kavail)Kaim=Math.max(K,Kavail);
 
 /* --- no plan exists: the libraries are too dilute to reach the endpoint ----- */
 if(target>harm+1e-9){
@@ -1497,6 +1533,14 @@ function evalPool(P1,V1){
  if(buf>1e-9&&buf<minT-1e-9)return null;
  if(buf>maxT+1e-9)return null;
  if(v.some(x=>x<minT-1e-9||x>maxT+1e-9))return null;
+ /* A candidate that asks a tube for more than it holds is not a candidate. This belongs
+  * HERE, in the one place every candidate is costed, rather than as a check on the winner:
+  * the pre-check above only rules out pools too small to pipette, and both branches below
+  * can still reach past a library on the way up. Rows with no volume entered are not
+  * tested - "not measured" is not "empty", and the warning names them. */
+ if(measured.length&&r.samples.some((s,i)=>{
+  const have=byName[s.name];
+  return have!=null&&v[i]>have+1e-9}))return null;
  const sum=v.reduce((a,x)=>a+x,0),vol=sum+buf;
  if(!(vol>0))return null;
  const nm=r.samples.reduce((a,s)=>a+s.round_sample_ul*s.effective_molarity_nm,0)/vol;
@@ -1566,7 +1610,17 @@ const two=scan(twoLo,cap,V1=>{
  return e});
 if(two){
  const w=inputWarnings.concat(two.r.summary.warnings||[]);
- w.push(`Two stages, because one pool at ${fmt(target)} nM would need ${fmt(Vlegal,0)} µL and the vessel holds ${fmt(cap,0)} µL. A vessel of ${fmt(Vlegal,0)} µL or more would do it in a single step and land closer to target — serial steps each carry their own ${fmt(round,2)} µL rounding.`);
+ /* WHY two stages, truthfully. It used to be stated as the vessel in every case, which
+  * reads as nonsense when the vessel is three times the volume quoted - and it sends the
+  * analyst off to find a bigger tube that would change nothing. Since the libraries' own
+  * volumes are now a constraint, there is a second reason it can be, and a one-step pool
+  * can also simply be unreachable at any volume the vessel allows. */
+ if(Vlegal>cap+1e-9)
+  w.push(`Two stages, because one pool at ${fmt(target)} nM would need ${fmt(Vlegal,0)} µL and the vessel holds ${fmt(cap,0)} µL. A vessel of ${fmt(Vlegal,0)} µL or more would do it in a single step and land closer to target — serial steps each carry their own ${fmt(round,2)} µL rounding.`);
+ else if(measured.length&&target*total>Kavail+1e-9)
+  w.push(`Two stages, because a single pool of ${fmt(total,1)} µL at ${fmt(target)} nM is ${fmt(target*total,0)} fmol and these libraries can only spare ${fmt(Kavail,0)} fmol before one of them runs out. Pooling stronger in a smaller volume and diluting that costs less library — it is not the vessel, which holds ${fmt(cap,0)} µL.`);
+ else
+  w.push(`Two stages: no single pool between ${fmt(Vlegal,0)} µL and the ${fmt(cap,0)} µL the vessel holds put every transfer inside ${fmt(minT,2)}–${fmt(maxT,0)} µL and within what the libraries hold, so the pool is built stronger and diluted.`);
  if(two.st2.stock_ul>two.vol-1e-9)w.push(`Stage 2 takes the whole ${fmt(two.vol,1)} µL of ${A} — there is nothing left over.`);
  return shape(2,two.r,two.P1,two.V1,two.st2,w);
 }
@@ -2204,6 +2258,12 @@ function bwAddRow(s){
   +`<td><input class="bw-name" value="${esc(s.name||"")}" placeholder="library ${i+1}"></td>`
   +`<td class="num"><input class="bw-conc" type="number" step="any" min="0" value="${esc(s.conc??"")}" placeholder="conc"></td>`
   +`<td class="num"><input class="bw-size" type="number" step="any" min="0" value="${esc(s.size??"")}" placeholder="bp"></td>`
+  /* The third thing that comes off a library prep, and the one this table used to ignore.
+   * Without it the planner could aim at a pool that needs more of a library than the tube
+   * holds, and the instrument file declared a tube volume the program had worked back from
+   * the transfer rather than read off the bench. Blank is still allowed - it means "not
+   * measured", and the plan then says which rows went unchecked instead of assuming. */
+  +`<td class="num"><input class="bw-vol" type="number" step="any" min="0" value="${esc(s.vol??"")}" placeholder="µL"></td>`
   +`<td class="num"><div class="bw-share-wrap"><input class="bw-share" type="number" step="any" min="0" max="100" inputmode="decimal"><button class="bw-lock" type="button" data-locked="0">🔓</button></div></td>`
   +`<td><button class="btn sm bw-rm" type="button">✕</button></td>`;
  tb.appendChild(tr);
@@ -2216,7 +2276,7 @@ function bwAddRow(s){
   bwSyncShares({keep:k});bwPersist()});
  tr.querySelector(".bw-lock").addEventListener("click",()=>{
   const k=bwRows().indexOf(tr);bwLocked[k]=null;bwSyncShares();bwPersist()});
- tr.querySelectorAll(".bw-well,.bw-name,.bw-conc,.bw-size").forEach(inp=>
+ tr.querySelectorAll(".bw-well,.bw-name,.bw-conc,.bw-size,.bw-vol").forEach(inp=>
   inp.addEventListener("input",bwPersist));
  bwRenumber();bwSyncShares();bwToggleUnit()}
 /* shares always total 100: a typed value is locked, the rest is split between the
@@ -2260,6 +2320,7 @@ function bwCollect(){
   /* bp is passed in BOTH modes: required for the molarity in mass mode, and in nM mode
    * it is what lets the guide quote the pool in ng/uL as well */
   size:numOrNull(tr.querySelector(".bw-size").value),
+  available_ul:numOrNull(tr.querySelector(".bw-vol").value),
   direct_nm:mass?null:numOrNull(c),
   share_pct:r.shares[i]}});
  return{samples,shares:r}}
@@ -2273,6 +2334,7 @@ function bwPersist(){try{localStorage.setItem(BW_STORE,JSON.stringify({
  va:val("bwVesselA"),vb:val("bwVesselB"),
  rows:bwRows().map((tr,i)=>({well:tr.querySelector(".bw-well").value,name:tr.querySelector(".bw-name").value,
   conc:tr.querySelector(".bw-conc").value,size:tr.querySelector(".bw-size").value,
+  vol:tr.querySelector(".bw-vol").value,
   share_pct:bwLocked[i]}))}))}catch(e){}}
 function bwRestore(){
  let snap=null;try{snap=JSON.parse(localStorage.getItem(BW_STORE)||"null")}catch(e){}
