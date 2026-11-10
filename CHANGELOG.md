@@ -1,7 +1,46 @@
 # Changelog
 
 Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v25).
+`versions/`; `index.html` is the current release (= v26).
+
+## v26 — plan backwards writes the instrument files, and the tube volume counts
+- **Instrument files out of the Plan backwards tab.** The tab planned a pool from the
+  endpoint and then stopped at a bench guide. It now also writes the files that run it:
+  a `.poolplan.json` the [epMotion Protocol Builder](https://github.com/AKMARTIAN/epmotion-toolkit)
+  turns into a single `.export52` that pools, mixes, dilutes to the loading concentration
+  and mixes again — or `DNA.csv` + `Buffer.csv` worklists per stage, with the deck table
+  and the exact epBlue import order on the page.
+- **What the instrument cannot do, said plainly.** An `.export52` carries literal volumes
+  in its commands and there is no list-driven transfer in the verified command set, so no
+  protocol file can read a CSV at run time. The two routes are alternatives, not a pair —
+  "load the protocol and upload the CSVs" is the natural guess and it would cost a session
+  at the bench. A worklist also has no mixing in it and epBlue cannot mix between two
+  imported lists, so a two-stage plan by that route is two runs with a mix by hand between
+  them. The page says all of this where the buttons are.
+- **Volume you have.** The backwards table asked for concentration and fragment size but
+  not volume, so nothing checked whether a library could give its share, and the plan file
+  declared `transfer + dead` as the tube's contents — a number worked back from the
+  program's own answer, written into the `<Worktable>` where epBlue checks every draw
+  against it. There is a column for it now. A library that cannot cover its share is
+  refused by name, with the loading volume, loading concentration or share that would fit;
+  every candidate pool is tested against what the tubes hold; and a blank cell still means
+  "not measured", never "empty" — those rows are named in a warning instead.
+- **Share of the pool, shown as you type.** The Share column has always taken ratios, so
+  4 and 1 mean the same as 80 and 20 — which is fine until you have typed 4 and 1 and want
+  to know you asked for 80/20. The sample summary now reports the split live, and the
+  column says percentages are allowed.
+- **The accuracy aim is weighted by the share.** Rounding a transfer by 0.1 µL moves the
+  pool by `(0.05/vol) × that library's share`, so holding a library carrying 5% of the pool
+  to the same absolute transfer as one carrying half means growing the whole pool — and
+  spending the major library — to buy an accuracy too small to measure. With equal shares
+  the two are identical, so an equimolar pool is unchanged.
+- **Fixes.** `roundTo` returned `Math.round(v/step)*step`, so 19 × 0.1 came out as
+  1.9000000000000001 and travelled into worklist CSVs and bench sheets as a volume a human
+  reads; it is snapped to 6 decimals, far finer than any tip. The two-stage warning blamed
+  the vessel in every case, which reads as nonsense when the vessel is three times the
+  volume quoted; it names the reason it actually was. A refusal could suggest
+  "pre-dilute from 30.93 nM to 30.93 nM (about 1 part in 1)"; it now says diluting will not
+  fix that one.
 
 ## v25 — per-sample share, and a link to the epMotion Protocol Builder
 - **Share column in the Pool tab.** Each sample now carries a relative share of the pool:
