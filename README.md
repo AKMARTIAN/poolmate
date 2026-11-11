@@ -15,10 +15,16 @@ macOS, or Linux. Nothing to install.
 
 ## What it does
 
-PoolMate has five self-contained tasks, each with a live graphic showing **where every
-sample goes and how much**:
+PoolMate has four tabs — **Pool, Normalize, Dilute, Load** — each with a live graphic showing
+**where every sample goes and how much**:
 
-- **Pool** — combine libraries into one tube, or normalize each into its own well. Enter
+- **Pool, from the endpoint** — say what has to be in the tube at the end (4 nM in 50 µL)
+  and each library's share of it. PoolMate plans the volumes against what each tube actually
+  holds, adds a pool → dilute pair when one step cannot reach the endpoint, and gives a
+  tick-off bench checklist plus the instrument files. This and the next item are the two
+  ways to plan on the Pool tab; samples carry across when you switch.
+
+- **Pool, for a fixed pooling script** — combine libraries into one tube, or normalize each into its own well. Enter
   concentrations (ng/µL + fragment size, or direct nM, with replicate-read averaging) and a
   target (nM or fmol); PoolMate computes the equal-mole transfer per sample, the buffer
   top-up, and a post-rounding equimolar-deviation (CV%) check, then exports the epMotion

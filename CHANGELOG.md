@@ -1,7 +1,48 @@
 # Changelog
 
 Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v26).
+`versions/`; `index.html` is the current release (= v27).
+
+## v27 — worklists a robot can run, a consistent Load tab, and a calmer page
+- **One Pool tab.** *Plan backwards* is no longer a tab of its own: Pool now asks how you
+  want to plan it — **from the endpoint** (what was Plan backwards: the bench guide, the
+  pool plan for the Protocol Builder, or worklists) or **for a fixed pooling script**
+  (DNA.csv + Buffer.csv, plate normalising, Quick pool). Samples typed under one are carried
+  to the other when its table is empty, shares included, and the choice is remembered.
+- **Worklist rows no tip can carry are split.** A buffer top-up or a dilution above 300 µL
+  was written with the tool `OVER_CAPACITY`, which is not a tool, and (for the pool buffer,
+  the Dilute and the Normalize exports) with no warning. Such a row is now split into equal
+  strokes that add up to the same volume. Rows of 0 µL — a library with a share of 0, a pool
+  that needs no buffer — are left out instead of being written as a transfer of nothing.
+- **A pool is never built on top of a library.** With the defaults, Tube layout wrote the
+  pool into rack 1 well A1, the first sample's own well. Choosing Tube now moves the
+  destination to rack 2, and a worklist whose pool well still holds one of its libraries is
+  refused by name.
+- **Pre-dilution wells skip wells that are in use.** With nine or more samples the default
+  dilution start (A2) is a sample well; the plan now takes the next free well and refuses to
+  run off the end of the plate.
+- **Share 0.** A library left out of the pool no longer raises "below the minimum transfer",
+  no longer makes auto-bump divide by zero, and a pool with share 0 in the Load tab is left
+  out rather than counted as 1.
+- **Load, Illumina.** The volumes to take from each pool and the dilution steps disagreed
+  whenever a serial dilution was needed ("combine 0.6 µL", then "dilute 27.6 µL of it").
+  The pools are now scaled together until the combined pool covers what the dilution draws,
+  and the intermediate is made in 100 µL rather than in the full loading volume, so a
+  NextSeq load no longer asks for 1.3 mL of HT1 twice.
+- **Quick pool.** The nM mode now reports the buffer to add and refuses a target the samples
+  cannot reach, instead of printing volumes that exceed the final volume. The results table
+  header showed a raw `${…}` template; fixed.
+- **Smaller fixes.** A negative or zero concentration read is refused instead of averaged in;
+  two samples in one source well are flagged; auto-bump warns when it grows the pool past
+  the vessel; a single-step dilution that needs less diluent than the minimum transfer says
+  so; the inputs CSV keeps the Share column through export and import; *New / clear all*
+  clears the Load and Plan backwards tabs too.
+- **Page.** Samples come first on the Pool tab, then the target; run details and Quick pool
+  are below. File buttons moved to a toolbar at the top, leaving one slim sticky bar with the
+  three actions. Any action scrolls to its result. One accent colour, headings inside their
+  cards, form rows that line up, a sample table whose Share column is on screen at laptop
+  width, and full-width cards on the other tabs. The guide now covers Plan backwards, and the
+  Dilute tab no longer says it writes no robot file.
 
 ## v26 — plan backwards writes the instrument files, and the tube volume counts
 - **Instrument files out of the Plan backwards tab.** The tab planned a pool from the
