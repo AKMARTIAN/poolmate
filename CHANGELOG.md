@@ -1,7 +1,26 @@
 # Changelog
 
 Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v27).
+`versions/`; `index.html` is the current release (= v28).
+
+## v28 — Take to the lab gives you a PDF sheet and a checklist page of its own
+- **Set up first.** Every bench checklist now opens with a *Set up — have these ready
+  before you start* block: each library with its position and the volume that will be taken
+  from it, the total buffer or diluent the plan uses, the empty tubes or wells it needs and
+  what each will hold. They tick off like any other step.
+- **PDF sheet.** A fixed copy of the whole plan — the set-up list, every step in order with
+  a box to tick, and *What this leaves you* (where, what, and whether that is the end) —
+  with lines for operator, date and checker. It is written by the page itself, with no
+  library and no print dialog, so the same plan always gives the same sheet.
+- **Checklist page.** The checklist as an HTML file of its own. It opens on a phone or the
+  bench PC with no PoolMate behind it, shows the step you are on at the top, records the
+  time each step was ticked, keeps its place if the page is closed, and prints.
+- Both are on the checklist panel, for every plan that has one: pooling from the endpoint,
+  fixed-script worklists, Quick pool and the Dilute tab.
+- **Fixes found on the way.** Quick pool gave a library needing less than half the rounding
+  step a transfer of 0 µL and said nothing; it now says that library would not be in the pool.
+  The Dilute checklist called every vessel of a serial dilution by the one well label ("add
+  S1 from A1 into A1"); each step's tube is now named.
 
 ## v27 — worklists a robot can run, a consistent Load tab, and a calmer page
 - **One Pool tab.** *Plan backwards* is no longer a tab of its own: Pool now asks how you

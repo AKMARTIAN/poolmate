@@ -46,6 +46,10 @@ PoolMate has four tabs — **Pool, Normalize, Dilute, Load** — each with a liv
   and PoolMate gives the µL of each pool plus the bench steps: the ONT loading mix (with the
   Elution Buffer top-up), or the Illumina dilution steps down to the loading pM. Presets are
   vendor starting points and every value is editable.
+- **Take to the lab** — any pooling or dilution plan becomes a tick-off bench checklist that
+  starts with what to set out. Download it as a **PDF sheet** to print or file, or as a
+  **checklist page** — an HTML file that opens on a phone or the bench PC, shows which step
+  you are on, records when each was done and keeps its place. Made for working alone.
 - **Pool plan** — every pooling run also writes a small `<prefix>_pool.poolplan.json`. Take it
   to the **[epMotion Protocol Builder](https://akmartian.github.io/poolmate/builder/)** (Pool tab
   → *Import plan / CSV*) and it writes a ready-to-run `.export52` with the pre-dilutions, the
