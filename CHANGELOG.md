@@ -1,7 +1,41 @@
 # Changelog
 
-Version history of the standalone web app. Archived snapshots live in
-`versions/`; `index.html` is the current release (= v28).
+Version history of PoolMate. Archived snapshots live in `versions/`. Up to and including
+**v28** this was a standalone web app served from `index.html` here; from **v29** it is a
+download from the lab's toolkit repository, and `index.html` here is the page that points
+at it.
+
+## v29 — one program: PoolMate and the epMotion Protocol Builder, merged
+
+PoolMate and the Protocol Builder did much of the same arithmetic in two codebases. In one
+week the same defect was found and fixed in both, separately, four times — serial dilution
+building intermediates at the working volume, a unit lookup defaulting instead of failing,
+tip capacity ignored at the top end, and a position picker built from scratch in each. They
+are now one program, and it keeps the name the lab says.
+
+- **It writes the protocol.** Everything v28 did, plus the `.export52` that epBlue imports
+  and the printable deck setup sheet. The robot runs the plan instead of you transcribing it.
+- **Positions are picked on a picture.** The rack and the plate are drawn beside the
+  question, built from the solved run; you tap a tube or a well. Gone: a dropdown of 24 tube
+  numbers, two free-text well boxes, and having to invent an empty reagent on another tab
+  before you could name a destination.
+- **Take to the lab covers the whole job**, not just the part after the robot: the deck, the
+  tubes and troughs, the libraries, the run, then the denaturation and the flow cell.
+- **The Load tab reads the pools the run makes** rather than concentrations typed a second
+  time, and an unreachable target can set the run's endpoint.
+- **The worklists are still here** — `DNA.csv`, `Buffer.csv`, the pre-dilution file, the
+  loading dilution, the normalisation pair — written from the same solve as the protocol, so
+  the two cannot disagree about a volume. The rack numbers are worked out from the deck and
+  printed, instead of being asked for.
+- **Quick pool** is the Pool tab's Target choice: fmol per sample, total fmol, nM and volume,
+  or equal volume. Its table downloads as a CSV.
+
+**Where it is.** v29 is a single HTML file in the lab's private toolkit repository, because
+it carries the instrument's labware library. Ask whoever runs the instruments. This page
+links to it.
+
+**v28** is archived at [`versions/PoolMate_v28.html`](versions/PoolMate_v28.html) and runs
+exactly as it did. It is no longer being fixed.
 
 ## v28 — Take to the lab gives you a PDF sheet and a checklist page of its own
 - **Set up first.** Every bench checklist now opens with a *Set up — have these ready
